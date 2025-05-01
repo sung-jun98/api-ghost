@@ -9,21 +9,22 @@ import java.io.IOException;
 
 public class YamlScenarioReader implements ScenarioReader {
 
+    /**
+     * Convert the YAML scenario information stored in the local directory to DTO
+     *
+     * @param yamlFilePath The path of the YAML file to be read
+     * @return Scenario Scenario information converted to DTO
+     * @throws IOException
+     */
     @Override
     public Scenario readScenario(String yamlFilePath) throws IOException {
-        // YAML을 처리할 수 있는 ObjectMapper 생성
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
-        // YAML 파일을 읽어서 Scenario DTO로 변환
         File yamlFile = new File(yamlFilePath);
         Scenario scenario = objectMapper.readValue(yamlFile, Scenario.class);
 
         return scenario;
     }
 
-    @Override
-    public void writeScenario(Scenario scenario) {
-
-    }
 
 }

@@ -5,6 +5,5 @@ import java.io.IOException;
 
 public interface ScenarioReader {
     public Scenario readScenario (String yamlFilePath) throws IOException;
-    public void writeScenario (Scenario scenario);
 
 }
