@@ -38,7 +38,7 @@ public class JsonScenarioResultWriter implements ScenarioResultWriter {
     public void writeScenarioResult(ScenarioResult scenarioResult, String filePath) {
         File outputFile = new File(filePath);
 
-        if (outputFile.exists() && outputFile.isDirectory()) {
+        if (outputFile.isDirectory()) {
             throw new RuntimeException(
                 "Cannot write to path: " + filePath + " (it is a directory)");
         }
