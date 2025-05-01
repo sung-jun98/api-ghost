@@ -1,5 +1,11 @@
 package com.apighost.model.scenario;
 
+/**
+ * In the GUI, the component X, Y coordinates value
+ *
+ * @author sung-jun99
+ * @version BETA-0.0.1
+ */
 public class Position {
 
     private Integer x;
@@ -10,6 +16,9 @@ public class Position {
         this.y = builder.y;
     }
 
+    /**
+     * Builder
+     */
     public static class Builder {
 
         private Integer x;
@@ -30,6 +39,9 @@ public class Position {
         }
     }
 
+    /**
+     * Getter
+     */
     public Integer getX() {
         return x;
     }
