@@ -1,4 +1,4 @@
-package com.apighost.model.scenario;
+package com.apighost.model.scenario.testfile;
 
 /**
  * In the GUI, the component X, Y coordinates value

@@ -1,7 +1,4 @@
-package com.apighost.model.scenario;
-
-import java.util.List;
-import java.util.Map;
+package com.apighost.model.scenario.testfile;
 
 /**
  * Set the branch and the following request value to be sent to the next endpoint in the endpoint

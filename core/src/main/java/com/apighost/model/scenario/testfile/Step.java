@@ -1,8 +1,6 @@
-package com.apighost.model.scenario;
+package com.apighost.model.scenario.testfile;
 
-import com.apighost.model.scenario.Position;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Definition of each step inside the scenario test
