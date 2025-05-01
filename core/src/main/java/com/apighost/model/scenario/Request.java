@@ -24,35 +24,58 @@ public class Request {
      */
     private Map<String, Map<String, Object>> body;
 
-    public String getMethod() {
-        return method;
+    private Request(Builder builder) {
+        this.method = builder.method;
+        this.url = builder.url;
+        this.headers = builder.headers;
+        this.body = builder.body;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public static class Builder {
+
+        private String method;
+        private String url;
+        private Map<String, String> headers;
+        private Map<String, Map<String, Object>> body;
+
+        public Builder method(String method) {
+            this.method = method;
+            return this;
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder headers(Map<String, String> headers) {
+            this.headers = headers;
+            return this;
+        }
+
+        public Builder body(Map<String, Map<String, Object>> body) {
+            this.body = body;
+            return this;
+        }
+
+        public Request build() {
+            return new Request(this);
+        }
+    }
+
+    public String getMethod() {
+        return method;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public Map<String, String> getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-    }
-
     public Map<String, Map<String, Object>> getBody() {
         return body;
-    }
-
-    public void setBody(Map<String, Map<String, Object>> body) {
-        this.body = body;
     }
 }

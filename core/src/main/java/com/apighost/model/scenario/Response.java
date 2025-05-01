@@ -1,34 +1,43 @@
 package com.apighost.model.scenario;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
 public class Response {
 
-    /**
-     * Conditions for branch
-     */
     private When when;
-
-    /**
-     * After satisfaction with branch conditions
-     */
     private Then then;
+
+    private Response(Builder builder) {
+        this.when = builder.when;
+        this.then = builder.then;
+    }
+
+    public static class Builder {
+
+        private When when;
+        private Then then;
+
+        public Builder when(When when) {
+            this.when = when;
+            return this;
+        }
+
+        public Builder then(Then then) {
+            this.then = then;
+            return this;
+        }
+
+        public Response build() {
+            return new Response(this);
+        }
+    }
 
     public When getWhen() {
         return when;
     }
 
-    public void setWhen(When when) {
-        this.when = when;
-    }
-
     public Then getThen() {
         return then;
-    }
-
-    public void setThen(Then then) {
-        this.then = then;
     }
 }
