@@ -1,11 +1,16 @@
 package parser.scenario.writer;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.apighost.model.scenario.HTTPMethod;
 import com.apighost.model.scenario.ProtocolType;
-import com.apighost.model.scenario.result.*;
+import com.apighost.model.scenario.result.ResponseBranch;
+import com.apighost.model.scenario.result.ScenarioResult;
+import com.apighost.model.scenario.result.StepResult;
+import com.apighost.model.scenario.result.ThenAction;
+import com.apighost.model.scenario.result.WhenCondition;
 import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
 import com.apighost.parser.scenario.writer.ScenarioResultWriter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +19,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for {@link JsonScenarioResultWriter}.
