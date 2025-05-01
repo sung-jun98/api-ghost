@@ -105,7 +105,8 @@ class JsonScenarioResultWriterTest {
 
         /** Assert: Raw JSON content contains important fields */
         String content = Files.readString(Path.of(TEST_FILE_PATH));
-        assertTrue(content.contains("\"scenarioId\" : \"SC-001\""), "Scenario ID should be in JSON");
+        assertTrue(content.contains("\"scenarioId\" : \"SC-001\""),
+            "Scenario ID should be in JSON");
         assertTrue(content.contains("\"stepName\" : \"signup\""), "Step name should be in JSON");
         assertTrue(content.contains("\"postId\""), "Saved variable 'postId' should exist in JSON");
     }

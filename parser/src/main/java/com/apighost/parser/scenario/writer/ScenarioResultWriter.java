@@ -9,6 +9,7 @@ import com.apighost.model.scenario.result.ScenarioResult;
  * @version BETA-0.0.1
  */
 public interface ScenarioResultWriter {
+
     /**
      * Writes the given {@link ScenarioResult} to the specified file path.
      *
