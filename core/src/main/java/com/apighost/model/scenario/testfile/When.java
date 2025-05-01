@@ -1,5 +1,7 @@
 package com.apighost.model.scenario.testfile;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Map;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Map;
  * @author sung-jun98
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = When.Builder.class)
 public class When {
 
     private Object status;
@@ -25,6 +28,7 @@ public class When {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private Object status;

@@ -9,30 +9,21 @@ import java.io.IOException;
 
 public class YamlScenarioReader implements ScenarioReader {
 
-    private final ObjectMapper objectMapper;
+    @Override
+    public Scenario readScenario(String yamlFilePath) throws IOException {
+        // YAML을 처리할 수 있는 ObjectMapper 생성
+        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
 
-    /**
-     * Objectmapper initialization for yaml parsing
-     */
-    private YamlScenarioReader() {
-        this.objectMapper = new ObjectMapper(new YAMLFactory());
+        // YAML 파일을 읽어서 Scenario DTO로 변환
+        File yamlFile = new File(yamlFilePath);
+        Scenario scenario = objectMapper.readValue(yamlFile, Scenario.class);
+
+        return scenario;
     }
 
     @Override
-    public Scenario readScenario() {
-        parseFromFile(" ");
-        return null;
+    public void writeScenario(Scenario scenario) {
+
     }
 
-    /**
-     * Fassing the scenario YAML from the file path
-     *
-     * @param filePath yaml file path
-     * @Return parsed scenariodto object
-     * @throws IOException File Reading or parsing failure
-     */
-    public Scenario parseFromFile(String filePath) throws IOException {
-        File file = new File(filePath);
-        return objectMapper.readValue(file, Scenario.class);
-    }
 }

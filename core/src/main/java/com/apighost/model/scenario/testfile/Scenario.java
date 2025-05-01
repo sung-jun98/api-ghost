@@ -1,5 +1,7 @@
 package com.apighost.model.scenario.testfile;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Map;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Map;
  * @author sung-jun98
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = Scenario.Builder.class)
 public class Scenario {
 
     private String name;
@@ -17,6 +20,7 @@ public class Scenario {
 
     private Map<String, Object> variables;
     private Map<String, Step> steps;
+
 
 
     private Scenario(Builder builder) {
@@ -31,6 +35,7 @@ public class Scenario {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private String name;

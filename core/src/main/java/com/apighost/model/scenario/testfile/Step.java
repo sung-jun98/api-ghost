@@ -1,5 +1,7 @@
 package com.apighost.model.scenario.testfile;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @author sung-jun98
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = Step.Builder.class)
 public class Step {
 
     private String type;
@@ -26,6 +29,7 @@ public class Step {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private String type;
