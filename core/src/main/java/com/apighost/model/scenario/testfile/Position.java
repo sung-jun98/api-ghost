@@ -1,11 +1,15 @@
 package com.apighost.model.scenario.testfile;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 /**
  * In the GUI, the component X, Y coordinates value
  *
  * @author sung-jun99
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = Position.Builder.class)
 public class Position {
 
     private Integer x;
@@ -19,6 +23,7 @@ public class Position {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private Integer x;

@@ -1,11 +1,15 @@
 package com.apighost.model.scenario.testfile;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 /**
  * Set the branch and the following request value to be sent to the next endpoint in the endpoint
  *
  * @author sung-jun98
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = Response.Builder.class)
 public class Response {
 
     private When when;
@@ -19,6 +23,7 @@ public class Response {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private When when;
