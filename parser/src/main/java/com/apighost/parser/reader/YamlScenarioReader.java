@@ -1,6 +1,6 @@
 package com.apighost.parser.reader;
 
-import com.apighost.model.scenario.Scenario;
+import com.apighost.model.scenario.testfile.Scenario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 

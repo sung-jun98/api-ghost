@@ -1,4 +1,4 @@
-package com.apighost.model.scenario;
+package com.apighost.model.scenario.testfile;
 
 import java.util.Map;
 
