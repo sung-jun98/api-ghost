@@ -2,6 +2,12 @@ package com.apighost.model.scenario;
 
 import java.util.Map;
 
+/**
+ * Metabolic definition of scenarios
+ *
+ * @author sung-jun98
+ * @version BETA-0.0.1
+ */
 public class Scenario {
 
     private String name;
@@ -12,6 +18,7 @@ public class Scenario {
     private Map<String, Object> variables;
     private Map<String, Step> steps;
 
+
     private Scenario(Builder builder) {
         this.name = builder.name;
         this.description = builder.description;
@@ -21,6 +28,9 @@ public class Scenario {
         this.steps = builder.steps;
     }
 
+    /**
+     * Builder
+     */
     public static class Builder {
 
         private String name;
@@ -65,6 +75,9 @@ public class Scenario {
         }
     }
 
+    /**
+     * Getter
+     */
     public String getName() {
         return name;
     }

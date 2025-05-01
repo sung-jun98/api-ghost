@@ -3,6 +3,12 @@ package com.apighost.model.scenario;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Set the branch and the following request value to be sent to the next endpoint in the endpoint
+ *
+ * @author sung-jun98
+ * @version BETA-0.0.1
+ */
 public class Response {
 
     private When when;
@@ -13,6 +19,9 @@ public class Response {
         this.then = builder.then;
     }
 
+    /**
+     * Builder
+     */
     public static class Builder {
 
         private When when;
@@ -33,6 +42,9 @@ public class Response {
         }
     }
 
+    /**
+     * Getter
+     */
     public When getWhen() {
         return when;
     }

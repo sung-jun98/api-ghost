@@ -2,26 +2,17 @@ package com.apighost.model.scenario;
 
 import java.util.Map;
 
+/**
+ * Definition of requests to be sent to that endpoint
+ *
+ * @author sung-jun98
+ * @version BETA-0.0.1
+ */
 public class Request {
 
-    /**
-     * HTTP methods (GET, POST .etc)
-     */
     private String method;
-
-    /**
-     * request URL
-     */
     private String url;
-
-    /**
-     * request header
-     */
     private Map<String, String> headers;
-
-    /**
-     * request body (field name: {dataType: value})
-     */
     private Map<String, Map<String, Object>> body;
 
     private Request(Builder builder) {
@@ -31,6 +22,9 @@ public class Request {
         this.body = builder.body;
     }
 
+    /**
+     * Builder
+     */
     public static class Builder {
 
         private String method;
@@ -63,6 +57,9 @@ public class Request {
         }
     }
 
+    /**
+     * Getter
+     */
     public String getMethod() {
         return method;
     }

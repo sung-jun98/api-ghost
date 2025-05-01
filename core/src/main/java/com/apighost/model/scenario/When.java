@@ -2,17 +2,19 @@ package com.apighost.model.scenario;
 
 import java.util.Map;
 
+/**
+ * Conditions of quarterly inquiries
+ *
+ * @author sung-jun98
+ * @version BETA-0.0.1
+ */
 public class When {
 
-    /**
-     * status of response ex. "200-299" or 200
-     */
     private Object status;
     private Map<String, Object> body;
-    /**
-     * Conditional expression (ex: "${response.body.posts.length} == 0")
-     */
+
     private String condition;
+
 
     private When(Builder builder) {
         this.status = builder.status;
@@ -20,6 +22,9 @@ public class When {
         this.condition = builder.condition;
     }
 
+    /**
+     * Builder
+     */
     public static class Builder {
 
         private Object status;
@@ -46,6 +51,9 @@ public class When {
         }
     }
 
+    /**
+     * Getter
+     */
     public Object getStatus() {
         return status;
     }

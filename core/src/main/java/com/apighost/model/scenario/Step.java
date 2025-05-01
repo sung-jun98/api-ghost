@@ -4,12 +4,19 @@ import com.apighost.model.scenario.Position;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Definition of each step inside the scenario test
+ *
+ * @author sung-jun98
+ * @version BETA-0.0.1
+ */
 public class Step {
 
     private String type;
     private Position position;
     private Request request;
     private List<Response> response;
+
 
     private Step(Builder builder) {
         this.type = builder.type;
@@ -18,6 +25,9 @@ public class Step {
         this.response = builder.response;
     }
 
+    /**
+     * Builder
+     */
     public static class Builder {
 
         private String type;
@@ -50,6 +60,9 @@ public class Step {
         }
     }
 
+    /**
+     * Getter
+     */
     public String getType() {
         return type;
     }
