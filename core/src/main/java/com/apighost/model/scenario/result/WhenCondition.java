@@ -3,13 +3,14 @@ package com.apighost.model.scenario.result;
 import java.util.Map;
 
 /**
- * Defines the condition under which a branch is selected,
- * based on status code, response body values, and/or custom conditions.
+ * Defines the condition under which a branch is selected, based on status code, response body
+ * values, and/or custom conditions.
  *
  * @author haazz
  * @version BETA-0.0.1
  */
 public class WhenCondition {
+
     private final String status;
     private final Map<String, Object> body;
     private final String condition;
@@ -24,6 +25,7 @@ public class WhenCondition {
      * Builder
      */
     public static class Builder {
+
         private String status;
         private Map<String, Object> body;
         private String condition;

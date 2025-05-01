@@ -9,12 +9,13 @@ import java.util.List;
  * @version BETA-0.0.1
  */
 public class ScenarioResult {
+
     private final String scenarioId;
     private final String name;
     private final String description;
     private final String executedAt;
-    private final int totalDurationMs;
-    private final int averageDurationMs;
+    private final long totalDurationMs;
+    private final long averageDurationMs;
     private final String filePath;
     private final String baseUrl;
     private final boolean isScenarioSuccess;
@@ -37,12 +38,13 @@ public class ScenarioResult {
      * Builder
      */
     public static class Builder {
+
         private String scenarioId;
         private String name;
         private String description;
         private String executedAt;
-        private int totalDurationMs;
-        private int averageDurationMs;
+        private long totalDurationMs;
+        private long averageDurationMs;
         private String filePath;
         private String baseUrl;
         private boolean isScenarioSuccess;
@@ -68,12 +70,12 @@ public class ScenarioResult {
             return this;
         }
 
-        public Builder totalDurationMs(int totalDurationMs) {
+        public Builder totalDurationMs(long totalDurationMs) {
             this.totalDurationMs = totalDurationMs;
             return this;
         }
 
-        public Builder averageDurationMs(int averageDurationMs) {
+        public Builder averageDurationMs(long averageDurationMs) {
             this.averageDurationMs = averageDurationMs;
             return this;
         }
@@ -88,7 +90,7 @@ public class ScenarioResult {
             return this;
         }
 
-        public Builder scenarioSuccess(boolean isScenarioSuccess) {
+        public Builder isScenarioSuccess(boolean isScenarioSuccess) {
             this.isScenarioSuccess = isScenarioSuccess;
             return this;
         }
@@ -122,11 +124,11 @@ public class ScenarioResult {
         return executedAt;
     }
 
-    public int getTotalDurationMs() {
+    public long getTotalDurationMs() {
         return totalDurationMs;
     }
 
-    public int getAverageDurationMs() {
+    public long getAverageDurationMs() {
         return averageDurationMs;
     }
 

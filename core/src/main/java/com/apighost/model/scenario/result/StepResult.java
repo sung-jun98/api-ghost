@@ -13,15 +13,16 @@ import java.util.Map;
  * @version BETA-0.0.1
  */
 public class StepResult {
+
     private final String stepName;
     private final ProtocolType type;
-    private final String endpoint;
     private final HTTPMethod method;
-    private final Map<String, Object> requestBody;
+    private final String url;
     private final Map<String, String> requestHeader;
-    private final Map<String, Object> responseBody;
+    private final Map<String, Object> requestBody;
+    private final int status;
     private final Map<String, String> responseHeaders;
-    private final int statusCode;
+    private final Map<String, Object> responseBody;
     private final String startTime;
     private final String endTime;
     private final int durationMs;
@@ -31,13 +32,13 @@ public class StepResult {
     private StepResult(Builder builder) {
         this.stepName = builder.stepName;
         this.type = builder.type;
-        this.endpoint = builder.endpoint;
+        this.url = builder.url;
         this.method = builder.method;
         this.requestBody = builder.requestBody;
         this.requestHeader = builder.requestHeader;
         this.responseBody = builder.responseBody;
         this.responseHeaders = builder.responseHeaders;
-        this.statusCode = builder.statusCode;
+        this.status = builder.status;
         this.startTime = builder.startTime;
         this.endTime = builder.endTime;
         this.durationMs = builder.durationMs;
@@ -49,15 +50,16 @@ public class StepResult {
      * Builder
      */
     public static class Builder {
+
         private String stepName;
         private ProtocolType type;
-        private String endpoint;
+        private String url;
         private HTTPMethod method;
         private Map<String, Object> requestBody;
         private Map<String, String> requestHeader;
         private Map<String, Object> responseBody;
         private Map<String, String> responseHeaders;
-        private int statusCode;
+        private int status;
         private String startTime;
         private String endTime;
         private int durationMs;
@@ -74,8 +76,8 @@ public class StepResult {
             return this;
         }
 
-        public Builder endpoint(String endpoint) {
-            this.endpoint = endpoint;
+        public Builder url(String url) {
+            this.url = url;
             return this;
         }
 
@@ -104,8 +106,8 @@ public class StepResult {
             return this;
         }
 
-        public Builder statusCode(int statusCode) {
-            this.statusCode = statusCode;
+        public Builder status(int status) {
+            this.status = status;
             return this;
         }
 
@@ -150,8 +152,8 @@ public class StepResult {
         return type;
     }
 
-    public String getEndpoint() {
-        return endpoint;
+    public String getUrl() {
+        return url;
     }
 
     public HTTPMethod getMethod() {
@@ -174,8 +176,8 @@ public class StepResult {
         return responseHeaders;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getStatus() {
+        return status;
     }
 
     public String getStartTime() {
