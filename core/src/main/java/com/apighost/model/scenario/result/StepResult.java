@@ -1,5 +1,8 @@
 package com.apighost.model.scenario.result;
 
+import com.apighost.model.scenario.HTTPMethod;
+import com.apighost.model.scenario.ProtocolType;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,9 +14,9 @@ import java.util.Map;
  */
 public class StepResult {
     private final String stepName;
-    private final String type;
+    private final ProtocolType type;
     private final String endpoint;
-    private final String method;
+    private final HTTPMethod method;
     private final Map<String, Object> requestBody;
     private final Map<String, String> requestHeader;
     private final Map<String, Object> responseBody;
@@ -47,9 +50,9 @@ public class StepResult {
      */
     public static class Builder {
         private String stepName;
-        private String type;
+        private ProtocolType type;
         private String endpoint;
-        private String method;
+        private HTTPMethod method;
         private Map<String, Object> requestBody;
         private Map<String, String> requestHeader;
         private Map<String, Object> responseBody;
@@ -66,7 +69,7 @@ public class StepResult {
             return this;
         }
 
-        public Builder type(String type) {
+        public Builder type(ProtocolType type) {
             this.type = type;
             return this;
         }
@@ -76,7 +79,7 @@ public class StepResult {
             return this;
         }
 
-        public Builder method(String method) {
+        public Builder method(HTTPMethod method) {
             this.method = method;
             return this;
         }
@@ -143,7 +146,7 @@ public class StepResult {
         return stepName;
     }
 
-    public String getType() {
+    public ProtocolType getType() {
         return type;
     }
 
@@ -151,7 +154,7 @@ public class StepResult {
         return endpoint;
     }
 
-    public String getMethod() {
+    public HTTPMethod getMethod() {
         return method;
     }
 
