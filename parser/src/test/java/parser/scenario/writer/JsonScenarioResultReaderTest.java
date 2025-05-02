@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.apighost.model.scenario.HTTPMethod;
 import com.apighost.model.scenario.result.ScenarioResult;
-import com.apighost.model.scenario.result.StepResult;
+import com.apighost.model.scenario.result.Step;
 import com.apighost.parser.scenario.reader.JsonScenarioResultReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,7 +40,6 @@ class JsonScenarioResultReaderTest {
     void setUp() throws IOException {
         String jsonContent = """
             {
-              "scenarioId": "SC-001",
               "name": "Signup Scenario",
               "description": "Validate new user registration and login process",
               "executedAt": "2025-04-23T14:15:00.000",
@@ -56,8 +55,7 @@ class JsonScenarioResultReaderTest {
                   "url": "http://localhost:8080/api/signup",
                   "method": "POST",
                   "requestBody": {
-                    "email": "test@test.com",
-                    "password": "1234"
+                    "json": "{ \\"email\\": \\"test@test.com\\", \\"password\\": \\"1234\\" }"
                   },
                   "requestHeader": {
                     "Authorization": "Bearer abc.def.ghi",
@@ -74,27 +72,26 @@ class JsonScenarioResultReaderTest {
                   "endTime": "2025-04-23T14:15:01.300",
                   "durationMs": 300,
                   "requestSuccess": true,
-                  "response": [
+                  "route": [
                     {
-                      "when": {
+                      "expected": {
                         "status": "200",
-                        "body": {
+                        "value": {
                           "field": "value"
-                        },
-                        "condition": "${response.body.posts.length} == 0"
+                        }
                       },
                       "then": {
-                        "save": {
+                        "store": {
                           "postId": "123"
                         },
-                        "next": "create_post"
+                        "step": "createPost"
                       }
                     }
                   ]
                 }
               ]
             }
-            """;
+           \s""";
 
         tempJsonFile = File.createTempFile("scenario-result", ".json");
         try (FileWriter writer = new FileWriter(tempJsonFile)) {
@@ -128,12 +125,12 @@ class JsonScenarioResultReaderTest {
 
         // then
         assertNotNull(result);
-        assertEquals("SC-001", result.getScenarioId());
         assertEquals("Signup Scenario", result.getName());
+        assertEquals("/local/result/user", result.getFilePath());
         assertTrue(result.isScenarioSuccess());
         assertEquals(1, result.getResults().size());
 
-        StepResult step = result.getResults().get(0);
+        Step step = result.getResults().get(0);
         assertEquals("http://localhost:8080/api/signup", step.getUrl());
         assertEquals(HTTPMethod.POST, step.getMethod());
         assertEquals(200, step.getStatus());

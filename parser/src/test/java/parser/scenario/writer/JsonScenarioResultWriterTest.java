@@ -4,13 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.apighost.model.scenario.HTTPMethod;
 import com.apighost.model.scenario.ProtocolType;
-import com.apighost.model.scenario.result.ResponseBranch;
+import com.apighost.model.scenario.test.Expected;
+import com.apighost.model.scenario.test.RequestBody;
+import com.apighost.model.scenario.test.Route;
 import com.apighost.model.scenario.result.ScenarioResult;
-import com.apighost.model.scenario.result.StepResult;
-import com.apighost.model.scenario.result.ThenAction;
-import com.apighost.model.scenario.result.WhenCondition;
+import com.apighost.model.scenario.result.Step;
+import com.apighost.model.scenario.test.Then;
 import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
 import com.apighost.parser.scenario.writer.ScenarioResultWriter;
+import java.util.Arrays;
+import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +61,6 @@ class JsonScenarioResultWriterTest {
 
         ScenarioResultWriter writer = new JsonScenarioResultWriter();
         ScenarioResult scenarioResult = new ScenarioResult.Builder()
-            .scenarioId("SC-001")
             .name("Signup Scenario")
             .description("Validate new user registration and login process")
             .executedAt("2025-04-23T14:15:00.000")
@@ -68,12 +70,19 @@ class JsonScenarioResultWriterTest {
             .baseUrl("http://localhost:8080")
             .isScenarioSuccess(true)
             .results(List.of(
-                new StepResult.Builder()
+                new Step.Builder()
                     .stepName("signup")
                     .type(ProtocolType.HTTP)
                     .url("http://localhost:8080/api/signup")
                     .method(HTTPMethod.POST)
-                    .requestBody(Map.of("email", "test@test.com", "password", "1234"))
+                    .requestBody(
+                        new RequestBody.Builder()
+                                .json("{"
+                                    + "\"email\": \"test@test.com\""
+                                    + "\"password\": \"1234\""
+                                    + "}")
+                                .build()
+                    )
                     .requestHeader(Map.of("Authorization", "Bearer abc.def.ghi", "Content-Type",
                         "application/json"))
                     .responseBody(Map.of("status", "success"))
@@ -83,19 +92,24 @@ class JsonScenarioResultWriterTest {
                     .endTime("2025-04-23T14:15:01.300")
                     .durationMs(300)
                     .requestSuccess(true)
-                    .response(List.of(
-                        new ResponseBranch.Builder()
-                            .when(new WhenCondition.Builder()
-                                .status("200")
-                                .body(Map.of("field", "value"))
-                                .condition("${response.body.posts.length} == 0")
-                                .build())
-                            .then(new ThenAction.Builder()
-                                .save(Map.of("postId", "123"))
-                                .next("create_post")
-                                .build())
+                    .route(
+                        List.of(
+                        new Route.Builder()
+                            .expected(
+                                new Expected.Builder()
+                                    .status("200")
+                                    .value(Map.of("field", "value"))
+                                    .build()
+                            )
+                            .then(
+                                new Then.Builder()
+                                    .store(Map.of("postId", "123"))
+                                    .step("createPost")
+                                    .build()
+                            )
                             .build()
-                    ))
+                        )
+                    )
                     .build()
             ))
             .build();
