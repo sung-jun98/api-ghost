@@ -1,5 +1,6 @@
-package com.apighost.model.scenario.result;
+package com.apighost.model.scenario;
 
+import com.apighost.model.scenario.result.ResultStep;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
@@ -13,7 +14,6 @@ import java.util.List;
 @JsonDeserialize(builder = ScenarioResult.Builder.class)
 public class ScenarioResult {
 
-    private final String scenarioId;
     private final String name;
     private final String description;
     private final String executedAt;
@@ -22,10 +22,9 @@ public class ScenarioResult {
     private final String filePath;
     private final String baseUrl;
     private final boolean isScenarioSuccess;
-    private final List<StepResult> results;
+    private final List<ResultStep> results;
 
     private ScenarioResult(Builder builder) {
-        this.scenarioId = builder.scenarioId;
         this.name = builder.name;
         this.description = builder.description;
         this.executedAt = builder.executedAt;
@@ -43,7 +42,6 @@ public class ScenarioResult {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private String scenarioId;
         private String name;
         private String description;
         private String executedAt;
@@ -52,12 +50,7 @@ public class ScenarioResult {
         private String filePath;
         private String baseUrl;
         private boolean isScenarioSuccess;
-        private List<StepResult> results;
-
-        public Builder scenarioId(String scenarioId) {
-            this.scenarioId = scenarioId;
-            return this;
-        }
+        private List<ResultStep> results;
 
         public Builder name(String name) {
             this.name = name;
@@ -99,7 +92,7 @@ public class ScenarioResult {
             return this;
         }
 
-        public Builder results(List<StepResult> results) {
+        public Builder results(List<ResultStep> results) {
             this.results = results;
             return this;
         }
@@ -112,10 +105,6 @@ public class ScenarioResult {
     /**
      * Getter
      */
-    public String getScenarioId() {
-        return scenarioId;
-    }
-
     public String getName() {
         return name;
     }
@@ -148,7 +137,7 @@ public class ScenarioResult {
         return isScenarioSuccess;
     }
 
-    public List<StepResult> getResults() {
+    public List<ResultStep> getResults() {
         return results;
     }
 }

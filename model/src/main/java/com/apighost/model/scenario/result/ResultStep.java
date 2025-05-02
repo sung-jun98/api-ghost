@@ -1,8 +1,10 @@
 package com.apighost.model.scenario.result;
 
-import com.apighost.model.scenario.HTTPMethod;
-import com.apighost.model.scenario.ProtocolType;
+import com.apighost.model.scenario.step.HTTPMethod;
+import com.apighost.model.scenario.step.ProtocolType;
 
+import com.apighost.model.scenario.request.RequestBody;
+import com.apighost.model.scenario.step.Route;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
@@ -14,25 +16,25 @@ import java.util.Map;
  * @author haazz
  * @version BETA-0.0.1
  */
-@JsonDeserialize(builder = StepResult.Builder.class)
-public class StepResult {
+@JsonDeserialize(builder = ResultStep.Builder.class)
+public class ResultStep {
 
     private final String stepName;
     private final ProtocolType type;
     private final HTTPMethod method;
     private final String url;
     private final Map<String, String> requestHeader;
-    private final Map<String, Object> requestBody;
+    private final RequestBody requestBody;
     private final int status;
     private final Map<String, String> responseHeaders;
-    private final Map<String, Object> responseBody;
+    private final Map<String, String> responseBody;
     private final String startTime;
     private final String endTime;
     private final int durationMs;
     private final boolean isRequestSuccess;
-    private final List<ResponseBranch> response;
+    private final List<Route> route;
 
-    private StepResult(Builder builder) {
+    private ResultStep(Builder builder) {
         this.stepName = builder.stepName;
         this.type = builder.type;
         this.url = builder.url;
@@ -46,7 +48,7 @@ public class StepResult {
         this.endTime = builder.endTime;
         this.durationMs = builder.durationMs;
         this.isRequestSuccess = builder.isRequestSuccess;
-        this.response = builder.response;
+        this.route = builder.route;
     }
 
     /**
@@ -59,16 +61,16 @@ public class StepResult {
         private ProtocolType type;
         private String url;
         private HTTPMethod method;
-        private Map<String, Object> requestBody;
+        private RequestBody requestBody;
         private Map<String, String> requestHeader;
-        private Map<String, Object> responseBody;
+        private Map<String, String> responseBody;
         private Map<String, String> responseHeaders;
         private int status;
         private String startTime;
         private String endTime;
         private int durationMs;
         private boolean isRequestSuccess;
-        private List<ResponseBranch> response;
+        private List<Route> route;
 
         public Builder stepName(String stepName) {
             this.stepName = stepName;
@@ -90,7 +92,7 @@ public class StepResult {
             return this;
         }
 
-        public Builder requestBody(Map<String, Object> requestBody) {
+        public Builder requestBody(RequestBody requestBody) {
             this.requestBody = requestBody;
             return this;
         }
@@ -100,7 +102,7 @@ public class StepResult {
             return this;
         }
 
-        public Builder responseBody(Map<String, Object> responseBody) {
+        public Builder responseBody(Map<String, String> responseBody) {
             this.responseBody = responseBody;
             return this;
         }
@@ -135,13 +137,13 @@ public class StepResult {
             return this;
         }
 
-        public Builder response(List<ResponseBranch> response) {
-            this.response = response;
+        public Builder route(List<Route> route) {
+            this.route = route;
             return this;
         }
 
-        public StepResult build() {
-            return new StepResult(this);
+        public ResultStep build() {
+            return new ResultStep(this);
         }
     }
 
@@ -164,7 +166,7 @@ public class StepResult {
         return method;
     }
 
-    public Map<String, Object> getRequestBody() {
+    public RequestBody getRequestBody() {
         return requestBody;
     }
 
@@ -172,7 +174,7 @@ public class StepResult {
         return requestHeader;
     }
 
-    public Map<String, Object> getResponseBody() {
+    public Map<String, String> getResponseBody() {
         return responseBody;
     }
 
@@ -200,7 +202,7 @@ public class StepResult {
         return isRequestSuccess;
     }
 
-    public List<ResponseBranch> getResponse() {
-        return response;
+    public List<Route> getRoute() {
+        return route;
     }
 }
