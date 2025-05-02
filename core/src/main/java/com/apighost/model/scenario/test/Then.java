@@ -13,7 +13,7 @@ import java.util.Map;
 @JsonDeserialize(builder = Then.Builder.class)
 public class Then {
 
-    private Map<String, String> store;
+    private Map<String, Object> store;
     private String step;
 
     private Then(Builder builder) {
@@ -27,10 +27,10 @@ public class Then {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private Map<String, String> store;
+        private Map<String, Object> store;
         private String step;
 
-        public Builder store(Map<String, String> store) {
+        public Builder store(Map<String, Object> store) {
             this.store = store;
             return this;
         }
@@ -48,7 +48,7 @@ public class Then {
     /**
      * Getter
      */
-    public Map<String, String> getStore() {
+    public Map<String, Object> getStore() {
         return store;
     }
 

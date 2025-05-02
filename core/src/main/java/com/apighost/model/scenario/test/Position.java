@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 @JsonDeserialize(builder = Position.Builder.class)
 public class Position {
 
-    private Float x;
-    private Float y;
+    private double x;
+    private double y;
 
     private Position(Builder builder) {
         this.x = builder.x;
@@ -26,15 +26,15 @@ public class Position {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private Float x;
-        private Float y;
+        private double x;
+        private double y;
 
-        public Builder x(Float x) {
+        public Builder x(double x) {
             this.x = x;
             return this;
         }
 
-        public Builder y(Float y) {
+        public Builder y(double y) {
             this.y = y;
             return this;
         }
@@ -47,11 +47,11 @@ public class Position {
     /**
      * Getter
      */
-    public Float getX() {
+    public double getX() {
         return x;
     }
 
-    public Float getY() {
+    public double getY() {
         return y;
     }
 }

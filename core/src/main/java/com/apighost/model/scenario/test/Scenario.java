@@ -15,8 +15,7 @@ public class Scenario {
 
     private String name;
     private String description;
-    private String scenarioId;
-    private Integer timeoutMs;
+    private Long timeoutMs;
 
     private Map<String, Object> store;
     private Map<String, Step> steps;
@@ -25,7 +24,6 @@ public class Scenario {
     private Scenario(Builder builder) {
         this.name = builder.name;
         this.description = builder.description;
-        this.scenarioId = builder.scenarioId;
         this.timeoutMs = builder.timeoutMs;
         this.store = builder.store;
         this.steps = builder.steps;
@@ -39,8 +37,7 @@ public class Scenario {
 
         private String name;
         private String description;
-        private String scenarioId;
-        private Integer timeoutMs;
+        private Long timeoutMs;
         private Map<String, Object> store;
         private Map<String, Step> steps;
 
@@ -54,12 +51,7 @@ public class Scenario {
             return this;
         }
 
-        public Builder scenarioId(String scenarioId) {
-            this.scenarioId = scenarioId;
-            return this;
-        }
-
-        public Builder timeoutMs(Integer timeoutMs) {
+        public Builder timeoutMs(Long timeoutMs) {
             this.timeoutMs = timeoutMs;
             return this;
         }
@@ -90,11 +82,7 @@ public class Scenario {
         return description;
     }
 
-    public String getScenarioId() {
-        return scenarioId;
-    }
-
-    public Integer getTimeoutMs() {
+    public Long getTimeoutMs() {
         return timeoutMs;
     }
 
