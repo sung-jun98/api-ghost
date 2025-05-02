@@ -1,5 +1,7 @@
 package com.apighost.model.scenario.result;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  * @author haazz
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = ScenarioResult.Builder.class)
 public class ScenarioResult {
 
     private final String scenarioId;
@@ -37,6 +40,7 @@ public class ScenarioResult {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private String scenarioId;
