@@ -2,14 +2,14 @@ package parser.scenario.writer;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.apighost.model.scenario.request.RequestBody;
+import com.apighost.model.scenario.step.Expected;
 import com.apighost.model.scenario.step.HTTPMethod;
 import com.apighost.model.scenario.step.ProtocolType;
-import com.apighost.scenario.test.Expected;
-import com.apighost.scenario.test.RequestBody;
-import com.apighost.scenario.test.Route;
 import com.apighost.model.scenario.ScenarioResult;
 import com.apighost.model.scenario.result.ResultStep;
-import com.apighost.scenario.test.Then;
+import com.apighost.model.scenario.step.Route;
+import com.apighost.model.scenario.step.Then;
 import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
 import com.apighost.parser.scenario.writer.ScenarioResultWriter;
 import org.junit.jupiter.api.AfterEach;
@@ -120,9 +120,9 @@ class JsonScenarioResultWriterTest {
 
         /** Assert: Raw JSON content contains important fields */
         String content = Files.readString(Path.of(TEST_FILE_PATH));
-        assertTrue(content.contains("\"scenarioId\" : \"SC-001\""),
-            "Scenario ID should be in JSON");
         assertTrue(content.contains("\"stepName\" : \"signup\""), "Step name should be in JSON");
+        assertTrue(content.contains("\"filePath\" : \"/local/result/user\""),
+            "filePath should be in JSON");
         assertTrue(content.contains("\"postId\""), "Saved variable 'postId' should exist in JSON");
     }
 }
