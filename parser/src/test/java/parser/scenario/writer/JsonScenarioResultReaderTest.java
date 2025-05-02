@@ -113,8 +113,8 @@ class JsonScenarioResultReaderTest {
     }
 
     /**
-     * Tests that {@link JsonScenarioResultReader#readScenarioResult(String)} correctly
-     * parses a valid JSON file and returns a populated {@link ScenarioResult}.
+     * Tests that {@link JsonScenarioResultReader#readScenarioResult(String)} correctly parses a
+     * valid JSON file and returns a populated {@link ScenarioResult}.
      *
      * @throws IOException if file reading fails
      */
@@ -140,8 +140,8 @@ class JsonScenarioResultReaderTest {
     }
 
     /**
-     * Tests that {@link JsonScenarioResultReader#readScenarioResult(String)} throws
-     * an {@link IOException} when the given path is invalid or the file does not exist.
+     * Tests that {@link JsonScenarioResultReader#readScenarioResult(String)} throws an
+     * {@link IOException} when the given path is invalid or the file does not exist.
      */
     @Test
     void readScenarioResult_withInvalidPath_shouldThrowIOException() {
