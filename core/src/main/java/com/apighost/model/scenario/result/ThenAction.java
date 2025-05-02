@@ -1,5 +1,7 @@
 package com.apighost.model.scenario.result;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Map;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Map;
  * @author haazz
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = ThenAction.Builder.class)
 public class ThenAction {
 
     private final Map<String, Object> save;
@@ -22,6 +25,7 @@ public class ThenAction {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private Map<String, Object> save;

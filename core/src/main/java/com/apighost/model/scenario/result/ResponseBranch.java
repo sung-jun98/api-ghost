@@ -1,11 +1,15 @@
 package com.apighost.model.scenario.result;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 /**
  * Represents a conditional branch based on the response of a request.
  *
  * @author haazz
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = ResponseBranch.Builder.class)
 public class ResponseBranch {
 
     private final WhenCondition when;
@@ -19,6 +23,7 @@ public class ResponseBranch {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private WhenCondition when;

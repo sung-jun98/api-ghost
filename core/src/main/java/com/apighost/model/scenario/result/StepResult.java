@@ -3,6 +3,8 @@ package com.apighost.model.scenario.result;
 import com.apighost.model.scenario.HTTPMethod;
 import com.apighost.model.scenario.ProtocolType;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import java.util.Map;
  * @author haazz
  * @version BETA-0.0.1
  */
+@JsonDeserialize(builder = StepResult.Builder.class)
 public class StepResult {
 
     private final String stepName;
@@ -49,6 +52,7 @@ public class StepResult {
     /**
      * Builder
      */
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private String stepName;
