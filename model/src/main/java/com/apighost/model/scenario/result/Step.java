@@ -3,8 +3,8 @@ package com.apighost.model.scenario.result;
 import com.apighost.model.scenario.HTTPMethod;
 import com.apighost.model.scenario.ProtocolType;
 
-import com.apighost.model.scenario.test.RequestBody;
-import com.apighost.model.scenario.test.Route;
+import com.apighost.model.scenario.RequestBody;
+import com.apighost.model.scenario.Route;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;

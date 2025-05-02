@@ -1,4 +1,5 @@
 rootProject.name = 'api-ghost'
 include 'core'
 include 'parser'
+include 'model'
 

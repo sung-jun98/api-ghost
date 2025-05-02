@@ -4,16 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.apighost.model.scenario.HTTPMethod;
 import com.apighost.model.scenario.ProtocolType;
-import com.apighost.model.scenario.test.Expected;
-import com.apighost.model.scenario.test.RequestBody;
-import com.apighost.model.scenario.test.Route;
+import com.apighost.scenario.test.Expected;
+import com.apighost.scenario.test.RequestBody;
+import com.apighost.scenario.test.Route;
 import com.apighost.model.scenario.result.ScenarioResult;
 import com.apighost.model.scenario.result.Step;
-import com.apighost.model.scenario.test.Then;
+import com.apighost.scenario.test.Then;
 import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
 import com.apighost.parser.scenario.writer.ScenarioResultWriter;
-import java.util.Arrays;
-import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
