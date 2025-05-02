@@ -1,6 +1,6 @@
 package com.apighost.parser.scenario.reader;
 
-import com.apighost.model.scenario.result.ScenarioResult;
+import com.apighost.model.scenario.ScenarioResult;
 import java.io.IOException;
 
 /**

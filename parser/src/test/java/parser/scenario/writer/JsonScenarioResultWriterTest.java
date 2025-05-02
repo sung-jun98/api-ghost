@@ -2,13 +2,13 @@ package parser.scenario.writer;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.apighost.model.scenario.HTTPMethod;
-import com.apighost.model.scenario.ProtocolType;
+import com.apighost.model.scenario.step.HTTPMethod;
+import com.apighost.model.scenario.step.ProtocolType;
 import com.apighost.scenario.test.Expected;
 import com.apighost.scenario.test.RequestBody;
 import com.apighost.scenario.test.Route;
-import com.apighost.model.scenario.result.ScenarioResult;
-import com.apighost.model.scenario.result.Step;
+import com.apighost.model.scenario.ScenarioResult;
+import com.apighost.model.scenario.result.ResultStep;
 import com.apighost.scenario.test.Then;
 import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
 import com.apighost.parser.scenario.writer.ScenarioResultWriter;
@@ -68,7 +68,7 @@ class JsonScenarioResultWriterTest {
             .baseUrl("http://localhost:8080")
             .isScenarioSuccess(true)
             .results(List.of(
-                new Step.Builder()
+                new ResultStep.Builder()
                     .stepName("signup")
                     .type(ProtocolType.HTTP)
                     .url("http://localhost:8080/api/signup")

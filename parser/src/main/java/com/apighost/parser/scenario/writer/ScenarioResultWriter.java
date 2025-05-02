@@ -1,6 +1,6 @@
 package com.apighost.parser.scenario.writer;
 
-import com.apighost.model.scenario.result.ScenarioResult;
+import com.apighost.model.scenario.ScenarioResult;
 
 /**
  * Interface for writing {@link ScenarioResult} data to a file.

@@ -1,4 +1,4 @@
-package com.apighost.model.scenario;
+package com.apighost.model.scenario.step;
 
 public enum HTTPMethod {
     POST,

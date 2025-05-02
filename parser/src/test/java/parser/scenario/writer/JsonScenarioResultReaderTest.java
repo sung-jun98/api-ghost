@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.apighost.model.scenario.HTTPMethod;
-import com.apighost.model.scenario.result.ScenarioResult;
-import com.apighost.model.scenario.result.Step;
+import com.apighost.model.scenario.step.HTTPMethod;
+import com.apighost.model.scenario.ScenarioResult;
+import com.apighost.model.scenario.result.ResultStep;
 import com.apighost.parser.scenario.reader.JsonScenarioResultReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -130,7 +130,7 @@ class JsonScenarioResultReaderTest {
         assertTrue(result.isScenarioSuccess());
         assertEquals(1, result.getResults().size());
 
-        Step step = result.getResults().get(0);
+        ResultStep step = result.getResults().get(0);
         assertEquals("http://localhost:8080/api/signup", step.getUrl());
         assertEquals(HTTPMethod.POST, step.getMethod());
         assertEquals(200, step.getStatus());

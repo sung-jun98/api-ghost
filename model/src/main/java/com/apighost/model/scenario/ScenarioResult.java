@@ -1,5 +1,6 @@
-package com.apighost.model.scenario.result;
+package com.apighost.model.scenario;
 
+import com.apighost.model.scenario.result.ResultStep;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
@@ -21,7 +22,7 @@ public class ScenarioResult {
     private final String filePath;
     private final String baseUrl;
     private final boolean isScenarioSuccess;
-    private final List<Step> results;
+    private final List<ResultStep> results;
 
     private ScenarioResult(Builder builder) {
         this.name = builder.name;
@@ -49,7 +50,7 @@ public class ScenarioResult {
         private String filePath;
         private String baseUrl;
         private boolean isScenarioSuccess;
-        private List<Step> results;
+        private List<ResultStep> results;
 
         public Builder name(String name) {
             this.name = name;
@@ -91,7 +92,7 @@ public class ScenarioResult {
             return this;
         }
 
-        public Builder results(List<Step> results) {
+        public Builder results(List<ResultStep> results) {
             this.results = results;
             return this;
         }
@@ -136,7 +137,7 @@ public class ScenarioResult {
         return isScenarioSuccess;
     }
 
-    public List<Step> getResults() {
+    public List<ResultStep> getResults() {
         return results;
     }
 }

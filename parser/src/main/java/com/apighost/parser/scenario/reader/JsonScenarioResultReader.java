@@ -1,6 +1,6 @@
 package com.apighost.parser.scenario.reader;
 
-import com.apighost.model.scenario.result.ScenarioResult;
+import com.apighost.model.scenario.ScenarioResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;

@@ -1,10 +1,10 @@
 package com.apighost.model.scenario.result;
 
-import com.apighost.model.scenario.HTTPMethod;
-import com.apighost.model.scenario.ProtocolType;
+import com.apighost.model.scenario.step.HTTPMethod;
+import com.apighost.model.scenario.step.ProtocolType;
 
-import com.apighost.model.scenario.RequestBody;
-import com.apighost.model.scenario.Route;
+import com.apighost.model.scenario.request.RequestBody;
+import com.apighost.model.scenario.step.Route;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.Map;
  * @author haazz
  * @version BETA-0.0.1
  */
-@JsonDeserialize(builder = Step.Builder.class)
-public class Step {
+@JsonDeserialize(builder = ResultStep.Builder.class)
+public class ResultStep {
 
     private final String stepName;
     private final ProtocolType type;
@@ -34,7 +34,7 @@ public class Step {
     private final boolean isRequestSuccess;
     private final List<Route> route;
 
-    private Step(Builder builder) {
+    private ResultStep(Builder builder) {
         this.stepName = builder.stepName;
         this.type = builder.type;
         this.url = builder.url;
@@ -142,8 +142,8 @@ public class Step {
             return this;
         }
 
-        public Step build() {
-            return new Step(this);
+        public ResultStep build() {
+            return new ResultStep(this);
         }
     }
 

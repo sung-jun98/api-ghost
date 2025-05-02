@@ -1,4 +1,4 @@
-package com.apighost.model.scenario;
+package com.apighost.model.scenario.step;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

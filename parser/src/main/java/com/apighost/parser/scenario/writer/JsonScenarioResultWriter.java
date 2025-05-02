@@ -1,6 +1,6 @@
 package com.apighost.parser.scenario.writer;
 
-import com.apighost.model.scenario.result.ScenarioResult;
+import com.apighost.model.scenario.ScenarioResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
