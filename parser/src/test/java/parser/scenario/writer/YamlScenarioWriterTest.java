@@ -1,14 +1,9 @@
 package parser.scenario.writer;
 
-import com.apighost.model.scenario.result.ScenarioResult;
-import com.apighost.model.scenario.test.Expected;
-import com.apighost.model.scenario.test.Position;
-import com.apighost.model.scenario.test.Request;
-import com.apighost.model.scenario.test.RequestBody;
-import com.apighost.model.scenario.test.Route;
-import com.apighost.model.scenario.test.Scenario;
-import com.apighost.model.scenario.test.Step;
-import com.apighost.model.scenario.test.Then;
+import com.apighost.model.scenario.request.*;
+import com.apighost.model.scenario.step.*;
+import com.apighost.model.scenario.Scenario;
+import com.apighost.model.scenario.ScenarioResult;
 import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
 import com.apighost.parser.scenario.writer.ScenarioWriter;
 import com.apighost.parser.scenario.writer.YamlScenarioWriter;

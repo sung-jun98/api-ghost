@@ -1,6 +1,6 @@
 package com.apighost.parser.scenario.writer;
 
-import com.apighost.model.scenario.test.Scenario;
+import com.apighost.model.scenario.Scenario;
 import java.io.IOException;
 
 public interface ScenarioWriter {
