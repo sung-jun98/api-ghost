@@ -16,11 +16,12 @@ import org.junit.jupiter.api.Test;
 import com.apighost.model.scenario.step.Step;
 import com.apighost.model.scenario.request.FormData;
 import org.junit.jupiter.api.io.TempDir;
+
 /**
  * Unit tests for {@link YamlScenarioReader}.
  * <p>
- * This test verifies that the reader can correctly deserialize a Yaml file into a
- * {@link Scenario} object, and that it handles invalid paths gracefully.
+ * This test verifies that the reader can correctly deserialize a Yaml file into a {@link Scenario}
+ * object, and that it handles invalid paths gracefully.
  * </p>
  *
  * @author sung-jun98
@@ -150,19 +151,19 @@ public class YamlScenarioReaderTest {
     @Test
     @DisplayName("Should convert basic YAML file to Scenario DTO")
     void readScenarioTest() throws IOException {
-        // given
+        /** given */
         Path tempFile = tempDir.resolve("test-scenario.yaml");
         Files.writeString(tempFile, YAML_INPUT);
 
         YamlScenarioReader reader = new YamlScenarioReader();
 
-        // when
+        /** when */
         Scenario scenario = reader.readScenario(tempFile.toString());
         String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter()
                                 .writeValueAsString(scenario);
         System.out.println(jsonOutput);
 
-        // then
+        /** then */
         assertNotNull(scenario, "Scenario object must not be null");
         assertNotNull(scenario.getName(), "Scenario name must not be null");
         assertNotNull(scenario.getSteps(), "Steps must not be null");
@@ -178,29 +179,28 @@ public class YamlScenarioReaderTest {
     }
 
     /**
-     * Should correctly parse FormData elements in YAML
-     * Print the whole content with the console.
+     * Should correctly parse FormData elements in YAML Print the whole content with the console.
      *
      * @throws IOException if reading the test file fails
      */
     @Test
     @DisplayName("Should correctly parse FormData elements in YAML")
     void readScenarioFormDataTest() throws IOException {
-        // given
+        /** given */
         Path tempFile = tempDir.resolve("test-scenario.yaml");
         Files.writeString(tempFile, YAML_INPUT);
 
         YamlScenarioReader reader = new YamlScenarioReader();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // when
+        /** when */
         Scenario scenario = reader.readScenario(tempFile.toString());
         String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter()
                                 .writeValueAsString(scenario);
 
         System.out.println(scenario.toString());
 
-        // then
+        /** then */
         Step step = scenario.getSteps().get("stepNameA");
         FormData formData = step.getRequest().getBody().getFormdata();
 
