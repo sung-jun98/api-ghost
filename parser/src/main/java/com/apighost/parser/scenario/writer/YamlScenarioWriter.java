@@ -7,8 +7,12 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.File;
 import java.io.IOException;
 
+
 /**
- * Scenario Dto -> YAML
+ * JSON implementation of {@link YamlScenarioWriter}. Serializes the scenario into a
+ * pretty-printed YAML file.
+ * <p>
+ * Example usage: new JsonScenarioResultWriter().writeScenario(result, "output.json");
  *
  * @author sung-jun98
  * @version BETA-0.0.1
@@ -24,16 +28,14 @@ public class YamlScenarioWriter implements ScenarioWriter {
     }
 
     /**
-     * Scenario Dto -> YAML
+     * A method that converts Scenario DTO to YAML file
      *
      * @param scenario Scenario dto
      * @throws IOException I/O exceptions that occur when file I/O
      */
     @Override
-    public void writeScenario(Scenario scenario) throws IOException {
-        /** The creation path must be modified later in accordance with the actual distribution environment.*/
-        String yamlFilePath = "src/test/resources/parser/writeScenarioExample.yaml";
-        File yamlFile = new File(yamlFilePath);
+    public void writeScenario(Scenario scenario, String filePath) throws IOException {
+        File yamlFile = new File(filePath);
 
         try {
             objectMapper.writeValue(yamlFile, scenario);
