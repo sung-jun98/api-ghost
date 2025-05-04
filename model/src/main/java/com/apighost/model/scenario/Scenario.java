@@ -3,6 +3,7 @@ package com.apighost.model.scenario;
 import com.apighost.model.scenario.step.Step;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class Scenario {
     private Long timeoutMs;
 
     private Map<String, Object> store;
-    private Map<String, Step> steps;
+    private LinkedHashMap<String, Step> steps;
 
 
     private Scenario(Builder builder) {
@@ -40,7 +41,7 @@ public class Scenario {
         private String description;
         private Long timeoutMs;
         private Map<String, Object> store;
-        private Map<String, Step> steps;
+        private LinkedHashMap<String, Step> steps;
 
         public Builder name(String name) {
             this.name = name;
@@ -62,7 +63,7 @@ public class Scenario {
             return this;
         }
 
-        public Builder steps(Map<String, Step> steps) {
+        public Builder steps(LinkedHashMap<String, Step> steps) {
             this.steps = steps;
             return this;
         }
@@ -91,7 +92,7 @@ public class Scenario {
         return store;
     }
 
-    public Map<String, Step> getSteps() {
+    public LinkedHashMap<String, Step> getSteps() {
         return steps;
     }
 }
