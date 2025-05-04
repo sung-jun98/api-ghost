@@ -135,7 +135,7 @@ public class ResultStep {
             return this;
         }
 
-        public Builder requestSuccess(boolean isRequestSuccess) {
+        public Builder isRequestSuccess(boolean isRequestSuccess) {
             this.isRequestSuccess = isRequestSuccess;
             return this;
         }
