@@ -44,13 +44,13 @@ public class YamlScenarioReaderTest {
         
         steps:
           stepNameB:
-            type: string
+            type: HTTP
             position:
               x: 100.0
               y: 200.1
         
             request:
-              method: string
+              method: POST
               url: string
               header:
                 headerName: value
@@ -89,13 +89,13 @@ public class YamlScenarioReaderTest {
         
         
           stepNameA:
-            type: string
+            type: HTTP
             position:
               x: 100.0
               y: 200.1
         
             request:
-              method: string
+              method: POST
               url: string
               header:
                 headerName: value
@@ -160,7 +160,7 @@ public class YamlScenarioReaderTest {
         /** when */
         Scenario scenario = reader.readScenario(tempFile.toString());
         String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter()
-                                .writeValueAsString(scenario);
+            .writeValueAsString(scenario);
 
         /** then */
         assertNotNull(scenario, "Scenario object must not be null");
@@ -195,7 +195,7 @@ public class YamlScenarioReaderTest {
         /** when */
         Scenario scenario = reader.readScenario(tempFile.toString());
         String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter()
-                                .writeValueAsString(scenario);
+            .writeValueAsString(scenario);
 
         System.out.println(scenario.toString());
 

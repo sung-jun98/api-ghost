@@ -27,7 +27,7 @@ public class ResultStep {
     private final RequestBody requestBody;
     private final int status;
     private final Map<String, String> responseHeaders;
-    private final Map<String, String> responseBody;
+    private final String responseBody;
     private final String startTime;
     private final String endTime;
     private final int durationMs;
@@ -63,7 +63,7 @@ public class ResultStep {
         private HTTPMethod method;
         private RequestBody requestBody;
         private Map<String, String> requestHeader;
-        private Map<String, String> responseBody;
+        private String responseBody;
         private Map<String, String> responseHeaders;
         private int status;
         private String startTime;
@@ -102,7 +102,7 @@ public class ResultStep {
             return this;
         }
 
-        public Builder responseBody(Map<String, String> responseBody) {
+        public Builder responseBody(String responseBody) {
             this.responseBody = responseBody;
             return this;
         }
@@ -174,7 +174,7 @@ public class ResultStep {
         return requestHeader;
     }
 
-    public Map<String, String> getResponseBody() {
+    public String getResponseBody() {
         return responseBody;
     }
 

@@ -1,5 +1,6 @@
 package com.apighost.model.scenario.request;
 
+import com.apighost.model.scenario.step.HTTPMethod;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Map;
@@ -13,7 +14,7 @@ import java.util.Map;
 @JsonDeserialize(builder = Request.Builder.class)
 public class Request {
 
-    private String method;
+    private HTTPMethod method;
     private String url;
     private Map<String, String> header;
     private RequestBody body;
@@ -31,12 +32,12 @@ public class Request {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private String method;
+        private HTTPMethod method;
         private String url;
         private Map<String, String> header;
         private RequestBody body;
 
-        public Builder method(String method) {
+        public Builder method(HTTPMethod method) {
             this.method = method;
             return this;
         }
@@ -64,7 +65,7 @@ public class Request {
     /**
      * Getter
      */
-    public String getMethod() {
+    public HTTPMethod getMethod() {
         return method;
     }
 
