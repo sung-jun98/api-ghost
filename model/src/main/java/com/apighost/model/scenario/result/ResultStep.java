@@ -30,7 +30,7 @@ public class ResultStep {
     private final String responseBody;
     private final String startTime;
     private final String endTime;
-    private final int durationMs;
+    private final long durationMs;
     private final boolean isRequestSuccess;
     private final List<Route> route;
     private final String nextStep;
@@ -70,7 +70,7 @@ public class ResultStep {
         private int status;
         private String startTime;
         private String endTime;
-        private int durationMs;
+        private long durationMs;
         private boolean isRequestSuccess;
         private List<Route> route;
         private String nextStep;
@@ -130,7 +130,7 @@ public class ResultStep {
             return this;
         }
 
-        public Builder durationMs(int durationMs) {
+        public Builder durationMs(long durationMs) {
             this.durationMs = durationMs;
             return this;
         }
@@ -202,7 +202,7 @@ public class ResultStep {
         return endTime;
     }
 
-    public int getDurationMs() {
+    public long getDurationMs() {
         return durationMs;
     }
 
