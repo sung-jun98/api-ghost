@@ -33,6 +33,7 @@ public class ResultStep {
     private final int durationMs;
     private final boolean isRequestSuccess;
     private final List<Route> route;
+    private final String nextStep;
 
     private ResultStep(Builder builder) {
         this.stepName = builder.stepName;
@@ -49,6 +50,7 @@ public class ResultStep {
         this.durationMs = builder.durationMs;
         this.isRequestSuccess = builder.isRequestSuccess;
         this.route = builder.route;
+        this.nextStep = builder.nextStep;
     }
 
     /**
@@ -71,6 +73,7 @@ public class ResultStep {
         private int durationMs;
         private boolean isRequestSuccess;
         private List<Route> route;
+        private String nextStep;
 
         public Builder stepName(String stepName) {
             this.stepName = stepName;
@@ -145,6 +148,11 @@ public class ResultStep {
         public ResultStep build() {
             return new ResultStep(this);
         }
+
+        public Builder nextStep(String nextStep) {
+            this.nextStep = nextStep;
+            return this;
+        }
     }
 
     /**
@@ -204,5 +212,9 @@ public class ResultStep {
 
     public List<Route> getRoute() {
         return route;
+    }
+
+    public String getNextStep() {
+        return nextStep;
     }
 }
