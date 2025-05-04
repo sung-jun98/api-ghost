@@ -68,7 +68,6 @@ public class YamlScenarioWriterTest {
         Scenario actualScenario = reader.readScenario(TEST_FILE_PATH);
         String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter()
                                 .writeValueAsString(actualScenario);
-        System.out.println(jsonOutput);
 
         /** Verify basic fields */
         assertEquals(expectedScenario.getName(), actualScenario.getName(),
@@ -110,7 +109,6 @@ public class YamlScenarioWriterTest {
         /** Verify request body */
         assertEquals(expectedRequest.getBody().getJson(), actualRequest.getBody().getJson(),
             "Request body should match");
-
 
         /** Verify routes */
         List<Route> expectedRoutes = expectedStep.getRoute();
@@ -297,7 +295,8 @@ public class YamlScenarioWriterTest {
 
         RequestBody requestBody1 = new RequestBody.Builder()
                                        .formdata(null)
-                                       .json("{\"userId\": \"user_123456\",\"preferences\": {\"language\": \"ko\",\"notifications\": [{\"email\": true,\"sms\": false,\"push\": {\"enabled\": true,\"frequency\": \"daily\"}}]}}")
+                                       .json(
+                                           "{\"userId\": \"user_123456\",\"preferences\": {\"language\": \"ko\",\"notifications\": [{\"email\": true,\"sms\": false,\"push\": {\"enabled\": true,\"frequency\": \"daily\"}}]}}")
                                        .build();
 
         Request request1 = new Request.Builder()
@@ -347,21 +346,21 @@ public class YamlScenarioWriterTest {
         header2.put("action", "string");
 
         String jsonBody = """
-        {
-          "userId": "user_123456",
-          "preferences": {
-            "language": "ko",
-            "notifications": [{
-              "email": true,
-              "sms": false,
-              "push": {
-                "enabled": true,
-                "frequency": "daily"
+            {
+              "userId": "user_123456",
+              "preferences": {
+                "language": "ko",
+                "notifications": [{
+                  "email": true,
+                  "sms": false,
+                  "push": {
+                    "enabled": true,
+                    "frequency": "daily"
+                  }
+                }]
               }
-            }]
-          }
-        }
-        """;
+            }
+            """;
 
         RequestBody requestBody2 = new RequestBody.Builder()
                                        .json(jsonBody)
@@ -404,7 +403,6 @@ public class YamlScenarioWriterTest {
         LinkedHashMap<String, Step> steps = new LinkedHashMap<>();
         steps.put("stepName", step2);
         steps.put("formdataStep", step1);
-
 
         /** Create scenario with both steps */
         return new Scenario.Builder()

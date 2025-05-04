@@ -161,7 +161,6 @@ public class YamlScenarioReaderTest {
         Scenario scenario = reader.readScenario(tempFile.toString());
         String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter()
                                 .writeValueAsString(scenario);
-        System.out.println(jsonOutput);
 
         /** then */
         assertNotNull(scenario, "Scenario object must not be null");
