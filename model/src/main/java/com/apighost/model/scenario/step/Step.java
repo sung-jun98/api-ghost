@@ -14,7 +14,7 @@ import java.util.List;
 @JsonDeserialize(builder = Step.Builder.class)
 public class Step {
 
-    private String type;
+    private ProtocolType type;
     private Position position;
     private Request request;
     private List<Route> route;
@@ -33,12 +33,12 @@ public class Step {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private String type;
+        private ProtocolType type;
         private Position position;
         private Request request;
         private List<Route> route;
 
-        public Builder type(String type) {
+        public Builder type(ProtocolType type) {
             this.type = type;
             return this;
         }
@@ -66,7 +66,7 @@ public class Step {
     /**
      * Getter
      */
-    public String getType() {
+    public ProtocolType getType() {
         return type;
     }
 

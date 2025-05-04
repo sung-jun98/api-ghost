@@ -156,7 +156,7 @@ public class YamlScenarioWriterTest {
                                       .build();
 
         /** request */
-        Request request = new Request.Builder().method("string").url("string").header(header)
+        Request request = new Request.Builder().method(HTTPMethod.POST).url("string").header(header)
                               .body(requestBody).build();
 
         /** expected */
@@ -175,7 +175,7 @@ public class YamlScenarioWriterTest {
         /** step */
         Position position = new Position.Builder().x(105.0).y(200.0).build();
 
-        Step step = new Step.Builder().type("string").position(position).request(request)
+        Step step = new Step.Builder().type(ProtocolType.HTTP).position(position).request(request)
                         .route(List.of(route)).build();
 
         LinkedHashMap<String, Step> steps = new LinkedHashMap<>();
@@ -230,7 +230,7 @@ public class YamlScenarioWriterTest {
                                       .build();
 
         Request request = new Request.Builder()
-                              .method("string")
+                              .method(HTTPMethod.POST)
                               .url("string")
                               .header(header)
                               .body(requestBody)
@@ -256,7 +256,7 @@ public class YamlScenarioWriterTest {
                           .build();
 
         Step step = new Step.Builder()
-                        .type("string")
+                        .type(ProtocolType.HTTP)
                         .position(position)
                         .request(request)
                         .route(List.of(route))
@@ -300,7 +300,7 @@ public class YamlScenarioWriterTest {
                                        .build();
 
         Request request1 = new Request.Builder()
-                               .method("string")
+                               .method(HTTPMethod.POST)
                                .url("string")
                                .header(header1)
                                .body(requestBody1)
@@ -326,7 +326,7 @@ public class YamlScenarioWriterTest {
                            .build();
 
         Step step1 = new Step.Builder()
-                         .type("formdata")
+                         .type(ProtocolType.HTTP)
                          .position(position1)
                          .request(request1)
                          .route(List.of(route1))
@@ -367,7 +367,7 @@ public class YamlScenarioWriterTest {
                                        .build();
 
         Request request2 = new Request.Builder()
-                               .method("string")
+                               .method(HTTPMethod.POST)
                                .url("string")
                                .header(header2)
                                .body(requestBody2)
@@ -393,7 +393,7 @@ public class YamlScenarioWriterTest {
                            .build();
 
         Step step2 = new Step.Builder()
-                         .type("json")
+                         .type(ProtocolType.HTTP)
                          .position(position2)
                          .request(request2)
                          .route(List.of(route2))
