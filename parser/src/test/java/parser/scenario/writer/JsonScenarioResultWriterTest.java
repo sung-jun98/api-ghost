@@ -75,15 +75,15 @@ class JsonScenarioResultWriterTest {
                     .method(HTTPMethod.POST)
                     .requestBody(
                         new RequestBody.Builder()
-                                .json("{"
-                                    + "\"email\": \"test@test.com\""
-                                    + "\"password\": \"1234\""
-                                    + "}")
-                                .build()
+                            .json("{"
+                                + "\"email\": \"test@test.com\""
+                                + "\"password\": \"1234\""
+                                + "}")
+                            .build()
                     )
                     .requestHeader(Map.of("Authorization", "Bearer abc.def.ghi", "Content-Type",
                         "application/json"))
-                    .responseBody(Map.of("status", "success"))
+                    .responseBody("\"status\" : \"success\"")
                     .responseHeaders(Map.of("Content-Type", "application/json"))
                     .status(200)
                     .startTime("2025-04-23T14:15:01.000")
@@ -92,20 +92,20 @@ class JsonScenarioResultWriterTest {
                     .requestSuccess(true)
                     .route(
                         List.of(
-                        new Route.Builder()
-                            .expected(
-                                new Expected.Builder()
-                                    .status("200")
-                                    .value(Map.of("field", "value"))
-                                    .build()
-                            )
-                            .then(
-                                new Then.Builder()
-                                    .store(Map.of("postId", "123"))
-                                    .step("createPost")
-                                    .build()
-                            )
-                            .build()
+                            new Route.Builder()
+                                .expected(
+                                    new Expected.Builder()
+                                        .status("200")
+                                        .value(Map.of("field", "value"))
+                                        .build()
+                                )
+                                .then(
+                                    new Then.Builder()
+                                        .store(Map.of("postId", "123"))
+                                        .step("createPost")
+                                        .build()
+                                )
+                                .build()
                         )
                     )
                     .build()

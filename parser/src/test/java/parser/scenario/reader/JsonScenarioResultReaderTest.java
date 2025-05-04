@@ -39,59 +39,57 @@ class JsonScenarioResultReaderTest {
     @BeforeEach
     void setUp() throws IOException {
         String jsonContent = """
-            {
-              "name": "Signup Scenario",
-              "description": "Validate new user registration and login process",
-              "executedAt": "2025-04-23T14:15:00.000",
-              "totalDurationMs": 550,
-              "averageDurationMs": 275,
-              "filePath": "/local/result/user",
-              "baseUrl": "http://localhost:8080",
-              "isScenarioSuccess": true,
-              "results": [
-                {
-                  "stepName": "signup",
-                  "type": "HTTP",
-                  "url": "http://localhost:8080/api/signup",
-                  "method": "POST",
-                  "requestBody": {
-                    "json": "{ \\"email\\": \\"test@test.com\\", \\"password\\": \\"1234\\" }"
-                  },
-                  "requestHeader": {
-                    "Authorization": "Bearer abc.def.ghi",
-                    "Content-Type": "application/json"
-                  },
-                  "responseBody": {
-                    "status": "success"
-                  },
-                  "responseHeaders": {
-                    "Content-Type": "application/json"
-                  },
-                  "status": 200,
-                  "startTime": "2025-04-23T14:15:01.000",
-                  "endTime": "2025-04-23T14:15:01.300",
-                  "durationMs": 300,
-                  "requestSuccess": true,
-                  "route": [
-                    {
-                      "expected": {
-                        "status": "200",
-                        "value": {
-                          "field": "value"
-                        }
-                      },
-                      "then": {
-                        "store": {
-                          "postId": "123"
-                        },
-                        "step": "createPost"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-           \s""";
+             {
+               "name": "Signup Scenario",
+               "description": "Validate new user registration and login process",
+               "executedAt": "2025-04-23T14:15:00.000",
+               "totalDurationMs": 550,
+               "averageDurationMs": 275,
+               "filePath": "/local/result/user",
+               "baseUrl": "http://localhost:8080",
+               "isScenarioSuccess": true,
+               "results": [
+                 {
+                   "stepName": "signup",
+                   "type": "HTTP",
+                   "url": "http://localhost:8080/api/signup",
+                   "method": "POST",
+                   "requestBody": {
+                     "json": "{ \\"email\\": \\"test@test.com\\", \\"password\\": \\"1234\\" }"
+                   },
+                   "requestHeader": {
+                     "Authorization": "Bearer abc.def.ghi",
+                     "Content-Type": "application/json"
+                   },
+                   "responseBody": "{ \\"status\\": \\"success\\" }",
+                   "responseHeaders": {
+                     "Content-Type": "application/json"
+                   },
+                   "status": 200,
+                   "startTime": "2025-04-23T14:15:01.000",
+                   "endTime": "2025-04-23T14:15:01.300",
+                   "durationMs": 300,
+                   "requestSuccess": true,
+                   "route": [
+                     {
+                       "expected": {
+                         "status": "200",
+                         "value": {
+                           "field": "value"
+                         }
+                       },
+                       "then": {
+                         "store": {
+                           "postId": "123"
+                         },
+                         "step": "createPost"
+                       }
+                     }
+                   ]
+                 }
+               ]
+             }
+            \s""";
 
         tempJsonFile = File.createTempFile("scenario-result", ".json");
         try (FileWriter writer = new FileWriter(tempJsonFile)) {
