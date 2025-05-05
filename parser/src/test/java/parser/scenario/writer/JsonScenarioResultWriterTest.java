@@ -89,7 +89,7 @@ class JsonScenarioResultWriterTest {
                     .startTime("2025-04-23T14:15:01.000")
                     .endTime("2025-04-23T14:15:01.300")
                     .durationMs(300)
-                    .requestSuccess(true)
+                    .isRequestSuccess(true)
                     .route(
                         List.of(
                             new Route.Builder()

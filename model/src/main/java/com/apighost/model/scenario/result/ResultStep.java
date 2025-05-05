@@ -30,9 +30,10 @@ public class ResultStep {
     private final String responseBody;
     private final String startTime;
     private final String endTime;
-    private final int durationMs;
+    private final long durationMs;
     private final boolean isRequestSuccess;
     private final List<Route> route;
+    private final String nextStep;
 
     private ResultStep(Builder builder) {
         this.stepName = builder.stepName;
@@ -49,6 +50,7 @@ public class ResultStep {
         this.durationMs = builder.durationMs;
         this.isRequestSuccess = builder.isRequestSuccess;
         this.route = builder.route;
+        this.nextStep = builder.nextStep;
     }
 
     /**
@@ -68,9 +70,10 @@ public class ResultStep {
         private int status;
         private String startTime;
         private String endTime;
-        private int durationMs;
+        private long durationMs;
         private boolean isRequestSuccess;
         private List<Route> route;
+        private String nextStep;
 
         public Builder stepName(String stepName) {
             this.stepName = stepName;
@@ -127,12 +130,12 @@ public class ResultStep {
             return this;
         }
 
-        public Builder durationMs(int durationMs) {
+        public Builder durationMs(long durationMs) {
             this.durationMs = durationMs;
             return this;
         }
 
-        public Builder requestSuccess(boolean isRequestSuccess) {
+        public Builder isRequestSuccess(boolean isRequestSuccess) {
             this.isRequestSuccess = isRequestSuccess;
             return this;
         }
@@ -144,6 +147,11 @@ public class ResultStep {
 
         public ResultStep build() {
             return new ResultStep(this);
+        }
+
+        public Builder nextStep(String nextStep) {
+            this.nextStep = nextStep;
+            return this;
         }
     }
 
@@ -194,7 +202,7 @@ public class ResultStep {
         return endTime;
     }
 
-    public int getDurationMs() {
+    public long getDurationMs() {
         return durationMs;
     }
 
@@ -204,5 +212,9 @@ public class ResultStep {
 
     public List<Route> getRoute() {
         return route;
+    }
+
+    public String getNextStep() {
+        return nextStep;
     }
 }
