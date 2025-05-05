@@ -16,6 +16,7 @@ dependencies {
 
     implementation 'info.picocli:picocli:4.7.7'
     implementation 'org.eclipse.jetty:jetty-server:12.0.19'
+    implementation 'org.eclipse.jetty.ee10:jetty-ee10-webapp:12.0.19'
 
     implementation project(':core')
     implementation project(':model')
@@ -38,4 +39,8 @@ jar {
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
