@@ -1,6 +1,8 @@
 package com.apighost.cli.command;
 
+import com.apighost.cli.util.FileUtil;
 import java.io.File;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 
@@ -8,35 +10,17 @@ import picocli.CommandLine.Command;
  * A command that reads the scenario resulls files. The result is displayed in the user's console
  * window.
  * <p>
- * Example Usage : `apighost view-results`
+ * Example Usage : `apighost ls results`
  *
  * @author sun-jun98
  * @version BETA-0.0.1
  */
 @Command(
-    name = "view-results",
-    description = "View result JSON file list content",
+    name = "results",
+    description = "List result JSON files",
     mixinStandardHelpOptions = true
 )
 public class ViewResultListCommand implements Callable<Integer> {
-
-    /**
-     * Find the project root directory by looking for build.gradle A method for finding the root of
-     * the user environment
-     *
-     * @param currentDir starting directory
-     * @return File object pointing to project root, or null if not found
-     */
-    private File findProjectRoot(File currentDir) {
-        File file = currentDir;
-        while (file != null) {
-            if (new File(file, "build.gradle").exists()) {
-                return file;
-            }
-            file = file.getParentFile();
-        }
-        return null;
-    }
 
     /**
      * In the user's specific local directory, only json files are found and the list is shown in
@@ -51,12 +35,15 @@ public class ViewResultListCommand implements Callable<Integer> {
         String currentDir = System.getProperty("user.dir");
 
         /** Find project root directory */
-        File projectRoot = findProjectRoot(new File(currentDir));
-        if (projectRoot == null) {
+
+        FileUtil fileUtil = new FileUtil();
+        Optional<File> projectRootOpt = fileUtil.findProjectRoot(new File(currentDir));
+        if (projectRootOpt.isEmpty()) {
             System.out.println("Unable to find project root directory");
             return 1;
         }
 
+        File projectRoot = projectRootOpt.get();
         File targetDir = new File(projectRoot, "src/test/resources/parser");
 
         try {
@@ -64,8 +51,7 @@ public class ViewResultListCommand implements Callable<Integer> {
              * Check if directory exists and is actually a directory
              */
             if (!targetDir.exists() || !targetDir.isDirectory()) {
-                System.out.println(
-                    "Cannot find specified directory: " + targetDir.getAbsolutePath());
+                System.out.println("Error occurs. Please contact the administrator. ");
                 return 1;
             }
 

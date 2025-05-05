@@ -1,33 +1,39 @@
 package com.apighost.cli.command;
 
+import com.apighost.cli.util.FileUtil;
 import java.io.File;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 /**
  * A command that reads the current YAML scenario files. The result is displayed in the user's
- * console window.
- * User can read/write files by notepad(Window) or vi Editor(UNIX/MacBook)
+ * console window. User can read/write files by notepad(Window) or vi Editor(UNIX/MacBook)
  *
  * <p>
- * Example Usage : `apighost show-scenario fileName1`
+ * Example Usage : `apighost edit exam1.yaml`
  *
  * @author sun-jun98
  * @version BETA-0.0.1
  */
 @Command(
-    name = "show-scenario",
+    name = "edit",
     description = "Open a YAML scenario file in vi editor",
     mixinStandardHelpOptions = true
 )
 public class ViewScenarioCommand implements Callable<Integer> {
+
     @Parameters(
         index = "0",
         description = "The name of the YAML file to edit",
         arity = "1"
     )
     private String fileName;
+
+    @Option(names = {"-c", "--create"}, description = "Create a new file if none exists")
+    private boolean createIfNone;
 
     /**
      * Find the project root directory by looking for build.gradle
@@ -54,24 +60,29 @@ public class ViewScenarioCommand implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
+        FileUtil fileUtil = new FileUtil();
         /** Get current working directory */
         String currentDir = System.getProperty("user.dir");
 
-        /** Find project root directory */
-        File projectRoot = findProjectRoot(new File(currentDir));
-        if (projectRoot == null) {
+        Optional<File> projectRootOpt = fileUtil.findProjectRoot(new File(currentDir));
+        if (projectRootOpt.isEmpty()) {
             System.out.println("Unable to find project root directory");
             return 1;
         }
 
-        /** Create target directory path */
+        File projectRoot = projectRootOpt.get();
         File targetDir = new File(projectRoot, "src/test/resources/parser");
         File targetFile = new File(targetDir, fileName);
 
         /** Check if the file exists */
         if (!targetFile.exists() || !targetFile.isFile()) {
-            System.out.println("File not found: " + targetFile.getAbsolutePath());
-            return 1;
+
+            if (createIfNone) {
+                return fileUtil.createNewFile(targetDir, fileName);
+            } else {
+                System.out.println("Use --create option to create a new file");
+                return 0;
+            }
         }
 
         /** Check if the file is readable */
@@ -80,39 +91,8 @@ public class ViewScenarioCommand implements Callable<Integer> {
             return 1;
         }
 
-        try {
-            /** Determine the operating system to choose the right command */
-            String os = System.getProperty("os.name").toLowerCase();
-            ProcessBuilder processBuilder;
+        return fileUtil.openInEditor(targetFile);
 
-            if (os.contains("win")) {
-                /** In Windows System, the default text editor (Notepad) */
-                processBuilder = new ProcessBuilder("notepad.exe", targetFile.getAbsolutePath());
-            } else {
-                /** Use VI in Unix/Linux/Mac System */
-                processBuilder = new ProcessBuilder("vi", targetFile.getAbsolutePath());
-            }
-
-            /** Redirect error stream to output stream */
-            processBuilder.redirectErrorStream(true);
-
-            /** Start the process */
-            Process process = processBuilder.start();
-
-            /** Wait for the process to complete */
-            int exitCode = process.waitFor();
-
-            if (exitCode != 0) {
-                System.out.println("Editor exited with code: " + exitCode);
-                return exitCode;
-            }
-
-            return 0;
-        } catch (Exception e) {
-            System.err.println("Error opening file in editor: " + e.getMessage());
-            e.printStackTrace();
-            return 1;
-        }
     }
 
 }
