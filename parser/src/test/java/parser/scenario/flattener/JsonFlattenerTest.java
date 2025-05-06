@@ -1,6 +1,7 @@
 package parser.scenario.flattener;
 
 import com.apighost.parser.flattener.JsonFlattener;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class JsonFlattenerTest {
 
-    private final JsonFlattener flattener = new JsonFlattener();
+    private final JsonFlattener flattener = new JsonFlattener(new ObjectMapper());
 
     /**
      * Tests flattening of a simple one-level JSON object with string and integer values.

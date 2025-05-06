@@ -16,7 +16,11 @@ import java.util.*;
  */
 public class JsonFlattener implements Flattener {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
+
+    public JsonFlattener(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     /**
      * Flattens a JSON string into a map with dot/bracket notation keys.
