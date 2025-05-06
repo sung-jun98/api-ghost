@@ -9,11 +9,11 @@ import com.apighost.model.scenario.step.Then;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.request.RequestBody;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Validation for scenario test.
@@ -174,7 +174,7 @@ public class ScenarioValidator {
             throw new IllegalArgumentException("Scenario must contain at least one step.");
         }
 
-        Set<String> visitedStepKeys = new TreeSet<>();
+        Set<String> visitedStepKeys = new HashSet<>();
         detectRouteCycle(steps, visitedStepKeys, startStepKey);
     }
 
