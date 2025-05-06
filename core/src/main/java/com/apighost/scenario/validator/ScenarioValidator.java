@@ -168,6 +168,9 @@ public class ScenarioValidator {
         if (scenario == null) {
             throw new IllegalArgumentException("Scenario must not be null.");
         }
+        if (startStepKey == null) {
+            throw new IllegalArgumentException("Step start key must not be null.");
+        }
 
         LinkedHashMap<String, Step> steps = scenario.getSteps();
         if (steps == null || steps.isEmpty()) {
