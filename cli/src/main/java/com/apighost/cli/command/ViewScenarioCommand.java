@@ -1,8 +1,8 @@
 package com.apighost.cli.command;
 
+import com.apighost.cli.util.ConsoleOutput;
 import com.apighost.cli.util.FileUtil;
 import java.io.File;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -14,6 +14,7 @@ import picocli.CommandLine.Parameters;
  *
  * <p>
  * Example Usage : `apighost edit exam1.yaml`
+ * </p>
  *
  * @author sun-jun98
  * @version BETA-0.0.1
@@ -36,23 +37,6 @@ public class ViewScenarioCommand implements Callable<Integer> {
     private boolean createIfNone;
 
     /**
-     * Find the project root directory by looking for build.gradle
-     *
-     * @param currentDir starting directory
-     * @return File object pointing to project root, or null if not found
-     */
-    private File findProjectRoot(File currentDir) {
-        File file = currentDir;
-        while (file != null) {
-            if (new File(file, "build.gradle").exists()) {
-                return file;
-            }
-            file = file.getParentFile();
-        }
-        return null;
-    }
-
-    /**
      * Opens the specified YAML file in vi editor.
      *
      * @return Integer If 0 is success, 1 if it fails
@@ -61,38 +45,24 @@ public class ViewScenarioCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         FileUtil fileUtil = new FileUtil();
-        /** Get current working directory */
-        String currentDir = System.getProperty("user.dir");
 
-        Optional<File> projectRootOpt = fileUtil.findProjectRoot(new File(currentDir));
-        if (projectRootOpt.isEmpty()) {
-            System.out.println("Unable to find project root directory");
-            return 1;
-        }
-
-        File projectRoot = projectRootOpt.get();
-        File targetDir = new File(projectRoot, "src/test/resources/parser");
+        File targetDir = fileUtil.findDirectory(FileType.SCENARIO.toString());
         File targetFile = new File(targetDir, fileName);
 
-        /** Check if the file exists */
         if (!targetFile.exists() || !targetFile.isFile()) {
 
             if (createIfNone) {
-                return fileUtil.createNewFile(targetDir, fileName);
+                boolean isSuccess = targetFile.createNewFile();
+                if (!isSuccess) {
+                    ConsoleOutput.printError("file create fail");
+                    return 1;
+                }
             } else {
-                System.out.println("Use --create option to create a new file");
+                ConsoleOutput.print("Use --create option to create a new file");
                 return 0;
             }
         }
 
-        /** Check if the file is readable */
-        if (!targetFile.canRead()) {
-            System.out.println("Cannot read file: " + targetFile.getAbsolutePath());
-            return 1;
-        }
-
         return fileUtil.openInEditor(targetFile);
-
     }
-
 }
