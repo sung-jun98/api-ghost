@@ -2,6 +2,7 @@ package com.apighost.cli;
 
 
 import com.apighost.cli.command.ShowGuiCommand;
+import com.apighost.cli.command.ViewResultCommand;
 import com.apighost.cli.command.ViewScenarioCommand;
 import com.apighost.cli.command.ViewScenarioListCommand;
 import picocli.CommandLine;
@@ -23,7 +24,8 @@ import picocli.CommandLine.Command;
     subcommands = {
         ViewScenarioListCommand.class,
         ViewScenarioCommand.class,
-        ShowGuiCommand.class
+        ShowGuiCommand.class,
+        ViewResultCommand.class
     }
 )
 public class ApiGhostCli implements Runnable {
