@@ -91,7 +91,7 @@ public class ScenarioValidator {
             throw new IllegalArgumentException("Step '" + stepKey + "' must have a request.");
         }
 
-        if (ProtocolType.HTTP.equals(step.getType()) && request.getMethod() == null) {
+        if (ProtocolType.HTTP == step.getType() && request.getMethod() == null) {
             throw new IllegalArgumentException(
                 "Step '" + stepKey + "' must have an HTTP method.");
         }
