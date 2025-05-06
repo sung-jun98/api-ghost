@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,9 +26,14 @@ public class YamlScenarioReader implements ScenarioReader {
     ObjectMapper objectMapper;
 
     public YamlScenarioReader() {
-        objectMapper = new ObjectMapper(new YAMLFactory());
-        this.objectMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
-        this.objectMapper.disable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
+//        objectMapper = new ObjectMapper(new YAMLFactory());
+//        this.objectMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
+//        this.objectMapper.disable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
+
+        objectMapper = YAMLMapper.builder()
+                           .disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+                           .disable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
+                           .build();
     }
 
     /**

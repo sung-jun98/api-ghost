@@ -52,9 +52,9 @@ public class FileUtil {
      * @param file The file to be opened in the editor.
      * @return An integer representing the editor process's exit code (0 for success, non-zero for
      * error).
-     * @throws IOException If there is an issue starting the editor process or accessing the file.
+     * @throws InterruptedException If there is an issue starting the editor process or accessing the file.
      */
-    public int openInEditor(File file) throws IOException {
+    public int openInEditor(File file) throws InterruptedException, IOException {
 
         try {
             /** Determine the operating system to choose the right command */
@@ -77,7 +77,7 @@ public class FileUtil {
             }
 
             return 0;
-        } catch (Exception e) {
+        } catch (InterruptedException | IOException e) {
             System.err.println("Error opening file in editor: " + e.getMessage());
             e.printStackTrace();
             return 1;
