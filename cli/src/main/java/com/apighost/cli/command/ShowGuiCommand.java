@@ -1,6 +1,7 @@
 package com.apighost.cli.command;
 
 import com.apighost.cli.server.JettyServer;
+import com.apighost.cli.util.ConsoleOutput;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -28,13 +29,12 @@ public class ShowGuiCommand implements Callable<Integer> {
     private int port;
 
     /**
-     * Starts the API Ghost web canvas interface by initializing and running a local Jetty server
-     * on the specified port. The server serves the Canvas UI at the specified URL and blocks until
+     * Starts the API Ghost web canvas interface by initializing and running a local Jetty server on
+     * the specified port. The server serves the Canvas UI at the specified URL and blocks until
      * termination. It also attempts to open the default system browser to display the Canvas UI.
      *
-     * @return an Integer indicating the result of the operation:
-     *         0 if the server started and terminated successfully,
-     *         1 in case of an error during the startup process.
+     * @return an Integer indicating the result of the operation: 0 if the server started and
+     * terminated successfully, 1 in case of an error during the startup process.
      * @throws Exception if an exception occurs while starting, running, or terminating the server.
      */
     @Override
@@ -47,15 +47,16 @@ public class ShowGuiCommand implements Callable<Integer> {
             server.start();
             openBrowser("http://localhost:" + port);
 
-            System.out.println("API Ghost canvas is running at http://localhost:" + port);
-            System.out.println("Visit http://localhost:" + port + "/canvas to see the Canvas UI");
-            System.out.println("Press Ctrl+C to stop the server...");
+            ConsoleOutput.print("API Ghost canvas is running at http://localhost:" + port);
+            ConsoleOutput.printBold(
+                "Visit http://localhost:" + port + "/canvas to see the Canvas UI");
+            ConsoleOutput.print("Press Ctrl+C to stop the server...");
 
             /** wait until webserver is end */
             server.awaitTermination();
             return 0;
         } catch (Exception e) {
-            System.err.println("Error starting server: " + e.getMessage());
+            ConsoleOutput.printError("Error starting server: " + e.getMessage());
             e.printStackTrace();
             return 1;
         }
