@@ -1,4 +1,4 @@
-package com.apighost.scenario.validator;
+package com.apighost.validator;
 
 import com.apighost.model.scenario.Scenario;
 import com.apighost.model.scenario.step.ProtocolType;
@@ -144,8 +144,7 @@ public class ScenarioValidator {
 
             Then then = route.getThen();
             if (then == null || then.getStep() == null || then.getStep().isEmpty()) {
-                throw new IllegalArgumentException(
-                    "Then action in step '" + stepKey + "' must specify a next step.");
+                continue;
             }
             if (!steps.containsKey(then.getStep())) {
                 throw new IllegalArgumentException(
@@ -190,7 +189,7 @@ public class ScenarioValidator {
      * @param currentStepKey  the step key currently being visited
      * @throws IllegalArgumentException if a route cycle is detected
      */
-    public static void detectRouteCycle(LinkedHashMap<String, Step> steps,
+    private static void detectRouteCycle(LinkedHashMap<String, Step> steps,
         Set<String> visitedStepKeys, String currentStepKey) {
         if (visitedStepKeys.contains(currentStepKey)) {
             throw new IllegalArgumentException("Cycle detected involving step: " + currentStepKey);
@@ -207,8 +206,7 @@ public class ScenarioValidator {
         for (Route route : step.getRoute()) {
             Then then = route.getThen();
             if (then == null || then.getStep() == null || then.getStep().isEmpty()) {
-                throw new IllegalArgumentException(
-                    "Then action in step '" + currentStepKey + "' must specify a next step.");
+                return;
             }
 
             String nextStepKey = then.getStep();
