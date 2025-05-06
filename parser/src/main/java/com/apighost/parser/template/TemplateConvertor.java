@@ -6,11 +6,8 @@ import java.util.regex.Pattern;
 
 /**
  * Replaces placeholders in the format ${variable} with actual values from a map.
- *
- * Example:
- * template: "Hello, ${name}!"
- * variables: { "name" -> "Alice" }
- * result: "Hello, Alice!"
+ * <p>
+ * Example: template: "Hello, ${name}!" variables: { "name" -> "Alice" } result: "Hello, Alice!"
  *
  * @author haazz
  * @version 1.0
