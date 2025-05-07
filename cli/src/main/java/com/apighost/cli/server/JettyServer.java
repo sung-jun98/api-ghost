@@ -61,10 +61,10 @@ public class JettyServer {
             ConsoleOutput.printErrorBold("Resource base URL is null. report to ghost api admin ... ");
         }
 
-        /** Welcome File Settings -File to Show when Connecting Root URL */
+        /**File to Show when Connecting Root URL */
         webapp.setWelcomeFiles(new String[]{"index.html"});
 
-        // 필터 및 서블릿 등록 (Register filters and servlets)
+        /** Register filters and servlets */
         configureWebApp(webapp);
 
         server.setHandler(webapp);
@@ -72,11 +72,11 @@ public class JettyServer {
     }
 
     private void configureWebApp(WebAppContext webapp) {
-        // CORS 필터 등록 (Register CORS filter)
+        /** Register CORS filter */
         FilterHolder corsFilterHolder = new FilterHolder(new CorsFilter());
         webapp.addFilter(corsFilterHolder, "/apighost/*", EnumSet.of(DispatcherType.REQUEST));
 
-        // 프론트 컨트롤러 서블릿 등록 (Register front controller servlet)
+        /** Register front controller servlet */
         ServletHolder frontControllerHolder = new ServletHolder(new ApiFrontControllerServlet());
         frontControllerHolder.setAsyncSupported(true);  // SSE 지원을 위한 비동기 지원 활성화
         webapp.addServlet(frontControllerHolder, "/apighost/*");
