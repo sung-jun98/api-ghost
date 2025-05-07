@@ -33,7 +33,7 @@ public class ViewScenarioListCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         try {
-            File targetDir = FileUtil.findDirectory(FileType.SCENARIO.toString());
+            File targetDir = FileUtil.findDirectory(FileType.SCENARIO);
 
             /** List files with .yaml or .yml extensions only */
             File[] files = targetDir.listFiles((dir, name) ->

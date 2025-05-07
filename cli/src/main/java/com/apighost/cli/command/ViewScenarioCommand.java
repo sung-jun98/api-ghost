@@ -46,7 +46,7 @@ public class ViewScenarioCommand implements Callable<Integer> {
     public Integer call() throws Exception {
         FileUtil fileUtil = new FileUtil();
 
-        File targetDir = fileUtil.findDirectory(FileType.SCENARIO.toString());
+        File targetDir = fileUtil.findDirectory(FileType.SCENARIO);
         File targetFile = new File(targetDir, fileName);
 
         if (!targetFile.exists() || !targetFile.isFile()) {

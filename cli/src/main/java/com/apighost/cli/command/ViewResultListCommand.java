@@ -33,7 +33,7 @@ public class ViewResultListCommand implements Callable<Integer> {
     @Override
     public Integer call() throws RuntimeException {
         try {
-            File targetDir = FileUtil.findDirectory(FileType.RESULTS.toString());
+            File targetDir = FileUtil.findDirectory(FileType.RESULTS);
 
             /** List files with .json extensions only */
             File[] files = targetDir.listFiles((dir, name) ->
