@@ -45,7 +45,7 @@ public class ViewResultCommand implements Callable<Integer> {
         ConsoleOutput.print(result.getName());
         ConsoleOutput.print(result.getDescription());
         ConsoleOutput.print(result.getExecutedAt());
-        if (result.isScenarioSuccess()) {
+        if (result.getIsScenarioSuccess()) {
             ConsoleOutput.printBold("TEST PASS");
         }
         ConsoleOutput.print("Total Duration Time : " + String.valueOf(result.getTotalDurationMs()) + "ms");
