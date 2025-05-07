@@ -3,4 +3,5 @@ include 'core'
 include 'parser'
 include 'model'
 include 'cli'
+include 'web'
 
