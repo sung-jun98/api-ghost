@@ -2,6 +2,7 @@ package com.apighost.web.sevlet;
 
 import com.apighost.web.controller.ApiController;
 import com.apighost.web.controller.ResultListController;
+import com.apighost.web.controller.ScenarioInfoController;
 import com.apighost.web.controller.ScenarioListController;
 import com.apighost.web.util.JsonUtils;
 import jakarta.servlet.*;
@@ -29,7 +30,7 @@ public class ApiFrontControllerServlet extends HttpServlet {
         /** Controller registration */
         controllerMap.put("scenario-list", new ScenarioListController());
         controllerMap.put("result-list", new ResultListController());
-//        controllerMap.put("scenario-info", new ScenarioInfoController());
+        controllerMap.put("scenario-info", new ScenarioInfoController());
 //        controllerMap.put("result-info", new ResultInfoController());
 //        controllerMap.put("endpoint-json", new EndpointJsonController());
 //        controllerMap.put("scenario-test", new ScenarioTestController());
