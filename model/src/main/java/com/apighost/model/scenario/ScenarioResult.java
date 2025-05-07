@@ -133,7 +133,7 @@ public class ScenarioResult {
         return baseUrl;
     }
 
-    public boolean isScenarioSuccess() {
+    public boolean getIsScenarioSuccess() {
         return isScenarioSuccess;
     }
 
