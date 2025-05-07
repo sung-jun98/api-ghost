@@ -17,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit test for {@link ScenarioTestExecutor}.
  * <p>
- * This test class verifies the successful execution of a multi-step scenario consisting of HTTP GET requests.
- * It uses a public HTTP endpoint (https://httpbin.org/status/200) to simulate real HTTP responses.
+ * This test class verifies the successful execution of a multi-step scenario consisting of HTTP GET
+ * requests. It uses a public HTTP endpoint (https://httpbin.org/status/200) to simulate real HTTP
+ * responses.
  * </p>
  *
  * <p>Test ensures:</p>

@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * Interface for executing a single step within a scenario.
  * <p>
- * Implementations of this interface are responsible for performing protocol-specific
- * operations (e.g., HTTP, WebSocket) based on the provided {@link Step} definition.
+ * Implementations of this interface are responsible for performing protocol-specific operations
+ * (e.g., HTTP, WebSocket) based on the provided {@link Step} definition.
  * </p>
  *
  * @author haazz

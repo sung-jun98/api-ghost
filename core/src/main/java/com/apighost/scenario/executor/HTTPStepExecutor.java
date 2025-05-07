@@ -44,15 +44,18 @@ public class HTTPStepExecutor implements StepExecutor {
     private Flattener flattener;
 
     /**
-     * Executes a given HTTP step and evaluates its result based on response status and expected values.
+     * Executes a given HTTP step and evaluates its result based on response status and expected
+     * values.
      *
      * @param stepKey   the unique identifier of the step in the scenario
      * @param step      the {@link Step} object defining the execution logic
-     * @param store     a shared key-value store for data persistence across steps (e.g., extracted variables)
+     * @param store     a shared key-value store for data persistence across steps (e.g., extracted
+     *                  variables)
      * @param timeoutMs maximum allowed execution time in milliseconds for this step
      * @return {@link ResultStep} containing the outcome of the step execution
      * @throws IOException          if an I/O error occurs during step execution
-     * @throws InterruptedException if the execution is interrupted (e.g., due to timeout or thread interruption)
+     * @throws InterruptedException if the execution is interrupted (e.g., due to timeout or thread
+     *                              interruption)
      */
     @Override
     public ResultStep execute(String stepKey, Step step, Map<String, Object> store, long timeoutMs)

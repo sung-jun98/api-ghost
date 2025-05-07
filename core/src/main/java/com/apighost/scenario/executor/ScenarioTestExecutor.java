@@ -17,9 +17,10 @@ import java.util.Map;
 /**
  * Executor responsible for running a full {@link Scenario} consisting of multiple steps.
  * <p>
- * Currently supports only HTTP-based steps via {@link HTTPStepExecutor}. WebSocket support is planned.
+ * Currently supports only HTTP-based steps via {@link HTTPStepExecutor}. WebSocket support is
+ * planned.
  * </p>
- *
+ * <p>
  * Example:
  * <pre>{@code
  * ScenarioTestExecutor executor = new ScenarioTestExecutor();
@@ -42,10 +43,12 @@ public class ScenarioTestExecutor {
      */
     public ScenarioResult execute(Scenario scenario, ScenarioResultCallback callback) {
         ScenarioValidator.validateScenarioForExecution(scenario);
-        ScenarioValidator.validateNoRouteCycle(scenario, scenario.getSteps().keySet().iterator().next());
+        ScenarioValidator.validateNoRouteCycle(scenario,
+            scenario.getSteps().keySet().iterator().next());
 
         List<ResultStep> resultStepList = new ArrayList<>();
-        Map<String, Object> store = scenario.getStore() != null ? scenario.getStore() : new HashMap<>();
+        Map<String, Object> store =
+            scenario.getStore() != null ? scenario.getStore() : new HashMap<>();
         LinkedHashMap<String, Step> steps = scenario.getSteps();
         boolean isAllScenarioSuccess = true;
         long totalDurationMs = 0;
@@ -59,8 +62,11 @@ public class ScenarioTestExecutor {
 
             try {
                 resultStep = switch (currentStep.getType()) {
-                    case ProtocolType.HTTP -> httpStepExecutor.execute(currentStepKey, currentStep, store, remainTimeoutMs);
-                    case ProtocolType.WEBSOCKET -> throw new UnsupportedOperationException("WS not implemented yet");
+                    case ProtocolType.HTTP ->
+                        httpStepExecutor.execute(currentStepKey, currentStep, store,
+                            remainTimeoutMs);
+                    case ProtocolType.WEBSOCKET ->
+                        throw new UnsupportedOperationException("WS not implemented yet");
                 };
             } catch (Exception e) {
                 resultStep = new ResultStep.Builder()
@@ -88,7 +94,8 @@ public class ScenarioTestExecutor {
             .description(scenario.getDescription())
             .executedAt(Instant.now().toString())
             .totalDurationMs(totalDurationMs)
-            .averageDurationMs(resultStepList.isEmpty() ? 0 : totalDurationMs / resultStepList.size())
+            .averageDurationMs(
+                resultStepList.isEmpty() ? 0 : totalDurationMs / resultStepList.size())
             .isScenarioSuccess(isAllScenarioSuccess)
             .results(resultStepList)
             .build();
