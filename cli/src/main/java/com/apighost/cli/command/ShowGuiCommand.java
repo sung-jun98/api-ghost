@@ -29,9 +29,8 @@ public class ShowGuiCommand implements Callable<Integer> {
     private int port;
 
     /**
-     * Starts the API Ghost web canvas interface by initializing and running a local Jetty server on
-     * the specified port. The server serves the Canvas UI at the specified URL and blocks until
-     * termination. It also attempts to open the default system browser to display the Canvas UI.
+     * A command to run the Canvas UI in GUI mode.
+     * Run the web server in the specified port and automatically open the browser.
      *
      * @return an Integer indicating the result of the operation: 0 if the server started and
      * terminated successfully, 1 in case of an error during the startup process.
@@ -39,7 +38,7 @@ public class ShowGuiCommand implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
-        System.out.println("Starting API Ghost canvas on port " + port + "...");
+        ConsoleOutput.print("Starting API Ghost canvas on port " + port + "...");
 
         /** run the web server */
         JettyServer server = new JettyServer(port);
