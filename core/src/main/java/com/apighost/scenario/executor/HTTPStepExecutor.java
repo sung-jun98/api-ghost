@@ -158,19 +158,24 @@ public class HTTPStepExecutor implements StepExecutor {
 
         String[] statusRange = expectedStatus.split("-");
 
-        if (statusRange.length == 2) {
-            if (Integer.parseInt(statusRange[0]) <= statusCode
-                && Integer.parseInt(statusRange[1]) >= statusCode) {
-                return true;
+        try {
+            if (statusRange.length == 2) {
+                if (Integer.parseInt(statusRange[0]) <= statusCode
+                    && Integer.parseInt(statusRange[1]) >= statusCode) {
+                    return true;
+                }
+            } else if (statusRange.length == 1) {
+                if (Integer.parseInt(statusRange[0]) == statusCode) {
+                    return true;
+                }
+            } else {
+                throw new IllegalArgumentException(
+                    "Invalid HTTP status pattern: " + expectedStatus);
             }
-        } else if (statusRange.length == 1) {
-            if (Integer.parseInt(statusRange[0]) == statusCode) {
-                return true;
-            }
-        } else {
-            throw new IllegalArgumentException(
-                "Invalid HTTP status pattern: " + expectedStatus);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid HTTP status pattern: " + expectedStatus, e);
         }
+
         return false;
     }
 
