@@ -13,8 +13,26 @@ import java.util.Map;
 import com.apighost.web.util.FileType;
 import com.apighost.web.util.FileUtil;
 
+/**
+ * Scenario File List inquiry API
+ *
+ * @author sun-jun98
+ * @version BETA-0.0.1
+ */
 public class ScenarioListController implements ApiController {
 
+
+    /**
+     * Handles HTTP GET requests to retrieve a list of scenario file names
+     * from a specific directory, filters files with ".yaml" or ".yml"
+     * extensions, and sends the list back as a JSON response.
+     *
+     * @param request
+     * @param response
+     * @throws ServletException if there is a servlet-specific error
+     * @throws IOException if an input or output error occurs while processing
+     *                     the request
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {

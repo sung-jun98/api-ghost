@@ -5,6 +5,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Represents a base interface for API controllers, providing default implementations
+ * for common HTTP methods.
+ *
+ * It provides default implementations for the standard HTTP methods (GET, POST, PUT, DELETE),
+ *
+ * @author sun-jun98
+ * @version BETA-0.0.1
+ */
 public interface ApiController {
 
     default void doGet(HttpServletRequest request, HttpServletResponse response)
