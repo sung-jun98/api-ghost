@@ -1,10 +1,10 @@
 package com.apighost.cli.util;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 /**
@@ -15,52 +15,32 @@ import java.util.Optional;
  */
 public class FileUtil {
 
-    /**
-     * Find the project root directory by looking for build.gradle A method for finding the root of
-     * the user environment
-     *
-     * @param currentDir starting directory
-     * @return Optional When the optional directory exists, the directory is returned to the path,
-     * and if it is not, it returns the empty optional object
-     */
-    public static Optional<File> findProjectRoot(File currentDir) {
-        File file = currentDir;
-        while (file != null) {
-            if (new File(file, "build.gradle").exists()) {
-                return Optional.of(file);
-            }
-            file = file.getParentFile();
-        }
-        return Optional.empty();
-    }
 
     /**
-     * Prompts the user to create a new file and opens it in an editor.
+     * Finds or creates a directory under the user's home directory for a specified file type. If
+     * the directory does not exist, it is created.
      *
-     * @param targetDir Target directory
-     * @return Exit code (0 for success, non-zero for error)
+     * @param fileType The type of file or the name of the subdirectory to locate or create.
+     * @return A File object representing the found or newly created directory.
+     * @throws RuntimeException If an error occurs while creating the directory.
      */
-    public int createNewFile(File targetDir, String fileName) throws IOException {
+    public static File findDirectory(String fileType) {
 
-        try {
-            File newFile = new File(targetDir, fileName);
-            /** Create new without files */
-            if (!newFile.exists()) {
-                newFile.createNewFile();
-            }
-            int exitCode = this.openInEditor(newFile);
+        // Create a path based on the user's home directory
+        String userHome = System.getProperty("user.home");
+        Path startPoint = Paths.get(userHome, ".apighost");
+        Path typeDir = startPoint.resolve(fileType);
 
-            if (exitCode == 0) {
-                System.out.println("File created and edited successfully.");
-                return 0;
-            } else {
-                System.out.println("Editor exited with an error.");
-                return 1;
+        /** If there is no directory, it is new. */
+        if (!Files.exists(typeDir)) {
+            try {
+                Files.createDirectories(typeDir);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create directory: " + typeDir, e);
             }
-        } catch (Exception e) {
-            System.err.println("Error creating or opening file: " + e.getMessage());
-            return 1;
         }
+
+        return typeDir.toFile();
     }
 
 
@@ -72,9 +52,9 @@ public class FileUtil {
      * @param file The file to be opened in the editor.
      * @return An integer representing the editor process's exit code (0 for success, non-zero for
      * error).
-     * @throws IOException If there is an issue starting the editor process or accessing the file.
+     * @throws InterruptedException If there is an issue starting the editor process or accessing the file.
      */
-    public int openInEditor(File file) throws IOException {
+    public int openInEditor(File file) throws InterruptedException, IOException {
 
         try {
             /** Determine the operating system to choose the right command */
@@ -97,7 +77,7 @@ public class FileUtil {
             }
 
             return 0;
-        } catch (Exception e) {
+        } catch (InterruptedException | IOException e) {
             System.err.println("Error opening file in editor: " + e.getMessage());
             e.printStackTrace();
             return 1;
