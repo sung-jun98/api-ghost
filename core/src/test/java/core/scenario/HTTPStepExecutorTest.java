@@ -50,7 +50,7 @@ class HTTPStepExecutorTest {
 
         assertEquals("step1", result.getStepName());
         assertEquals(200, result.getStatus());
-        assertTrue(result.isRequestSuccess());
+        assertTrue(result.getIsRequestSuccess());
         assertNull(result.getNextStep());
     }
 }
