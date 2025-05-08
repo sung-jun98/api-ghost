@@ -80,7 +80,7 @@ public class ScenarioTestExecutor {
                     .build();
             }
 
-            if (!resultStep.isRequestSuccess()) {
+            if (!resultStep.getIsRequestSuccess()) {
                 isAllScenarioSuccess = false;
             }
 
