@@ -3,7 +3,6 @@ package com.apighost.scenario.executor;
 import com.apighost.model.scenario.Scenario;
 import com.apighost.model.scenario.ScenarioResult;
 import com.apighost.model.scenario.result.ResultStep;
-import com.apighost.model.scenario.step.ProtocolType;
 import com.apighost.model.scenario.step.Step;
 import com.apighost.scenario.callback.ScenarioResultCallback;
 import com.apighost.validator.ScenarioValidator;
@@ -62,10 +61,10 @@ public class ScenarioTestExecutor {
 
             try {
                 resultStep = switch (currentStep.getType()) {
-                    case ProtocolType.HTTP ->
+                    case HTTP ->
                         httpStepExecutor.execute(currentStepKey, currentStep, store,
                             remainTimeoutMs);
-                    case ProtocolType.WEBSOCKET ->
+                    case WEBSOCKET ->
                         throw new UnsupportedOperationException("WS not implemented yet");
                 };
             } catch (Exception e) {
@@ -80,14 +79,14 @@ public class ScenarioTestExecutor {
                     .build();
             }
 
-            if (!resultStep.isRequestSuccess()) {
+            if (!resultStep.getIsRequestSuccess()) {
                 isAllScenarioSuccess = false;
             }
 
             resultStepList.add(resultStep);
             totalDurationMs += resultStep.getDurationMs();
-            currentStepKey = resultStep.getNextStep();
             callback.onStepCompleted(currentStepKey, currentStep, resultStep);
+            currentStepKey = resultStep.getNextStep();
         }
         ScenarioResult scenarioResult = new ScenarioResult.Builder()
             .name(scenario.getName())

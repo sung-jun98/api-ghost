@@ -91,8 +91,8 @@ class ScenarioTestExecutorTest {
         assertNotNull(result);
         assertEquals(2, result.getResults().size());
         for (ResultStep stepResult : result.getResults()) {
-            assertTrue(stepResult.isRequestSuccess());
+            assertTrue(stepResult.getIsRequestSuccess());
         }
-        assertTrue(result.isScenarioSuccess());
+        assertTrue(result.getIsScenarioSuccess());
     }
 }
