@@ -22,6 +22,7 @@ dependencies {
     implementation project(':core')
     implementation project(':model')
     implementation project(':parser')
+    implementation project(':web')
 }
 
 shadowJar {

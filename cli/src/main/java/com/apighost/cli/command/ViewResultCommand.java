@@ -35,7 +35,7 @@ public class ViewResultCommand implements Callable<Integer> {
             return 1;
         }
 
-        File targetDir = FileUtil.findDirectory(FileType.RESULTS.toString());
+        File targetDir = FileUtil.findDirectory(FileType.RESULT);
         File targetFile = new File(targetDir, fileName);
 
         JsonScenarioResultReader reader = new JsonScenarioResultReader();

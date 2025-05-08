@@ -1,5 +1,6 @@
 package com.apighost.cli.util;
 
+import com.apighost.cli.command.FileType;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,12 +25,12 @@ public class FileUtil {
      * @return A File object representing the found or newly created directory.
      * @throws RuntimeException If an error occurs while creating the directory.
      */
-    public static File findDirectory(String fileType) {
+    public static File findDirectory(FileType fileType) {
 
         // Create a path based on the user's home directory
         String userHome = System.getProperty("user.home");
         Path startPoint = Paths.get(userHome, ".apighost");
-        Path typeDir = startPoint.resolve(fileType);
+        Path typeDir = startPoint.resolve(fileType.name());
 
         /** If there is no directory, it is new. */
         if (!Files.exists(typeDir)) {

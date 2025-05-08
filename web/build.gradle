@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group = 'com'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    implementation project(":model")
+    implementation project(":parser")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

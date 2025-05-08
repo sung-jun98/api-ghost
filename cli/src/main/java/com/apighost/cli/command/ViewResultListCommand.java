@@ -17,7 +17,7 @@ import picocli.CommandLine.Command;
  * @version BETA-0.0.1
  */
 @Command(
-    name = "results",
+    name = "result",
     description = "List result JSON files",
     mixinStandardHelpOptions = true
 )
@@ -33,7 +33,7 @@ public class ViewResultListCommand implements Callable<Integer> {
     @Override
     public Integer call() throws RuntimeException {
         try {
-            File targetDir = FileUtil.findDirectory(FileType.RESULTS.toString());
+            File targetDir = FileUtil.findDirectory(FileType.RESULT);
 
             /** List files with .json extensions only */
             File[] files = targetDir.listFiles((dir, name) ->

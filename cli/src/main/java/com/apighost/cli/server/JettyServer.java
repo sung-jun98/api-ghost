@@ -1,7 +1,13 @@
 package com.apighost.cli.server;
 
 import com.apighost.cli.util.ConsoleOutput;
+import com.apighost.web.filter.CorsFilter;
+import com.apighost.web.sevlet.ApiFrontControllerServlet;
+import jakarta.servlet.DispatcherType;
 import java.net.URL;
+import java.util.EnumSet;
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
 import org.eclipse.jetty.util.resource.Resource;
@@ -55,12 +61,27 @@ public class JettyServer {
             ConsoleOutput.printErrorBold("Resource base URL is null. report to ghost api admin ... ");
         }
 
-        /** Welcome File Settings -File to Show when Connecting Root URL */
+        /**File to Show when Connecting Root URL */
         webapp.setWelcomeFiles(new String[]{"index.html"});
+
+        /** Register filters and servlets */
+        configureWebApp(webapp);
 
         server.setHandler(webapp);
         server.start();
     }
+
+    private void configureWebApp(WebAppContext webapp) {
+        /** Register CORS filter */
+        FilterHolder corsFilterHolder = new FilterHolder(new CorsFilter());
+        webapp.addFilter(corsFilterHolder, "/apighost/*", EnumSet.of(DispatcherType.REQUEST));
+
+        /** Register front controller servlet */
+        ServletHolder frontControllerHolder = new ServletHolder(new ApiFrontControllerServlet());
+        frontControllerHolder.setAsyncSupported(true);
+        webapp.addServlet(frontControllerHolder, "/apighost/*");
+    }
+
 
     public void stop() throws Exception {
         if (server != null) {
@@ -77,4 +98,5 @@ public class JettyServer {
     public boolean isRunning() {
         return server != null && server.isRunning();
     }
+
 }
