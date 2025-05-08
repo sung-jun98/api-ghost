@@ -55,4 +55,44 @@ public class ConsoleOutput {
     public static void printErrorBold(String message) {
         System.err.println(ANSI.string("@|bold,red " + message + "|@"));
     }
+
+
+    /**
+     * Print ASCII logo.
+     */
+    public static void printLogo() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(
+                "                -=++++++=.                                                      \n")
+            .append(
+                "             -++-.     .:=*=.           -=-    :====-:  :=-                     \n")
+            .append(
+                "           :++.            -*=         :***-   :*=::-*+.:*=                     \n")
+            .append(
+                "          :*:                ++.       ++.++.  :*-   =*-:*=                     \n")
+            .append(
+                "         :*-   .++.    -*=   .*=      -*- :*=  :*+==+*= :*=                     \n")
+            .append(
+                "         =+.   =**+   :***.   -*.    :*******: :*=..    :*=                     \n")
+            .append(
+                "         =+.   -**-   .+*+.   -*.    =*.   .++.:*-      :*=                     \n")
+            .append(
+                "         =+.                  -*.   .:.     .:..:.      .:.                     \n")
+            .append(
+                "         =+.     ++.  :*-     :*.       ..                                      \n")
+            .append(
+                "         ++       .-==:       :*.   .+*+=+**:.++                      -*:       \n")
+            .append(
+                "        .*-                   :*.  .+*.    ...++=+++:  -++++:  =++++.=+*++.     \n")
+            .append(
+                "        ++                    :*:  .*=  .=++=.+*. .++ ++.  -*-:*=  .  -*:       \n")
+            .append(
+                "       =+.                    :*:  .++   ::*+.++   ++.++   .*+ :=+**- -*:       \n")
+            .append(
+                "      -*.   .:-=:.     :-:.   =*.   .+*=:-+*=.++   ++ =*=::+*::+-.:*+ -*=:.     \n")
+            .append(
+                "       +*++*+-::-+*++*+=:-=***+.      .---:.  --   --  .:--:   .---:   :-:.     \n");
+
+        System.err.print(stringBuilder.toString());
+    }
 }
