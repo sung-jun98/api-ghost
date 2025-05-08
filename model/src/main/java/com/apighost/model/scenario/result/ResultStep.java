@@ -206,7 +206,7 @@ public class ResultStep {
         return durationMs;
     }
 
-    public boolean isRequestSuccess() {
+    public boolean getIsRequestSuccess() {
         return isRequestSuccess;
     }
 
