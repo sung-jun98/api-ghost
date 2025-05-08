@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class ScenarioTestController implements ApiController {
 
-    /** 아직 작업 들어가기 전 */
+    /** Before go into work*/
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
