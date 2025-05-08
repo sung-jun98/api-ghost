@@ -49,7 +49,7 @@ public class ResultInfoController implements ApiController {
         String testResultName = request.getParameter("testResultName");
 
         try {
-            File targetDir = FileUtil.findDirectory(FileType.RESULTS);
+            File targetDir = FileUtil.findDirectory(FileType.RESULT);
 
             File[] files = targetDir.listFiles((dir, name) ->
                                                    name.toLowerCase().endsWith(".json"));

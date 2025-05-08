@@ -44,7 +44,7 @@ public class ResultListController implements ApiController {
         try {
             List<Map<String, Object>> resultList = new ArrayList<>();
 
-            File targetDir = FileUtil.findDirectory(FileType.RESULTS);
+            File targetDir = FileUtil.findDirectory(FileType.RESULT);
 
             /** List files with .json extensions only */
             File[] files = targetDir.listFiles((dir, name) ->
@@ -57,7 +57,7 @@ public class ResultListController implements ApiController {
 
                 /** In serialized content, save filename, testummary, and timestamp in variables */
                 resultMap.put("fileName", scenarioResult.getName());
-                resultMap.put("testSummary",scenarioResult.isScenarioSuccess());
+                resultMap.put("testSummary",scenarioResult.getIsScenarioSuccess());
                 resultMap.put("timeStamp", scenarioResult.getExecutedAt());
 
                 resultList.add(resultMap);
