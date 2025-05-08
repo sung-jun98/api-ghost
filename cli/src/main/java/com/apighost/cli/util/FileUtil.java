@@ -30,7 +30,7 @@ public class FileUtil {
         // Create a path based on the user's home directory
         String userHome = System.getProperty("user.home");
         Path startPoint = Paths.get(userHome, ".apighost");
-        Path typeDir = startPoint.resolve(fileType.toString());
+        Path typeDir = startPoint.resolve(fileType.name());
 
         /** If there is no directory, it is new. */
         if (!Files.exists(typeDir)) {
