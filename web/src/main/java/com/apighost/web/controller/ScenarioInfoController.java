@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +48,7 @@ public class ScenarioInfoController implements ApiController {
         String scenarioName = request.getParameter("scenarioName");
 
         try {
-            List<String> scenarioNames = new LinkedList<>();
+            List<String> scenarioNames = new ArrayList<>();
 
             File targetDir = FileUtil.findDirectory(FileType.SCENARIO);
 

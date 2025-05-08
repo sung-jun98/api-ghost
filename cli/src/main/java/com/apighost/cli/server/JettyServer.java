@@ -78,7 +78,7 @@ public class JettyServer {
 
         /** Register front controller servlet */
         ServletHolder frontControllerHolder = new ServletHolder(new ApiFrontControllerServlet());
-        frontControllerHolder.setAsyncSupported(true);  // SSE 지원을 위한 비동기 지원 활성화
+        frontControllerHolder.setAsyncSupported(true);
         webapp.addServlet(frontControllerHolder, "/apighost/*");
     }
 
