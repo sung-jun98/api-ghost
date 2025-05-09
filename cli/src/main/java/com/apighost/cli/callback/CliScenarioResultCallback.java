@@ -62,7 +62,7 @@ public class CliScenarioResultCallback implements ScenarioResultCallback {
         stringBuilder.append("Average per step: ").append(result.getAverageDurationMs())
             .append(" ms\n");
         stringBuilder.append("Scenario success: ")
-            .append(result.getIsScenarioSuccess() ? "PASS" : "FAIL").append("\n");
+            .append(result.getIsScenarioSuccess() ? "SUCCESS" : "FAIL").append("\n");
 
         ConsoleOutput.print(stringBuilder.toString());
     }
