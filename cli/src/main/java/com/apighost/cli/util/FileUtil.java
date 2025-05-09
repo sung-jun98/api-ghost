@@ -16,7 +16,6 @@ import java.nio.file.Paths;
  */
 public class FileUtil {
 
-
     /**
      * Finds or creates a directory under the user's home directory for a specified file type. If
      * the directory does not exist, it is created.
@@ -53,7 +52,8 @@ public class FileUtil {
      * @param file The file to be opened in the editor.
      * @return An integer representing the editor process's exit code (0 for success, non-zero for
      * error).
-     * @throws InterruptedException If there is an issue starting the editor process or accessing the file.
+     * @throws InterruptedException If there is an issue starting the editor process or accessing
+     *                              the file.
      */
     public int openInEditor(File file) throws InterruptedException, IOException {
 
@@ -83,5 +83,25 @@ public class FileUtil {
             e.printStackTrace();
             return 1;
         }
+    }
+
+    /**
+     * Removes illegal characters from a file name to ensure compatibility across all major
+     * operating systems.
+     * <p>
+     * The method removes the following characters which are not allowed in file names on most
+     * systems:
+     * <ul>
+     *     <li>Windows: <code>\ / : * ? " &lt; &gt; |</code></li>
+     *     <li>Control characters (Unicode category Cntrl)</li>
+     * </ul>
+     * This helps prevent issues when saving files with user-defined names.
+     * </p>
+     *
+     * @param fileName the original file name that may contain illegal characters
+     * @return a sanitized file name with all illegal characters removed
+     */
+    public static String replaceIllegalFileName(String fileName) {
+        return fileName.replaceAll("[\\\\/:*?\"<>|\\p{Cntrl}]", "");
     }
 }
