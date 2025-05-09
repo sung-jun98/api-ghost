@@ -1,4 +1,4 @@
-package com.apighost.model.core;
+package com.apighost.model.collector;
 
 import com.apighost.model.scenario.step.HTTPMethod;
 import com.apighost.model.scenario.step.ProtocolType;

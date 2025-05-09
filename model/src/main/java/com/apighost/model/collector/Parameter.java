@@ -1,4 +1,4 @@
-package com.apighost.model.core;
+package com.apighost.model.collector;
 
 /**
  * Represents a parameter with a type and a name.

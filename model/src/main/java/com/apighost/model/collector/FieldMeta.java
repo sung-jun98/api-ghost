@@ -1,4 +1,4 @@
-package com.apighost.model.core;
+package com.apighost.model.collector;
 
 import java.util.ArrayList;
 import java.util.List;
