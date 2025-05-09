@@ -1,9 +1,10 @@
-package com.apighost.web.sevlet;
+package com.apighost.web.servlet;
 
 import com.apighost.web.controller.ApiController;
 import com.apighost.web.controller.EndpointJsonController;
 import com.apighost.web.controller.ResultInfoController;
 import com.apighost.web.controller.ResultListController;
+import com.apighost.web.controller.ScenarioExportController;
 import com.apighost.web.controller.ScenarioInfoController;
 import com.apighost.web.controller.ScenarioListController;
 import com.apighost.web.controller.ScenarioTestController;
@@ -37,6 +38,7 @@ public class ApiFrontControllerServlet extends HttpServlet {
         controllerMap.put("result-info", new ResultInfoController());
         controllerMap.put("endpoint-json", new EndpointJsonController());
         controllerMap.put("scenario-test", new ScenarioTestController());
+        controllerMap.put("scenario-export", new ScenarioExportController());
     }
 
 

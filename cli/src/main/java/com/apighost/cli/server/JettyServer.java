@@ -2,7 +2,7 @@ package com.apighost.cli.server;
 
 import com.apighost.cli.util.ConsoleOutput;
 import com.apighost.web.filter.CorsFilter;
-import com.apighost.web.sevlet.ApiFrontControllerServlet;
+import com.apighost.web.servlet.ApiFrontControllerServlet;
 import jakarta.servlet.DispatcherType;
 import java.net.URL;
 import java.util.EnumSet;
