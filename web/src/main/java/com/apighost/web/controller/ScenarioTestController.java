@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
  * @version BETA-0.0.1
  */
 public class ScenarioTestController implements ApiController {
+    private static final int ASYNC_TIMEOUT_MS = 300000;
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     private final SSEManager sseManager = SSEManager.getInstance();
@@ -67,7 +68,7 @@ public class ScenarioTestController implements ApiController {
         /** Set up async context
          * 5-minute timeout */
         AsyncContext asyncContext = request.startAsync();
-        asyncContext.setTimeout(300000);
+        asyncContext.setTimeout(ASYNC_TIMEOUT_MS);
 
         /** Generate client ID and register SSE client */
         String clientId = UUID.randomUUID().toString();

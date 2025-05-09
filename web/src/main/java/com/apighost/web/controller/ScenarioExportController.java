@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.apighost.model.scenario.Scenario;
@@ -65,14 +66,17 @@ public class ScenarioExportController implements ApiController {
 
             /** 5. return response  */
             JsonUtils.writeJsonResponse(response,
-                Map.of("message", "The scenario has been successfully stored.", "filePath",
-                    filePath),
+                Map.of("status", true),
                 HttpServletResponse.SC_OK);
 
         } catch (IOException e) {
-            JsonUtils.writeErrorResponse(response,
-                "An error occurred during the scenario conversion: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            PrintWriter errorResponseWriter = response.getWriter();
+            errorResponseWriter.write("{\"status\": false}");
+            errorResponseWriter.flush();
         }
     }
 }
