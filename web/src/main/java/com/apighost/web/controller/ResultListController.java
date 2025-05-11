@@ -56,7 +56,7 @@ public class ResultListController implements ApiController {
                 Map<String, Object> resultMap = new HashMap<>();
 
                 /** In serialized content, save filename, testummary, and timestamp in variables */
-                resultMap.put("fileName", scenarioResult.getName());
+                resultMap.put("fileName", file.getName());
                 resultMap.put("testSummary",scenarioResult.getIsScenarioSuccess());
                 resultMap.put("timeStamp", scenarioResult.getExecutedAt());
 

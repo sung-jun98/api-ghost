@@ -31,8 +31,8 @@ public class ResultInfoController implements ApiController {
      * <p>
      * This method processes a request by searching for a scenario result file within a predefined
      * results directory. If a matching file is found, it deserializes the content into a
-     * ScenarioResult object and responds with its details in JSON format.
-     * If no matching result is found or an error occurs during processing, it sends an appropriate error response.
+     * ScenarioResult object and responds with its details in JSON format. If no matching result is
+     * found or an error occurs during processing, it sends an appropriate error response.
      * </p>
      *
      * @param request  Expects a "testResultName" parameter to specify the name of the desired
@@ -54,6 +54,7 @@ public class ResultInfoController implements ApiController {
             File[] files = targetDir.listFiles((dir, name) ->
                                                    name.toLowerCase().endsWith(".json"));
 
+            boolean found = false;
             for (File file : files) {
                 String searchedName = file.getName();
 
@@ -62,11 +63,15 @@ public class ResultInfoController implements ApiController {
                         file.getAbsolutePath());
                     JsonUtils.writeJsonResponse(response, scenarioResult,
                         HttpServletResponse.SC_OK);
+                    found = true;
+                    return;
                 }
             }
 
-            JsonUtils.writeErrorResponse(response, "No matching scenario result found.",
-                HttpServletResponse.SC_NOT_FOUND);
+            if (!found) {
+                JsonUtils.writeErrorResponse(response, "No matching scenario result found.",
+                    HttpServletResponse.SC_NOT_FOUND);
+            }
 
         } catch (Exception e) {
             JsonUtils.writeErrorResponse(response,
