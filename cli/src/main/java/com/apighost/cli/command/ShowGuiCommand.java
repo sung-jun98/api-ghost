@@ -44,7 +44,7 @@ public class ShowGuiCommand implements Callable<Integer> {
         JettyServer server = new JettyServer(port);
         try {
             server.start();
-            openBrowser("http://localhost:" + port);
+            openBrowser("http://localhost:" + port+ "/apighost-ui");
 
             ConsoleOutput.print("API Ghost canvas is running at http://localhost:" + port);
             ConsoleOutput.printBold(
@@ -76,6 +76,8 @@ public class ShowGuiCommand implements Callable<Integer> {
                 Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
             } else if (os.contains("mac")) {
                 /** macOS */
+
+
                 Runtime.getRuntime().exec("open " + url);
             } else if (os.contains("nix") || os.contains("nux")) {
                 /** Linux */
