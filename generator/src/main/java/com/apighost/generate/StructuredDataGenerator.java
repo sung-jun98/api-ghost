@@ -20,5 +20,5 @@ public interface StructuredDataGenerator {
      * @param privateKey the API key used to authenticate with the external service
      * @return the generated structured data as a string
      */
-    String generateStructuredData(String prompt, String privateKey);
+    String generate(String prompt, String privateKey);
 }
