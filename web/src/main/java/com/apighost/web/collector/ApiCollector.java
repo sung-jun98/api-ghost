@@ -19,14 +19,39 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Collector class that scans the configured API Ghost configuration file and fetches endpoint
+ * metadata from external service URLs.
+ *
+ * <p>It supports YAML configuration files named <code>api-ghost.yaml</code> or
+ * <code>api-ghost.yml</code>, which define the list of service base URLs.</p>
+ *
+ * @author haazz
+ * @version BETA-0.0.1
+ */
 public class ApiCollector {
 
+    /**
+     * Retrieves a list of {@link Endpoint} objects by reading the local configuration file and
+     * sending HTTP requests to configured library endpoints.
+     *
+     * <p>This method performs the following steps:
+     * <ul>
+     *   <li>Locates the API Ghost YAML configuration file.</li>
+     *   <li>Parses the file into a {@link ToolConfig} object.</li>
+     *   <li>Sends a GET request to each library's <code>/apighost/endpoint-json</code> endpoint.</li>
+     *   <li>Parses the response as a list of endpoints and aggregates them.</li>
+     * </ul>
+     * </p>
+     *
+     * @return a combined list of {@link Endpoint} objects from all configured libraries
+     * @throws IOException if reading the configuration file fails
+     */
     public List<Endpoint> getEndPointList() throws IOException {
         List<Endpoint> endpointList = new ArrayList<>();
         Path configDirectory = FileUtil.findDirectory(FileType.CONFIG, BasePathHolder.getInstance()
             .getBasePath());
         Path yamlConfigFilePath = configDirectory.resolve("api-ghost.yaml");
-        System.out.printf("Loading endpoint list from %s\n", yamlConfigFilePath);
         if (!Files.exists(yamlConfigFilePath)) {
             yamlConfigFilePath = configDirectory.resolve("api-ghost.yml");
             if (!Files.exists(yamlConfigFilePath)) {
