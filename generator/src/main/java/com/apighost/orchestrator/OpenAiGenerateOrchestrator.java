@@ -28,7 +28,7 @@ public class OpenAiGenerateOrchestrator implements DataGenerationOrchestrator {
         try {
 
             String prompt = FieldMetaPromptBuilder.buildPrompt(fieldMetas);
-            String response = dataGenerator.generateStructuredData(prompt, openAiKey);
+            String response = dataGenerator.generate(prompt, openAiKey);
             return OpenAiResponseParser.extractResponse(response);
         } catch (JsonProcessingException e) {
             return List.of();
