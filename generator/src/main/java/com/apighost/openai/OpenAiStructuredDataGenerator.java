@@ -63,7 +63,7 @@ public class OpenAiStructuredDataGenerator implements StructuredDataGenerator {
      * @return the API response body, or an empty string in case of error
      */
     @Override
-    public String generateStructuredData(String prompt, String openAiKey) {
+    public String generate(String prompt, String openAiKey) {
         try {
 
             Map<String, Object> request = Map.of(
