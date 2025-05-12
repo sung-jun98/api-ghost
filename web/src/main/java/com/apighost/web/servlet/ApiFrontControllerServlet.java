@@ -1,7 +1,7 @@
 package com.apighost.web.servlet;
 
 import com.apighost.web.controller.ApiController;
-import com.apighost.web.controller.EndpointJsonController;
+import com.apighost.web.controller.EndpointController;
 import com.apighost.web.controller.ResultInfoController;
 import com.apighost.web.controller.ResultListController;
 import com.apighost.web.controller.ScenarioExportController;
@@ -36,11 +36,10 @@ public class ApiFrontControllerServlet extends HttpServlet {
         controllerMap.put("result-list", new ResultListController());
         controllerMap.put("scenario-info", new ScenarioInfoController());
         controllerMap.put("result-info", new ResultInfoController());
-        controllerMap.put("endpoint-json", new EndpointJsonController());
+        controllerMap.put("endpoint-json", new EndpointController());
         controllerMap.put("scenario-test", new ScenarioTestController());
         controllerMap.put("scenario-export", new ScenarioExportController());
     }
-
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
