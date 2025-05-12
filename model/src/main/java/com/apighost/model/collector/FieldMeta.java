@@ -14,9 +14,13 @@ import java.util.List;
  */
 public class FieldMeta {
 
-    private final String type;
-    private final String name;
-    private final List<FieldMeta> nestedFields;
+    private String type;
+    private String name;
+    private List<FieldMeta> nestedFields;
+
+    public FieldMeta() {
+
+    }
 
     /**
      * Constructs a {@code FieldMeta} with the specified type and name. Initializes an empty list
@@ -71,4 +75,15 @@ public class FieldMeta {
         return nestedFields;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNestedFields(List<FieldMeta> nestedFields) {
+        this.nestedFields = nestedFields;
+    }
 }

@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.generator'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":model")
+    implementation project(":parser")
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
+    implementation "org.slf4j:slf4j-api:2.0.6"
+    implementation 'ch.qos.logback:logback-classic:1.5.17'
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
