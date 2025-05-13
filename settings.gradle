@@ -1,4 +1,9 @@
 rootProject.name = 'api-ghost'
 include 'core'
 include 'parser'
+include 'model'
+include 'cli'
+include 'web'
+include 'util'
+include 'generator'
 

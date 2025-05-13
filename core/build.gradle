@@ -10,8 +10,13 @@ repositories {
 }
 
 dependencies {
+    implementation project(":model")
+    implementation project(":parser")
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.16.2'
 }
 
 test {

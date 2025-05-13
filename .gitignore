@@ -50,7 +50,6 @@ replay_pid*
 
 .gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 
@@ -98,4 +97,6 @@ bin/
 ### Intellij IDEA ###
 .idea/
 
-### Build ###
+### gradle ###
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
