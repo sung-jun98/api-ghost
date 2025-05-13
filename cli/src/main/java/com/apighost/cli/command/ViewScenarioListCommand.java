@@ -2,7 +2,13 @@ package com.apighost.cli.command;
 
 import com.apighost.cli.util.ConsoleOutput;
 import com.apighost.cli.util.FileUtil;
+//import com.apighost.util.file.FileUtil;
+//import com.apighost.util.file.FileType;
+import com.apighost.cli.command.FileType;
+import com.apighost.util.file.BasePathHolder;
+
 import java.io.File;
+import java.nio.file.Path;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 
@@ -52,14 +58,18 @@ public class ViewScenarioListCommand implements Callable<Integer> {
                 return 0;
             }
 
-            /** Scenario file print */
-            ConsoleOutput.printBold(
-                "\n<========= Scenario Files List (" + files.length + " files) =========>");
-
-            for (File file : files) {
-                ConsoleOutput.printBold(file.getName());
-            }
-
+            /** New Version */
+//            Path basePath = BasePathHolder.getInstance().getBasePath();
+//            Path targetDir = FileUtil.findDirectory(FileType.SCENARIO, basePath);
+//
+//            /** Scenario file print */
+//            ConsoleOutput.printBold(
+//                "\n<========= Scenario Files List (" + files.length + " files) =========>");
+//
+//            for (File file : files) {
+//                ConsoleOutput.printBold(file.getName());
+//            }
+//
             return 0;
 
         } catch (Exception e) {

@@ -125,7 +125,7 @@ class JsonScenarioResultReaderTest {
         assertNotNull(result);
         assertEquals("Signup Scenario", result.getName());
         assertEquals("/local/result/user", result.getFilePath());
-        assertTrue(result.isScenarioSuccess());
+        assertTrue(result.getIsScenarioSuccess());
         assertEquals(1, result.getResults().size());
 
         ResultStep step = result.getResults().get(0);
