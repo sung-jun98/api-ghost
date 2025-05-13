@@ -59,20 +59,20 @@ public class ScenarioInfoController implements ApiController {
                                                        name.toLowerCase().endsWith(".yml")
             );
 
-            boolean found = false;
+            boolean isFound = false;
             for (File file : files) {
                 String searchedName = file.getName();
 
                 if (searchedName.equals(scenarioName)) {
                     Scenario scenario = reader.readScenario(file.getAbsolutePath());
                     JsonUtils.writeJsonResponse(response, scenario, HttpServletResponse.SC_OK);
-                    found = true;
+                    isFound = true;
                     return;
                 }
             }
 
             /** Return an error without the file found*/
-            if (!found) {
+            if (!isFound) {
                 JsonUtils.writeErrorResponse(response, "No matching scenario found.",
                     HttpServletResponse.SC_NOT_FOUND);
             }
