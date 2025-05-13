@@ -31,14 +31,15 @@ public class ScenarioInfoController implements ApiController {
     }
 
     /**
-     * Handles HTTP GET requests to retrieve a scenario by its name. The method looks for files
-     * with `.yaml` or `.yml` extensions in a predefined directory, matches the specified scenario name,
-     * and returns the scenario details in JSON format. If no matching scenario is found, it returns an
-     * error response.
+     * Handles HTTP GET requests to retrieve a scenario by its name. The method looks for files with
+     * `.yaml` or `.yml` extensions in a predefined directory, matches the specified scenario name,
+     * and returns the scenario details in JSON format. If no matching scenario is found, it returns
+     * an error response.
      *
      * @param request  the HttpServletRequest object containing the request data, including the
      *                 "scenarioName" parameter
-     * @param response the HttpServletResponse object used to send back the JSON response to the client
+     * @param response the HttpServletResponse object used to send back the JSON response to the
+     *                 client
      * @throws ServletException
      * @throws IOException
      */
@@ -58,21 +59,27 @@ public class ScenarioInfoController implements ApiController {
                                                        name.toLowerCase().endsWith(".yml")
             );
 
+            boolean isFound = false;
             for (File file : files) {
                 String searchedName = file.getName();
 
                 if (searchedName.equals(scenarioName)) {
                     Scenario scenario = reader.readScenario(file.getAbsolutePath());
                     JsonUtils.writeJsonResponse(response, scenario, HttpServletResponse.SC_OK);
+                    isFound = true;
+                    return;
                 }
             }
 
             /** Return an error without the file found*/
-            JsonUtils.writeErrorResponse(response, "No matching scenario found.",
-                HttpServletResponse.SC_NOT_FOUND);
+            if (!isFound) {
+                JsonUtils.writeErrorResponse(response, "No matching scenario found.",
+                    HttpServletResponse.SC_NOT_FOUND);
+            }
 
         } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response, "Failed to get scenario list: " + e.getMessage(),
+            JsonUtils.writeErrorResponse(response,
+                "Failed to get scenario list: " + e.getMessage(),
                 HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

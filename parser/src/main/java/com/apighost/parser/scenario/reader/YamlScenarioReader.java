@@ -26,9 +26,6 @@ public class YamlScenarioReader implements ScenarioReader {
     ObjectMapper objectMapper;
 
     public YamlScenarioReader() {
-//        objectMapper = new ObjectMapper(new YAMLFactory());
-//        this.objectMapper.disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
-//        this.objectMapper.disable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
 
         objectMapper = YAMLMapper.builder()
                            .disable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
