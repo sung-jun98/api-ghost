@@ -33,11 +33,13 @@ public class Stage {
         private long vusMs;
         private long durationMs;
 
+        @JsonProperty("vus")
         public Builder vusMs(long vusMs) {
             this.vusMs = vusMs;
             return this;
         }
 
+        @JsonProperty("duration")
         public Builder durationMs(long durationMs) {
             this.durationMs = durationMs;
             return this;
@@ -51,10 +53,12 @@ public class Stage {
     /**
      * Getter
      */
+    @JsonProperty("vus")
     public long getVusMs() {
         return vusMs;
     }
 
+    @JsonProperty("duration")
     public long getDurationMs() {
         return durationMs;
     }
