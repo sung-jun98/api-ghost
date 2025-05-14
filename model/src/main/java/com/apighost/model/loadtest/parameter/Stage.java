@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public class Stage {
 
     @JsonProperty("vus")
-    private final long vusMs;
+    private final int vusMs;
     @JsonProperty("duration")
     private final long durationMs;
 
@@ -30,10 +30,10 @@ public class Stage {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private long vusMs;
+        private int vusMs;
         private long durationMs;
 
-        public Builder vusMs(long vusMs) {
+        public Builder vusMs(int vusMs) {
             this.vusMs = vusMs;
             return this;
         }
@@ -51,7 +51,7 @@ public class Stage {
     /**
      * Getter
      */
-    public long getVusMs() {
+    public int getVusMs() {
         return vusMs;
     }
 
