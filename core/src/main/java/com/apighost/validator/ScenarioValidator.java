@@ -227,7 +227,22 @@ public class ScenarioValidator {
         visitedStepKeys.remove(currentStepKey);
     }
 
-
+    /**
+     * Validates the {@link FormData} fields (both text and file) in a scenario step.
+     * <p>
+     * This method performs basic checks on form field names and values:
+     * <ul>
+     *     <li>Text fields: verifies non-null names and logs warnings for missing values.</li>
+     *     <li>File fields: checks for non-null field names and file names.</li>
+     *     <li>Attempts to locate each file in the resources directory and logs if missing.</li>
+     * </ul>
+     * <p>
+     * Warnings are logged using {@code System.out.println} instead of throwing exceptions,
+     * allowing validation to proceed without interruption for missing or invalid files.
+     *
+     * @param stepKey  the identifier of the step this form data belongs to
+     * @param formData the {@link FormData} object containing text and file fields to validate
+     */
     private static void validateFormDataParts(String stepKey, FormData formData) {
         if (formData == null) {
             System.out.println("No FormData to validate in step: " + stepKey);

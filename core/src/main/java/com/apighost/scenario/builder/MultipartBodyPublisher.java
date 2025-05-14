@@ -20,6 +20,25 @@ import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+/**
+ * A utility class to build a multipart/form-data request body using Java's HttpClient. This builder
+ * supports both text and file parts, with automatic boundary management.
+ *
+ * <p>Usage example:
+ * <pre>{@code
+ * MultipartBodyPublisher builder = new MultipartBodyPublisher(myStore);
+ * builder.addTextPart("field1", "value", "text/plain");
+ * builder.addFilePart("file", "example.txt", "text/plain");
+ * HttpRequest request = HttpRequest.newBuilder()
+ *     .uri(URI.create("http://example.com/upload"))
+ *     .header("Content-Type", "multipart/form-data; boundary=" + builder.getBoundary())
+ *     .POST(builder.build())
+ *     .build();
+ * }</pre>
+ *
+ * @author oneweeeek
+ * @version BETA-0.0.1
+ */
 public class MultipartBodyPublisher {
 
     private static final String LINE_FEED = "\r\n";
@@ -37,6 +56,13 @@ public class MultipartBodyPublisher {
         return boundary;
     }
 
+    /**
+     * Adds a text part to the multipart body.
+     *
+     * @param name        the form field name
+     * @param value       the form field value (may include template variables)
+     * @param contentType the content type of the field (e.g., text/plain, application/json)
+     */
     public void addTextPart(String name, String value, String contentType) {
         String convertedValue = TemplateConvertor.convert(value, store);
         System.out.println("=== FormData Debug ===");
@@ -63,6 +89,14 @@ public class MultipartBodyPublisher {
             ))));
     }
 
+    /**
+     * Adds a file part to the multipart body. If the file does not exist or fails to load, an empty
+     * file part is added.
+     *
+     * @param name        the form field name
+     * @param fileName    the file name to include in the Content-Disposition header
+     * @param contentType the content type of the file (e.g., image/png, application/pdf)
+     */
     public void addFilePart(String name, String fileName, String contentType) {
         System.out.println("=== FormData Debug ===");
         System.out.println("Name: " + name);
@@ -88,7 +122,8 @@ public class MultipartBodyPublisher {
 
         try {
             if (!Files.exists(filePath)) {
-                System.out.println("Warning: File not found: " + filePath + ". Adding empty content.");
+                System.out.println(
+                    "Warning: File not found: " + filePath + ". Adding empty content.");
                 inputStreamSuppliers.add(() -> new SequenceInputStream(
                     Collections.enumeration(List.of(
                         new ByteArrayInputStream(headerBytes),
@@ -98,7 +133,8 @@ public class MultipartBodyPublisher {
             } else {
                 long fileSize = Files.size(filePath);
                 boolean isLargeFile = fileSize > MAX_FILE_SIZE;
-                System.out.println("File size: " + fileSize + " bytes, isLargeFile: " + isLargeFile);
+                System.out.println(
+                    "File size: " + fileSize + " bytes, isLargeFile: " + isLargeFile);
                 inputStreamSuppliers.add(() -> {
                     try {
                         InputStream fileInputStream = Files.newInputStream(filePath);
@@ -109,14 +145,16 @@ public class MultipartBodyPublisher {
                                 Collections.enumeration(List.of(
                                     new ByteArrayInputStream(headerBytes),
                                     new ByteArrayInputStream(fileContentBytes),
-                                    new ByteArrayInputStream(LINE_FEED.getBytes(StandardCharsets.UTF_8))
+                                    new ByteArrayInputStream(
+                                        LINE_FEED.getBytes(StandardCharsets.UTF_8))
                                 )));
                         } else {
                             return new SequenceInputStream(
                                 Collections.enumeration(List.of(
                                     new ByteArrayInputStream(headerBytes),
                                     fileInputStream,
-                                    new ByteArrayInputStream(LINE_FEED.getBytes(StandardCharsets.UTF_8))
+                                    new ByteArrayInputStream(
+                                        LINE_FEED.getBytes(StandardCharsets.UTF_8))
                                 )));
                         }
                     } catch (IOException e) {
@@ -135,8 +173,14 @@ public class MultipartBodyPublisher {
         }
     }
 
+    /**
+     * Builds the final BodyPublisher instance with all added parts and closing boundary.
+     *
+     * @return the HttpRequest.BodyPublisher ready to be used in an HttpRequest
+     */
     public HttpRequest.BodyPublisher build() {
-        byte[] closingBoundary = ("--" + boundary + "--" + LINE_FEED).getBytes(StandardCharsets.UTF_8);
+        byte[] closingBoundary = ("--" + boundary + "--" + LINE_FEED).getBytes(
+            StandardCharsets.UTF_8);
         inputStreamSuppliers.add(() -> new ByteArrayInputStream(closingBoundary));
         return HttpRequest.BodyPublishers.ofInputStream(() -> new SequenceInputStream(
             Collections.enumeration(inputStreamSuppliers.stream()
