@@ -29,7 +29,7 @@ public class Result {
     @JsonProperty("http_req_failed")
     private final HttpReqFailed httpReqFailed;
 
-    private final Vus vus;
+    private final int vus;
 
     private Result(Builder builder) {
         this.iterations = builder.iterations;
@@ -49,7 +49,7 @@ public class Result {
         private HttpReqs httpReqs;
         private HttpReqDuration httpReqDuration;
         private HttpReqFailed httpReqFailed;
-        private Vus vus;
+        private int vus;
 
         public Builder iterations(Iterations iterations) {
             this.iterations = iterations;
@@ -74,7 +74,7 @@ public class Result {
             return this;
         }
 
-        public Builder vus(Vus vus) {
+        public Builder vus(int vus) {
             this.vus = vus;
             return this;
         }
@@ -106,7 +106,7 @@ public class Result {
         return httpReqFailed;
     }
 
-    public Vus getVus() {
+    public int getVus() {
         return vus;
     }
 }
