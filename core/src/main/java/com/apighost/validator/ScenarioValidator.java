@@ -1,6 +1,7 @@
 package com.apighost.validator;
 
 import com.apighost.model.scenario.Scenario;
+import com.apighost.model.scenario.request.FormData;
 import com.apighost.model.scenario.step.ProtocolType;
 import com.apighost.model.scenario.step.Route;
 import com.apighost.model.scenario.step.Step;
@@ -9,6 +10,10 @@ import com.apighost.model.scenario.step.Then;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.request.RequestBody;
 
+import com.apighost.util.file.FileType;
+import com.apighost.util.file.FileUtil;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -221,4 +226,49 @@ public class ScenarioValidator {
 
         visitedStepKeys.remove(currentStepKey);
     }
+
+
+    private static void validateFormDataParts(String stepKey, FormData formData) {
+        if (formData == null) {
+            System.out.println("No FormData to validate in step: " + stepKey);
+            return;
+        }
+
+        if (formData.getText() != null) {
+            for (Map.Entry<String, String> textEntry : formData.getText().entrySet()) {
+                String name = textEntry.getKey();
+                String value = textEntry.getValue();
+                if (name == null || name.isEmpty()) {
+                    System.out.println("Warning: Text field name is empty in step: " + stepKey);
+                    continue;
+                }
+                if (value == null) {
+                    System.out.println("Warning: Text field value is null for name '" + name + "' in step: " + stepKey);
+                }
+                System.out.println("Validated text field: " + name + " in step: " + stepKey);
+            }
+        }
+
+        if (formData.getFile() != null) {
+            for (Map.Entry<String, String> fileEntry : formData.getFile().entrySet()) {
+                String name = fileEntry.getKey();
+                String fileName = fileEntry.getValue();
+                if (name == null || name.isEmpty()) {
+                    System.out.println("Warning: File field name is empty in step: " + stepKey);
+                    continue;
+                }
+                if (fileName == null || fileName.isEmpty()) {
+                    System.out.println("Warning: File name is empty for name '" + name + "' in step: " + stepKey);
+                    continue;
+                }
+                Path baseDir = FileUtil.findDirectory(FileType.RESOURCES, null);
+                Path filePath = baseDir.resolve(fileName);
+                System.out.println("Checking file: " + filePath + " for name '" + name + "' in step: " + stepKey);
+                if (!Files.exists(filePath)) {
+                    System.out.println("Warning: File not found: " + filePath + ". Proceeding with empty content.");
+                }
+            }
+        }
+    }
+
 }

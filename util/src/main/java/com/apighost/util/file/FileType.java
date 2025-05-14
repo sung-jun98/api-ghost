@@ -10,5 +10,6 @@ package com.apighost.util.file;
 public enum FileType {
     SCENARIO,
     RESULT,
-    CONFIG
+    CONFIG,
+    RESOURCES
 }

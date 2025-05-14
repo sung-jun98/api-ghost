@@ -1,5 +1,7 @@
 package com.apighost.scenario.executor;
 
+import com.apighost.model.scenario.request.FormData;
+import com.apighost.model.scenario.step.HTTPMethod;
 import com.apighost.parser.flattener.Flattener;
 import com.apighost.parser.flattener.JsonFlattener;
 import com.apighost.parser.template.TemplateConvertor;
@@ -8,13 +10,17 @@ import com.apighost.model.scenario.step.Route;
 import com.apighost.model.scenario.step.Step;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.step.Then;
+import com.apighost.scenario.builder.MultipartBodyPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +48,7 @@ public class HTTPStepExecutor implements StepExecutor {
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private Flattener flattener;
+    private MultipartBodyPublisher publisher;
 
     /**
      * Executes a given HTTP step and evaluates its result based on response status and expected
@@ -61,21 +68,64 @@ public class HTTPStepExecutor implements StepExecutor {
     public ResultStep execute(String stepKey, Step step, Map<String, Object> store, long timeoutMs)
         throws IOException, InterruptedException {
         Request request = step.getRequest();
-        HttpRequest.Builder builder = HttpRequest.newBuilder().uri(URI.create(request.getUrl()))
+        HttpRequest.Builder builder = HttpRequest.newBuilder()
+            .uri(URI.create(request.getUrl()))
             .timeout(java.time.Duration.ofMillis(timeoutMs));
 
-        if (request.getHeader() != null) {
-            convertMapStringTemplate(request.getHeader(), store);
-            request.getHeader().forEach(builder::header);
-        }
+        String contentType =
+            request.getHeader() != null ? request.getHeader().get("Content-Type") : null;
+        Map<String, String> headers =
+            request.getHeader() != null ? new HashMap<>(request.getHeader()) : new HashMap<>();
 
         HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers.noBody();
         if (request.getBody() != null) {
             if (request.getBody().getJson() != null) {
                 body = HttpRequest.BodyPublishers.ofString(
                     TemplateConvertor.convert(request.getBody().getJson(), store));
+                if (contentType == null) {
+                    headers.put("Content-Type", "application/json");
+                }
+            } else if (request.getBody().getFormdata() != null) {
+                FormData formData = request.getBody().getFormdata();
+                if (contentType != null && contentType.startsWith("multipart/form-data")) {
+                    publisher = new MultipartBodyPublisher(store);
+                    if (formData.getText() != null) {
+                        for (Map.Entry<String, String> textEntry : formData.getText().entrySet()) {
+                            String name = textEntry.getKey();
+                            String value = TemplateConvertor.convert(textEntry.getValue(), store);
+                            publisher.addTextPart(name, value, "text/plain");
+                        }
+                    }
+                    if (formData.getFile() != null) {
+                        for (Map.Entry<String, String> fileEntry : formData.getFile().entrySet()) {
+                            String name = fileEntry.getKey();
+                            String fileName = fileEntry.getValue();
+                            publisher.addFilePart(name, fileName, "application/octet-stream");
+                        }
+                    }
+                    body = publisher.build();
+                    headers.put("Content-Type",
+                        "multipart/form-data; boundary=" + publisher.getBoundary());
+                } else if (contentType != null && contentType.equals(
+                    "application/x-www-form-urlencoded")) {
+                    body = buildUrlEncodedFormData(formData.getText(), store);
+                    headers.put("Content-Type", contentType);
+                } else if (contentType != null && contentType.equals("text/plain")) {
+                    body = buildTextPlainFormData(formData.getText(), store);
+                    headers.put("Content-Type", contentType);
+                } else {
+                    throw new IllegalArgumentException("Unsupported Content-Type: " + contentType);
+                }
             }
+        } else if (request.getMethod() == HTTPMethod.GET) {
+            headers.remove("Content-Type");
+            headers.remove("Content-Length");
+            store.remove("contentType");
+            store.remove("Content-Type");
         }
+
+        convertMapStringTemplate(headers, store);
+        headers.forEach(builder::header);
 
         HttpRequest httpRequest;
         switch (request.getMethod()) {
@@ -87,6 +137,14 @@ public class HTTPStepExecutor implements StepExecutor {
             default ->
                 throw new UnsupportedOperationException("Unknown method: " + request.getMethod());
         }
+
+        System.out.println("=== HTTP Request Debug ===");
+        System.out.println("Method: " + httpRequest.method());
+        System.out.println("URI: " + httpRequest.uri());
+        System.out.println("Headers: " + httpRequest.headers().map());
+        System.out.println(
+            "Content-Type: " + httpRequest.headers().firstValue("Content-Type").orElse("N/A"));
+        System.out.println("=========================");
 
         long start = System.currentTimeMillis();
         HttpResponse<String> httpResponse = httpClient.send(httpRequest,
@@ -237,4 +295,35 @@ public class HTTPStepExecutor implements StepExecutor {
             entry.setValue(convertedValue);
         }
     }
+
+    private HttpRequest.BodyPublisher buildUrlEncodedFormData(Map<String, String> text,
+        Map<String, Object> store) {
+        if (text == null || text.isEmpty()) {
+            return HttpRequest.BodyPublishers.ofString("");
+        }
+        String formDataString = text.entrySet().stream()
+            .map(entry -> {
+                String name = URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8);
+                String value = URLEncoder.encode(TemplateConvertor.convert(entry.getValue(), store),
+                    StandardCharsets.UTF_8);
+                return name + "=" + value;
+            })
+            .collect(Collectors.joining("&"));
+        return HttpRequest.BodyPublishers.ofString(formDataString);
+    }
+
+    private HttpRequest.BodyPublisher buildTextPlainFormData(Map<String, String> text,
+        Map<String, Object> store) {
+        if (text == null || text.isEmpty()) {
+            return HttpRequest.BodyPublishers.ofString("");
+        }
+        String formDataString = text.entrySet().stream()
+            .map(entry -> {
+                String value = TemplateConvertor.convert(entry.getValue(), store);
+                return entry.getKey() + "=" + value.replace(" ", "+");
+            })
+            .collect(Collectors.joining("\n"));
+        return HttpRequest.BodyPublishers.ofString(formDataString);
+    }
+
 }

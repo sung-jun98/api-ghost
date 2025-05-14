@@ -64,4 +64,24 @@ public class FileUtil {
 
         return fileDirectoryPath;
     }
+
+    public static String inferContentType(String fileName) {
+        if (fileName == null) {
+            return "application/octet-stream";
+        }
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        return switch (extension) {
+            case "jpeg", "jpg" -> "image/jpeg";
+            case "png" -> "image/png";
+            case "pdf" -> "application/pdf";
+            case "gif" -> "image/gif";
+            case "txt" -> "text/plain";
+            case "mp4" -> "video/mp4";
+            case "docx" -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            case "xlsx" -> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            case "zip" -> "application/zip";
+            case "mp3" -> "audio/mpeg";
+            default -> "application/octet-stream";
+        };
+    }
 }
