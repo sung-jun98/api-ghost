@@ -48,12 +48,12 @@ public class YamlLoadTestParameterWriterTest {
     @DisplayName("LoadTestParameter DTO -> YAML File")
     void YamlLoardTestParamWriterTest() throws IOException {
         Stage pattern1 = new Stage.Builder()
-            .vusMs(10)
+            .vus(10)
             .durationMs(30)
             .build();
 
         Stage pattern2 = new Stage.Builder()
-            .vusMs(20)
+            .vus(20)
             .durationMs(60)
             .build();
 

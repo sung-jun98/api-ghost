@@ -1,7 +1,6 @@
 package com.apighost.parser.loadtest.converter;
 
 import com.apighost.model.loadtest.parameter.LoadTestExecuteParameter;
-import com.apighost.model.loadtest.parameter.LoadTestExecuteParameter.Builder;
 import com.apighost.model.loadtest.parameter.LoadTestParameter;
 import com.apighost.model.scenario.Scenario;
 import com.apighost.parser.scenario.reader.ScenarioReader;
@@ -53,7 +52,7 @@ public class LoadTestParameterConverter {
             scenarios.add(scenarioReader.readScenario(yamlConfigFilePath.toString()));
         }
 
-        return new Builder()
+        return new LoadTestExecuteParameter.Builder()
             .name(parameter.getName())
             .description(parameter.getDescription())
             .loadTest(parameter.getLoadTest())
