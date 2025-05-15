@@ -1,7 +1,6 @@
 package com.apighost.validator;
 
 import com.apighost.model.scenario.Scenario;
-import com.apighost.model.scenario.request.FormData;
 import com.apighost.model.scenario.step.ProtocolType;
 import com.apighost.model.scenario.step.Route;
 import com.apighost.model.scenario.step.Step;
@@ -10,10 +9,6 @@ import com.apighost.model.scenario.step.Then;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.request.RequestBody;
 
-import com.apighost.util.file.FileType;
-import com.apighost.util.file.FileUtil;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -226,5 +221,4 @@ public class ScenarioValidator {
 
         visitedStepKeys.remove(currentStepKey);
     }
-
 }
