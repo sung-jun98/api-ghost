@@ -1,11 +1,16 @@
 package core.scenario;
 
+import com.apighost.model.scenario.request.FormData;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.step.*;
 import com.apighost.scenario.executor.HTTPStepExecutor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,10 +35,10 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class HTTPStepExecutorTest {
 
+    private final HTTPStepExecutor executor = new HTTPStepExecutor();
+
     @Test
     void testExecute_simpleGetRequest_returnsSuccess() throws Exception {
-        HTTPStepExecutor executor = new HTTPStepExecutor();
-
         Step step = new Step.Builder()
             .type(ProtocolType.HTTP)
             .request(new Request.Builder()
@@ -53,5 +58,6 @@ class HTTPStepExecutorTest {
         assertTrue(result.getIsRequestSuccess());
         assertNull(result.getNextStep());
     }
+
 }
 
