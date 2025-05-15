@@ -1,6 +1,5 @@
 package com.apighost.model.loadtest.result;
 
-import com.apighost.model.collector.Endpoint;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
