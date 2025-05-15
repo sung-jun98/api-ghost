@@ -3,6 +3,7 @@ package com.apighost.cli;
 
 import com.apighost.cli.command.ExecuteScenairoCommand;
 import com.apighost.cli.command.ShowGuiCommand;
+import com.apighost.cli.command.ViewLoadTestParamCommand;
 import com.apighost.cli.command.ViewResultCommand;
 import com.apighost.cli.command.ViewScenarioCommand;
 import com.apighost.cli.command.ViewScenarioListCommand;
@@ -27,7 +28,8 @@ import picocli.CommandLine.Command;
         ViewScenarioCommand.class,
         ShowGuiCommand.class,
         ViewResultCommand.class,
-        ExecuteScenairoCommand.class
+        ExecuteScenairoCommand.class,
+        ViewLoadTestParamCommand.class
     }
 )
 public class ApiGhostCli implements Runnable {

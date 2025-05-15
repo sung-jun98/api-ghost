@@ -19,7 +19,10 @@ import picocli.CommandLine.Command;
     name = "ls",
     description = "View YAML file content",
     mixinStandardHelpOptions = true,
-    subcommands = {ViewResultListCommand.class}
+    subcommands = {
+        ViewResultListCommand.class,
+        ViewLoadTestParamListCommand.class
+    }
 )
 public class ViewScenarioListCommand implements Callable<Integer> {
 
@@ -37,8 +40,8 @@ public class ViewScenarioListCommand implements Callable<Integer> {
 
             /** List files with .yaml or .yml extensions only */
             File[] files = targetDir.listFiles((dir, name) ->
-                                                   name.toLowerCase().endsWith(".yaml") ||
-                                                       name.toLowerCase().endsWith(".yml")
+                name.toLowerCase().endsWith(".yaml") ||
+                    name.toLowerCase().endsWith(".yml")
             );
 
             /**
