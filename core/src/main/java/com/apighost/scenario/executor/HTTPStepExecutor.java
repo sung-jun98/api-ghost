@@ -87,7 +87,8 @@ public class HTTPStepExecutor implements StepExecutor {
                 }
             } else if (request.getBody().getFormdata() != null) {
                 FormData formData = request.getBody().getFormdata();
-                if (contentType != null && contentType.startsWith("multipart/form-data")) {
+
+                if (contentType == null || contentType.startsWith("multipart/form-data")) {
                     publisher = new MultipartBodyPublisher(store);
                     if (formData.getText() != null) {
                         for (Map.Entry<String, String> textEntry : formData.getText().entrySet()) {
@@ -117,11 +118,6 @@ public class HTTPStepExecutor implements StepExecutor {
                     throw new IllegalArgumentException("Unsupported Content-Type: " + contentType);
                 }
             }
-        } else if (request.getMethod() == HTTPMethod.GET) {
-            headers.remove("Content-Type");
-            headers.remove("Content-Length");
-            store.remove("contentType");
-            store.remove("Content-Type");
         }
 
         convertMapStringTemplate(headers, store);
