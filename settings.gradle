@@ -6,4 +6,4 @@ include 'cli'
 include 'web'
 include 'util'
 include 'generator'
-
+include 'loadtest'
