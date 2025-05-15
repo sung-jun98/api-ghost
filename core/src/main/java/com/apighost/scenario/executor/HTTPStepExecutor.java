@@ -137,15 +137,6 @@ public class HTTPStepExecutor implements StepExecutor {
             default ->
                 throw new UnsupportedOperationException("Unknown method: " + request.getMethod());
         }
-
-        System.out.println("=== HTTP Request Debug ===");
-        System.out.println("Method: " + httpRequest.method());
-        System.out.println("URI: " + httpRequest.uri());
-        System.out.println("Headers: " + httpRequest.headers().map());
-        System.out.println(
-            "Content-Type: " + httpRequest.headers().firstValue("Content-Type").orElse("N/A"));
-        System.out.println("=========================");
-
         long start = System.currentTimeMillis();
         HttpResponse<String> httpResponse = httpClient.send(httpRequest,
             HttpResponse.BodyHandlers.ofString());

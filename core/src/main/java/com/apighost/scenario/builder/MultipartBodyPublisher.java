@@ -65,11 +65,6 @@ public class MultipartBodyPublisher {
      */
     public void addTextPart(String name, String value, String contentType) {
         String convertedValue = TemplateConvertor.convert(value, store);
-        System.out.println("=== FormData Debug ===");
-        System.out.println("Name: " + name);
-        System.out.println("Value: " + convertedValue);
-        System.out.println("ContentType: " + contentType);
-        System.out.println("=========================");
 
         StringBuilder header = new StringBuilder();
         header.append("--").append(boundary).append(LINE_FEED)
@@ -98,12 +93,6 @@ public class MultipartBodyPublisher {
      * @param contentType the content type of the file (e.g., image/png, application/pdf)
      */
     public void addFilePart(String name, String fileName, String contentType) {
-        System.out.println("=== FormData Debug ===");
-        System.out.println("Name: " + name);
-        System.out.println("FileName: " + fileName);
-        System.out.println("ContentType: " + contentType);
-        System.out.println("=========================");
-        System.out.println("Processing file: " + fileName);
 
         StringBuilder header = new StringBuilder();
         header.append("--").append(boundary).append(LINE_FEED)
@@ -118,12 +107,9 @@ public class MultipartBodyPublisher {
         Path baseDir = FileUtil.findDirectory(FileType.RESOURCES, BasePathHolder.getInstance()
             .getBasePath());
         Path filePath = baseDir.resolve(fileName);
-        System.out.println("Attempting to load file: " + filePath);
 
         try {
             if (!Files.exists(filePath)) {
-                System.out.println(
-                    "Warning: File not found: " + filePath + ". Adding empty content.");
                 inputStreamSuppliers.add(() -> new SequenceInputStream(
                     Collections.enumeration(List.of(
                         new ByteArrayInputStream(headerBytes),
@@ -133,8 +119,6 @@ public class MultipartBodyPublisher {
             } else {
                 long fileSize = Files.size(filePath);
                 boolean isLargeFile = fileSize > MAX_FILE_SIZE;
-                System.out.println(
-                    "File size: " + fileSize + " bytes, isLargeFile: " + isLargeFile);
                 inputStreamSuppliers.add(() -> {
                     try {
                         InputStream fileInputStream = Files.newInputStream(filePath);
@@ -163,7 +147,6 @@ public class MultipartBodyPublisher {
                 });
             }
         } catch (IOException e) {
-            System.out.println("Warning: Failed to process file: " + fileName);
             inputStreamSuppliers.add(() -> new SequenceInputStream(
                 Collections.enumeration(List.of(
                     new ByteArrayInputStream(headerBytes),
