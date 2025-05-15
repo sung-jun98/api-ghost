@@ -5,6 +5,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 
+/**
+ * LoadtestParameter is a model corresponding to the YAML file, and that loadTestExecuteparameter is
+ * a model to run the load test. The difference is that Scerios is a Scenario object, not a string,
+ * unlike LoadtestParameter.
+ *
+ * @author sung-jun98
+ * @version BETA-0.0.1
+ */
 @JsonDeserialize(builder = LoadTestExecuteParameter.Builder.class)
 public class LoadTestExecuteParameter {
 
