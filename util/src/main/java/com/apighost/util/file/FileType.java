@@ -11,5 +11,6 @@ public enum FileType {
     SCENARIO,
     RESULT,
     CONFIG,
+    LOADTEST,
     RESOURCES
 }
