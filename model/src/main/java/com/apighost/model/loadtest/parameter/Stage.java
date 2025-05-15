@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public class Stage {
 
     @JsonProperty("vus")
-    private final int vusMs;
+    private final int vus;
     @JsonProperty("duration")
     private final long durationMs;
 
     private Stage(Builder builder) {
-        this.vusMs = builder.vusMs;
+        this.vus = builder.vus;
         this.durationMs = builder.durationMs;
     }
 
@@ -30,12 +30,12 @@ public class Stage {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private int vusMs;
+        private int vus;
         private long durationMs;
 
         @JsonProperty("vus")
-        public Builder vusMs(int vusMs) {
-            this.vusMs = vusMs;
+        public Builder vus(int vus) {
+            this.vus = vus;
             return this;
         }
 
@@ -54,8 +54,8 @@ public class Stage {
      * Getter
      */
     @JsonProperty("vus")
-    public int getVusMs() {
-        return vusMs;
+    public int getVus() {
+        return vus;
     }
 
     @JsonProperty("duration")
