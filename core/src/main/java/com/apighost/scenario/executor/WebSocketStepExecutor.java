@@ -67,7 +67,7 @@ public class WebSocketStepExecutor implements StepExecutor {
                 case SEND -> send(request.getUrl(), request.getBody().getJson());
                 case SUBSCRIBE -> subscribe(request);
                 case UNSUBSCRIBE -> unSubscribe(request);
-                case CLOSE -> close(timeoutMs);
+                case DISCONNECT -> disconnect(timeoutMs);
                 default -> throw new UnsupportedOperationException(
                     "Unknown method: " + request.getMethod());
             });
@@ -205,7 +205,7 @@ public class WebSocketStepExecutor implements StepExecutor {
      * @param timeoutMs the timeout for waiting on the close acknowledgment
      * @return {@link WebSocketStatusCode} indicating the result of the operation
      */
-    private WebSocketStatusCode close(long timeoutMs) {
+    private WebSocketStatusCode disconnect(long timeoutMs) {
 
         try {
 
@@ -231,7 +231,7 @@ public class WebSocketStepExecutor implements StepExecutor {
     /**
      * Basic WebSocket listener implementation that handles CONNECTED frame acknowledgment.
      */
-    static class BasicListener implements WebSocket.Listener {
+    private static class BasicListener implements WebSocket.Listener {
 
         private final long originalThreadId;
 
