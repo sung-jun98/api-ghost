@@ -13,5 +13,5 @@ public enum HTTPMethod {
     SEND,
     SUBSCRIBE,
     UNSUBSCRIBE,
-    CLOSE
+    DISCONNECT
 }
