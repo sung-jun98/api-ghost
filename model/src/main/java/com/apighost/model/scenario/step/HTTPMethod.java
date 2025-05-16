@@ -10,4 +10,8 @@ public enum HTTPMethod {
     OPTIONS,
     PATCH,
     CONNECT,
+    SEND,
+    SUBSCRIBE,
+    UNSUBSCRIBE,
+    DISCONNECT
 }
