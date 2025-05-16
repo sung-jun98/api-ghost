@@ -1,5 +1,20 @@
 package com.apighost.web.util;
-
+/**
+ * Defines a set of error codes used for standardized error responses across the application.
+ *
+ * <p>Each error code is associated with an HTTP status code and a default error message.
+ * These values are used to generate consistent JSON error responses for various failure scenarios.
+ *
+ * <p>Typical usage:
+ * <pre>
+ *     ErrorCode errorCode = ErrorCode.INVALID_PARAMETER;
+ *     int status = errorCode.getHttpStatus();
+ *     String message = errorCode.getMessage();
+ * </pre>
+ *
+ * @author oneweeek
+ * @version BETA-0.0.1
+ */
 public enum ErrorCode {
     INVALID_PARAMETER(400, "Invalid parameter."),
     INVALID_JSON_FORMAT(400, "Invalid JSON format."),
@@ -11,6 +26,7 @@ public enum ErrorCode {
     IO_ERROR(500, "An error occurred during an input/output operation."),
     CLASS_NOT_FOUND(500, "The requested class was not found."),
     INTERNAL_SERVER_ERROR(500, "An internal server error has occurred.");
+
     private final int httpStatus;
     private final String message;
 
