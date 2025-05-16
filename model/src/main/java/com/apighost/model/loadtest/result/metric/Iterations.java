@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public class Iterations {
 
     private final double rate;
-    private final int count;
+    private final long count;
 
     private Iterations(Builder builder) {
         this.rate = builder.rate;
@@ -27,14 +27,14 @@ public class Iterations {
     public static class Builder {
 
         private double rate;
-        private int count;
+        private long count;
 
         public Builder rate(double rate) {
             this.rate = rate;
             return this;
         }
 
-        public Builder count(int count) {
+        public Builder count(long count) {
             this.count = count;
             return this;
         }
@@ -51,7 +51,7 @@ public class Iterations {
         return rate;
     }
 
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 }
