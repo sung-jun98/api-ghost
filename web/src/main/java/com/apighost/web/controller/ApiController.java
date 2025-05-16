@@ -18,22 +18,22 @@ public interface ApiController {
 
     default void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        throw new UnsupportedOperationException();
     }
 
     default void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        throw new UnsupportedOperationException();
     }
 
     default void doPut(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        throw new UnsupportedOperationException();
     }
 
     default void doDelete(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+        throw new UnsupportedOperationException();
     }
 }
 

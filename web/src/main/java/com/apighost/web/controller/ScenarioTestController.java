@@ -51,18 +51,13 @@ public class ScenarioTestController implements ApiController {
         throws ServletException, IOException {
         /** Confirmation of asynchronous support */
         if (!request.isAsyncSupported()) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            JsonUtils.writeErrorResponse(response, "Async not supported",
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return;
+            throw new IllegalStateException("Async not supported");
         }
 
         /** Get scenario name parameter */
         String scenarioName = request.getParameter("scenarioName");
         if (scenarioName == null || scenarioName.isEmpty()) {
-            JsonUtils.writeErrorResponse(response, "Missing required parameter: scenarioName",
-                HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            throw new IllegalArgumentException("Missing required parameter: scenarioName");
         }
 
         /** Set up async context

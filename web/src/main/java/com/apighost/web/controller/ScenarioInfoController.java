@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,28 +60,21 @@ public class ScenarioInfoController implements ApiController {
                                                        name.toLowerCase().endsWith(".yml")
             );
 
-            boolean isFound = false;
             for (File file : files) {
                 String searchedName = file.getName();
 
                 if (searchedName.equals(scenarioName)) {
                     Scenario scenario = reader.readScenario(file.getAbsolutePath());
                     JsonUtils.writeJsonResponse(response, scenario, HttpServletResponse.SC_OK);
-                    isFound = true;
                     return;
                 }
             }
 
             /** Return an error without the file found*/
-            if (!isFound) {
-                JsonUtils.writeErrorResponse(response, "No matching scenario found.",
-                    HttpServletResponse.SC_NOT_FOUND);
-            }
+            throw new FileNotFoundException("No matching scenario found.");
 
         } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response,
-                "Failed to get scenario list: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new RuntimeException("Failed to get scenario list: " + e.getMessage());
         }
     }
 }

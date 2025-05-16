@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -69,14 +70,11 @@ public class ResultInfoController implements ApiController {
             }
 
             if (!found) {
-                JsonUtils.writeErrorResponse(response, "No matching scenario result found.",
-                    HttpServletResponse.SC_NOT_FOUND);
+                throw new FileNotFoundException("No matching scenario result found.");
             }
 
         } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response,
-                "Failed to get scenario result detail: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new IllegalStateException("Failed to get scenario result detail: " + e.getMessage());
         }
     }
 }

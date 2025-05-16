@@ -24,28 +24,52 @@ public class JsonUtils {
         writer.flush();
     }
 
-    public static void writeErrorResponse(HttpServletResponse response, String errorMessage, int statusCode)
+    public static void writeErrorResponse(HttpServletResponse response, ErrorCode errorCode)
         throws IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.setStatus(statusCode);
+        response.setStatus(errorCode.getHttpStatus());
 
         String jsonString = objectMapper.writeValueAsString(
-            new ErrorResponse(errorMessage));
+            new ErrorResponse(errorCode));
+        PrintWriter writer = response.getWriter();
+        writer.write(jsonString);
+        writer.flush();
+    }
+
+    public static void writeErrorResponse(HttpServletResponse response, ErrorCode errorCode, String message)
+        throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(errorCode.getHttpStatus());
+
+        String jsonString = objectMapper.writeValueAsString(
+            new ErrorResponse(errorCode, message));
         PrintWriter writer = response.getWriter();
         writer.write(jsonString);
         writer.flush();
     }
 
     private static class ErrorResponse {
-        private final String error;
+        private final int status;
+        private final String message;
 
-        public ErrorResponse(String error) {
-            this.error = error;
+        public ErrorResponse(ErrorCode errorCode, String message) {
+            this.status = errorCode.getHttpStatus();
+            this.message = message;
         }
 
-        public String getError() {
-            return error;
+        public ErrorResponse(ErrorCode errorCode) {
+            this.status = errorCode.getHttpStatus();
+            this.message = errorCode.getMessage();
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public String getMessage() {
+            return message;
         }
     }
 }
