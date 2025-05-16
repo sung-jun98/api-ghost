@@ -139,7 +139,14 @@ public class WebSocketManager {
      * Sends a close frame to all active WebSocket sessions before clearing.
      */
     public static void removeAll() {
-        webSocketStore.values().forEach(ws -> ws.sendClose(WebSocket.NORMAL_CLOSURE, "Clear"));
+
+        for (WebSocket ws : webSocketStore.values()) {
+            try {
+                ws.sendClose(WebSocket.NORMAL_CLOSURE, "Clear");
+            } catch (Exception e) {
+                ws.abort();
+            }
+        }
         connectAckStore.clear();
         subscribeStore.clear();
         webSocketStore.clear();
