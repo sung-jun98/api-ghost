@@ -23,6 +23,7 @@ dependencies {
     implementation project(':model')
     implementation project(':parser')
     implementation project(':web')
+    implementation project(':loadtest')
     implementation project(':util')
 }
 
