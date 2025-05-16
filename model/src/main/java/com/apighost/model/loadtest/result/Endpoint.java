@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public class Endpoint {
 
     private final String url;
-    private final Result result;
+    private final EndpointResult result;
 
     private Endpoint(Builder builder) {
         this.url = builder.url;
@@ -27,14 +27,14 @@ public class Endpoint {
     public static class Builder {
 
         private String url;
-        private Result result;
+        private EndpointResult result;
 
         public Builder url(String url) {
             this.url = url;
             return this;
         }
 
-        public Builder result(Result result) {
+        public Builder result(EndpointResult result) {
             this.result = result;
             return this;
         }
@@ -51,7 +51,7 @@ public class Endpoint {
         return url;
     }
 
-    public Result getResult() {
+    public EndpointResult getResult() {
         return result;
     }
 }

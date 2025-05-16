@@ -3,21 +3,18 @@ package com.apighost.model.loadtest.result;
 import com.apighost.model.loadtest.result.metric.HttpReqDuration;
 import com.apighost.model.loadtest.result.metric.HttpReqFailed;
 import com.apighost.model.loadtest.result.metric.HttpReqs;
-import com.apighost.model.loadtest.result.metric.Iterations;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Classes containing practical load test results
+ * Classes containing practical load test endpoint results
  *
- * @author sung-jun98
+ * @author haazz
  * @version BETA-0.0.1
  */
-@JsonDeserialize(builder = Result.Builder.class)
-public class Result {
-
-    private final Iterations iterations;
+@JsonDeserialize(builder = EndpointResult.Builder.class)
+public class EndpointResult {
 
     @JsonProperty("http_reqs")
     private final HttpReqs httpReqs;
@@ -30,8 +27,7 @@ public class Result {
 
     private final int vus;
 
-    private Result(Builder builder) {
-        this.iterations = builder.iterations;
+    private EndpointResult(Builder builder) {
         this.httpReqs = builder.httpReqs;
         this.httpReqDuration = builder.httpReqDuration;
         this.httpReqFailed = builder.httpReqFailed;
@@ -44,16 +40,10 @@ public class Result {
     @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
-        private Iterations iterations;
         private HttpReqs httpReqs;
         private HttpReqDuration httpReqDuration;
         private HttpReqFailed httpReqFailed;
         private int vus;
-
-        public Builder iterations(Iterations iterations) {
-            this.iterations = iterations;
-            return this;
-        }
 
         @JsonProperty("http_reqs")
         public Builder httpReqs(HttpReqs httpReqs) {
@@ -78,18 +68,14 @@ public class Result {
             return this;
         }
 
-        public Result build() {
-            return new Result(this);
+        public EndpointResult build() {
+            return new EndpointResult(this);
         }
     }
 
     /**
      * Getter
      */
-    public Iterations getIterations() {
-        return iterations;
-    }
-
     @JsonProperty("http_reqs")
     public HttpReqs getHttpReqs() {
         return httpReqs;
