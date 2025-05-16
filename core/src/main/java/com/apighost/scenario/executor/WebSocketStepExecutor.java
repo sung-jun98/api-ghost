@@ -224,7 +224,7 @@ public class WebSocketStepExecutor implements StepExecutor {
     /**
      * Clears all WebSocket-related resources from the current thread context.
      */
-    private static void clearAll() {
+    public static void clearAll() {
         WebSocketManager.removeAll();
     }
 
