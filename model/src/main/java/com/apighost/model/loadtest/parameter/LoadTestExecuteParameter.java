@@ -1,9 +1,6 @@
 package com.apighost.model.loadtest.parameter;
 
 import com.apighost.model.scenario.Scenario;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 
 /**
@@ -14,13 +11,11 @@ import java.util.List;
  * @author sung-jun98
  * @version BETA-0.0.1
  */
-@JsonDeserialize(builder = LoadTestExecuteParameter.Builder.class)
 public class LoadTestExecuteParameter {
 
     private final String name;
     private final String description;
-    private final long thinkTimeMs;
-    @JsonProperty("stage")
+    private final Long thinkTimeMs;
     private final List<Stage> stages;
     private final List<Scenario> scenarios;
 
@@ -35,12 +30,11 @@ public class LoadTestExecuteParameter {
     /**
      * Builder
      */
-    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
 
         private String name;
         private String description;
-        private long thinkTimeMs;
+        private Long thinkTimeMs;
         private List<Stage> stages;
         private List<Scenario> scenarios;
 
@@ -54,12 +48,11 @@ public class LoadTestExecuteParameter {
             return this;
         }
 
-        public LoadTestExecuteParameter.Builder thinkTimeMs(long thinkTimeMs) {
+        public LoadTestExecuteParameter.Builder thinkTimeMs(Long thinkTimeMs) {
             this.thinkTimeMs = thinkTimeMs;
             return this;
         }
 
-        @JsonProperty("stage")
         public LoadTestExecuteParameter.Builder stages(List<Stage> stages) {
             this.stages = stages;
             return this;
@@ -86,11 +79,10 @@ public class LoadTestExecuteParameter {
         return description;
     }
 
-    public long getThinkTimeMs() {
+    public Long getThinkTimeMs() {
         return thinkTimeMs;
     }
 
-    @JsonProperty("stage")
     public List<Stage> getStages() {
         return stages;
     }
