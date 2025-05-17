@@ -8,7 +8,8 @@ import java.util.List;
 /**
  * Represents an API endpoint with protocol, method, path, media types, and parameter information.
  *
- * <p>This class is used to describe API metadata for scenario execution or documentation purposes.</p>
+ * <p>This class is used to describe API metadata for scenario execution or documentation
+ * purposes.</p>
  *
  * @author oneweeek
  * @version BETA-0.0.1
@@ -22,12 +23,12 @@ public class Endpoint {
     private final String path;
     private final List<String> produces;
     private final List<String> consumes;
-    private final List<FieldMeta> requestSchema;
-    private final List<FieldMeta> responseSchema;
-    private final List<Parameter> headers;
-    private final List<Parameter> cookies;
-    private final List<Parameter> requestParams;
-    private final List<Parameter> pathVariables;
+    private final String requestSchema;
+    private final String responseSchema;
+    private final String headers;
+    private final String cookies;
+    private final String requestParams;
+    private final String pathVariables;
 
     /**
      * Constructs an {@code Endpoint} using the provided {@link Builder}.
@@ -54,6 +55,7 @@ public class Endpoint {
      * Builder class for constructing {@link Endpoint} instances.
      */
     public static class Builder {
+
         private ProtocolType protocolType;
         private String baseUrl;
         private String methodName;
@@ -61,12 +63,12 @@ public class Endpoint {
         private String path;
         private List<String> produces;
         private List<String> consumes;
-        private List<FieldMeta> requestSchema;
-        private List<FieldMeta> responseSchema;
-        private List<Parameter> headers;
-        private List<Parameter> cookies;
-        private List<Parameter> requestParams;
-        private List<Parameter> pathVariables;
+        private String requestSchema;
+        private String responseSchema;
+        private String headers;
+        private String cookies;
+        private String requestParams;
+        private String pathVariables;
 
         public Builder protocolType(ProtocolType protocolType) {
             this.protocolType = protocolType;
@@ -103,32 +105,32 @@ public class Endpoint {
             return this;
         }
 
-        public Builder requestSchema(List<FieldMeta> requestSchema) {
+        public Builder requestSchema(String requestSchema) {
             this.requestSchema = requestSchema;
             return this;
         }
 
-        public Builder responseSchema(List<FieldMeta> responseSchema) {
+        public Builder responseSchema(String responseSchema) {
             this.responseSchema = responseSchema;
             return this;
         }
 
-        public Builder headers(List<Parameter> headers) {
+        public Builder headers(String headers) {
             this.headers = headers;
             return this;
         }
 
-        public Builder cookies(List<Parameter> cookies) {
+        public Builder cookies(String cookies) {
             this.cookies = cookies;
             return this;
         }
 
-        public Builder requestParams(List<Parameter> requestParams) {
+        public Builder requestParams(String requestParams) {
             this.requestParams = requestParams;
             return this;
         }
 
-        public Builder pathVariables(List<Parameter> pathVariables) {
+        public Builder pathVariables(String pathVariables) {
             this.pathVariables = pathVariables;
             return this;
         }
@@ -143,68 +145,94 @@ public class Endpoint {
         }
     }
 
-    /** @return the protocol type (e.g., HTTP, HTTPS) */
+    /**
+     * @return the protocol type (e.g., HTTP, HTTPS)
+     */
     public ProtocolType getProtocolType() {
         return protocolType;
     }
 
-    /** @return the base URL of the endpoint */
+    /**
+     * @return the base URL of the endpoint
+     */
     public String getBaseUrl() {
         return baseUrl;
     }
 
-    /** @return the method name associated with the endpoint */
+    /**
+     * @return the method name associated with the endpoint
+     */
     public String getMethodName() {
         return methodName;
     }
 
-    /** @return the HTTP method (GET, POST, etc.) */
+    /**
+     * @return the HTTP method (GET, POST, etc.)
+     */
     public HTTPMethod getHttpMethod() {
         return httpMethod;
     }
 
-    /** @return the request path of the endpoint */
+    /**
+     * @return the request path of the endpoint
+     */
     public String getPath() {
         return path;
     }
 
-    /** @return the media types that the endpoint can produce */
+    /**
+     * @return the media types that the endpoint can produce
+     */
     public List<String> getProduces() {
         return produces;
     }
 
-    /** @return the media types that the endpoint can consume */
+    /**
+     * @return the media types that the endpoint can consume
+     */
     public List<String> getConsumes() {
         return consumes;
     }
 
-    /** @return the schema of the request body */
-    public List<FieldMeta> getRequestSchema() {
+    /**
+     * @return the schema of the request body
+     */
+    public String getRequestSchema() {
         return requestSchema;
     }
 
-    /** @return the schema of the response body */
-    public List<FieldMeta> getResponseSchema() {
+    /**
+     * @return the schema of the response body
+     */
+    public String getResponseSchema() {
         return responseSchema;
     }
 
-    /** @return the list of header parameters */
-    public List<Parameter> getHeaders() {
+    /**
+     * @return the list of header parameters
+     */
+    public String getHeaders() {
         return headers;
     }
 
-    /** @return the list of cookie parameters */
-    public List<Parameter> getCookies() {
+    /**
+     * @return the list of cookie parameters
+     */
+    public String getCookies() {
         return cookies;
     }
 
-    /** @return the list of request parameters */
-    public List<Parameter> getRequestParams() {
+    /**
+     * @return the list of request parameters
+     */
+    public String getRequestParams() {
         return requestParams;
     }
 
-    /** @return the list of path variables */
-    public List<Parameter> getPathVariables() {
+    /**
+     * @return the list of path variables
+     */
+    public String getPathVariables() {
         return pathVariables;
     }
 }
