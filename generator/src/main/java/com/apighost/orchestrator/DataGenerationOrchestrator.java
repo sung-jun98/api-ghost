@@ -1,17 +1,16 @@
 package com.apighost.orchestrator;
 
-import com.apighost.model.GeneratedData;
-import com.apighost.model.collector.FieldMeta;
-import java.util.List;
+
+import com.apighost.model.GenerateBody;
 
 
 /**
- * Interface for orchestrators that handle structured data generation based on provided metadata
- * fields.
+ * Defines the contract for orchestrators responsible for generating structured data
+ * (e.g., API request bodies or JSON payloads) based on a provided JSON schema or metadata.
  *
- * <p>Implementations of this interface are responsible for generating
- * structured data (e.g., API request bodies or parameters) by using metadata such as field names
- * and types, possibly via third-party services like OpenAI.</p>
+ * <p>Typical implementations may interact with external AI-powered services such as OpenAI
+ * to synthesize realistic example data using the given metadata structure, which includes
+ * field names, types, or example placeholders.</p>
  *
  * @author kobenlys
  * @version BETA-0.0.1
@@ -22,9 +21,10 @@ public interface DataGenerationOrchestrator {
      * Executes the data generation process using the provided field metadata and authorization
      * key.
      *
-     * @param fieldMetas a list of metadata describing fields for which to generate data
-     * @param openAiKey  the API key for authenticating with the data generation service
-     * @return a list of generated data, or an empty list if generation fails
+     * @param jsonBody     the input metadata or schema in JSON format that guides how the data should be generated;
+     *                     this is typically a structure describing fields, types, or example placeholders
+     * @param openAiKey    the API key for authenticating with the data generation service
+     * @return a generated JSON structure wrapped in {@link GenerateBody}, or an empty structure if generation fails
      */
-    List<GeneratedData> executeGenerate(List<FieldMeta> fieldMetas, String openAiKey);
+    GenerateBody executeGenerate(String jsonBody, String openAiKey);
 }
