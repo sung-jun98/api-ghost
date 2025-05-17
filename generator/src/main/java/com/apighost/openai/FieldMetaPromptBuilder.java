@@ -1,40 +1,33 @@
 package com.apighost.openai;
 
 import com.apighost.loader.PropertyLoader;
-import com.apighost.model.ObjectMapperHolder;
-import com.apighost.model.collector.FieldMeta;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 
 /**
- * Utility class for building a prompt string using a list of {@link FieldMeta} objects.
- * <p>
- * The prompt format is defined by the properties {@code openai.prompt.start} and
- * {@code openai.prompt.end}, which are loaded from the configuration file via
- * {@link PropertyLoader}.
- * </p>
+ * Utility class responsible for constructing a prompt string used for OpenAI-based
+ * data generation, based on a given JSON structure.
+ *
+ * <p>This builder appends predefined start and end prompt templates (loaded from
+ * application properties) around the provided JSON schema. The resulting prompt
+ * is used to instruct the language model on how to generate realistic example data.</p>
  *
  * @author kobenlys
  * @version BETA-0.0.1
  */
 public class FieldMetaPromptBuilder {
 
-    private static final ObjectMapper objectMapper = ObjectMapperHolder.getInstance();
     private static final PropertyLoader propertyLoader = PropertyLoader.getInstance();
 
     /**
-     * Builds a formatted prompt string from the given list of {@link FieldMeta} objects. The
-     * resulting string includes a prefix and suffix defined in the properties file.
+     * Builds a full prompt string by embedding the given JSON structure between
+     * the start and end prompt templates.
      *
-     * @param fieldMetas the list of field metadata to include in the prompt
-     * @return the constructed prompt string
-     * @throws JsonProcessingException if an error occurs while serializing {@code fieldMetas}
+     * @param jsonBody the JSON string representing the field structure to be used as prompt content
+     * @return a formatted prompt string ready to be sent to OpenAI or another LLM
+     * @throws JsonProcessingException if the JSON content cannot be processed (reserved for future extension)
      */
-    public static String buildPrompt(List<FieldMeta> fieldMetas)
+    public static String buildPrompt(String jsonBody)
         throws JsonProcessingException {
-
-        return propertyLoader.get("openai.prompt.start") + objectMapper.writeValueAsString(
-            fieldMetas) + "\n" + propertyLoader.get("openai.prompt.end");
+        return propertyLoader.get("openai.prompt.start") + jsonBody + "\n" + propertyLoader.get("openai.prompt.end");
     }
 }
