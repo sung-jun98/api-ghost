@@ -2,7 +2,6 @@ package loadtest.writer;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.apighost.model.loadtest.parameter.LoadTest;
 import com.apighost.model.loadtest.parameter.LoadTestParameter;
 import com.apighost.model.loadtest.parameter.LoadTestParameter.Builder;
 import com.apighost.model.loadtest.parameter.Stage;
@@ -57,16 +56,11 @@ public class YamlLoadTestParameterWriterTest {
             .durationMs(60)
             .build();
 
-        LoadTest loadTest = new LoadTest.Builder()
-            .timeoutMs(5000)
-            .thinkTimeMs(1000)
-            .loadPattern(Arrays.asList(pattern1, pattern2))
-            .build();
-
         LoadTestParameter loadTestParameter = new Builder()
             .name("Test Name")
             .description("This is a test description")
-            .loadTest(loadTest)
+            .thinkTimeMs(1000)
+            .stages(Arrays.asList(pattern1, pattern2))
             .scenarios(
                 Arrays.asList("scenario1.yaml",
                     "scenario2.yaml"))
