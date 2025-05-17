@@ -57,8 +57,7 @@ public class ScenarioListController implements ApiController {
             JsonUtils.writeJsonResponse(response, result, HttpServletResponse.SC_OK);
 
         } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response, "Failed to get scenario list: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new RuntimeException("Failed to get scenario list: " + e.getMessage());
         }
     }
 }

@@ -8,7 +8,6 @@ import com.apighost.web.controller.ScenarioExportController;
 import com.apighost.web.controller.ScenarioInfoController;
 import com.apighost.web.controller.ScenarioListController;
 import com.apighost.web.controller.ScenarioTestController;
-import com.apighost.web.util.JsonUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.io.IOException;
@@ -51,8 +50,7 @@ public class ApiFrontControllerServlet extends HttpServlet {
 
         /** only handle /apighost/xxx URL */
         if (!path.startsWith("/apighost/")) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
+            throw new IllegalArgumentException("Invalid URL path: " + path);
         }
 
         /** Controller key extraction (/apighost/scenario-list -> scenario-list) */
@@ -61,8 +59,7 @@ public class ApiFrontControllerServlet extends HttpServlet {
         /** Controller inquiry */
         ApiController controller = controllerMap.get(controllerKey);
         if (controller == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
+            throw new IllegalArgumentException("Controller not found for path: " + controllerKey);
         }
 
         /** Request processing */
@@ -81,11 +78,10 @@ public class ApiFrontControllerServlet extends HttpServlet {
                     controller.doDelete(request, response);
                     break;
                 default:
-                    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                    throw new UnsupportedOperationException();
             }
         } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response, "Server error: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new RuntimeException("Server error: " + e.getMessage());
         }
     }
 

@@ -2,17 +2,9 @@ package com.apighost.cli.server;
 
 import com.apighost.cli.util.ConsoleOutput;
 import com.apighost.web.filter.CorsFilter;
+import com.apighost.web.filter.ErrorHandlingFilter;
 import com.apighost.web.servlet.ApiFrontControllerServlet;
 import jakarta.servlet.DispatcherType;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.net.URL;
 import java.util.EnumSet;
 import org.eclipse.jetty.ee10.servlet.FilterHolder;
@@ -51,7 +43,6 @@ public class JettyServer {
     public void start() throws Exception {
 
         server = new Server(port);
-
         /** GUI Path */
         WebAppContext uiContext = new WebAppContext();
         uiContext.setContextPath("/apighost-ui");
@@ -93,6 +84,10 @@ public class JettyServer {
         }
 
         /** SERVLET injection implemented in WebAppContext in Web module & Add CORS Filters */
+
+        FilterHolder errorHandlingFilterHolder = new FilterHolder(new ErrorHandlingFilter());
+        apiContext.addFilter(errorHandlingFilterHolder, "/apighost/*", EnumSet.of(DispatcherType.REQUEST));
+
         FilterHolder corsFilterHolder = new FilterHolder(new CorsFilter());
         apiContext.addFilter(corsFilterHolder, "/apighost/*", EnumSet.of(DispatcherType.REQUEST));
 

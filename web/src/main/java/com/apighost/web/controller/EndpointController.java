@@ -41,15 +41,9 @@ public class EndpointController implements ApiController {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        try {
-            List<Endpoint> endpointList = apiCollector.getEndPointList();
-            JsonUtils.writeJsonResponse(response, endpointList,
-                HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response,
-                "Failed to get endpoint: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+
+        List<Endpoint> endpointList = apiCollector.getEndPointList();
+        JsonUtils.writeJsonResponse(response, endpointList, HttpServletResponse.SC_OK);
 
     }
 }
