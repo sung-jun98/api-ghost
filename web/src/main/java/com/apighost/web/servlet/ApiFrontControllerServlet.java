@@ -2,6 +2,10 @@ package com.apighost.web.servlet;
 
 import com.apighost.web.controller.ApiController;
 import com.apighost.web.controller.EndpointController;
+import com.apighost.web.controller.LoadTestExecuteController;
+import com.apighost.web.controller.LoadTestExportController;
+import com.apighost.web.controller.LoadTestInfoController;
+import com.apighost.web.controller.LoadTestListController;
 import com.apighost.web.controller.ResultInfoController;
 import com.apighost.web.controller.ResultListController;
 import com.apighost.web.controller.ScenarioExportController;
@@ -15,11 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class acts as a centralized entry point for handling API requests
- * and routing them to the appropriate controller based on the URL path.
- *
- * It is designed to handle requests for paths starting with "/apighost/" and delegate
- * the processing of requests to controllers that implement the ApiController interface.
+ * This class acts as a centralized entry point for handling API requests and routing them to the
+ * appropriate controller based on the URL path.
+ * <p>
+ * It is designed to handle requests for paths starting with "/apighost/" and delegate the
+ * processing of requests to controllers that implement the ApiController interface.
  *
  * @author sun-jun98
  * @version BETA-0.0.1
@@ -38,6 +42,12 @@ public class ApiFrontControllerServlet extends HttpServlet {
         controllerMap.put("endpoint-json", new EndpointController());
         controllerMap.put("scenario-test", new ScenarioTestController());
         controllerMap.put("scenario-export", new ScenarioExportController());
+
+        controllerMap.put("loadtest-list", new LoadTestListController());
+        controllerMap.put("loadtest-export", new LoadTestExportController());
+        controllerMap.put("loadtest-info", new LoadTestInfoController());
+        controllerMap.put("loadtest-execute", new LoadTestExecuteController());
+
     }
 
     @Override

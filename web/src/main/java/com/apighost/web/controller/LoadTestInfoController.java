@@ -10,6 +10,7 @@ import com.apighost.web.util.JsonUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,8 +47,7 @@ public class LoadTestInfoController implements ApiController {
             ".yml"))) {
             reader = new YamlLoadTestParameterReader();
         } else {
-            JsonUtils.writeErrorResponse(response, "It is the form of the wrong file.",
-                HttpServletResponse.SC_NOT_FOUND);
+            throw new IllegalArgumentException("It is the form of the wrong file.");
         }
 
         Path loadTestDirectory = FileUtil.findDirectory(FileType.LOADTEST,
@@ -58,8 +58,8 @@ public class LoadTestInfoController implements ApiController {
         boolean fileExists = Files.exists(filePath) && Files.isRegularFile(filePath);
 
         if (!fileExists) {
-            JsonUtils.writeErrorResponse(response, "There is no file. ",
-                HttpServletResponse.SC_NOT_FOUND);
+            throw new FileNotFoundException("There is no file.: " + loadTestParam);
+
         } else {
             LoadTestParameter loadTestParameter = reader.readLoadParam(
                 filePath.toAbsolutePath().toString());
@@ -84,7 +84,8 @@ public class LoadTestInfoController implements ApiController {
         result.put("fileName", fileName);
         result.put("name", parameter.getName());
         result.put("description", parameter.getDescription());
-        result.put("loadTest", parameter.getLoadTest());
+        result.put("thinkTimeMs", parameter.getThinkTimeMs());
+        result.put("stage", parameter.getStages());
         result.put("scenarios", parameter.getScenarios());
         return result;
     }

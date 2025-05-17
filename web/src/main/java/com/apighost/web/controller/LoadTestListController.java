@@ -43,10 +43,7 @@ public class LoadTestListController implements ApiController {
         long fileCount = Files.list(loadTestDirectory).count();
 
         if (fileCount == 0) {
-            JsonUtils.writeErrorResponse(response, "empty directory ",
-                HttpServletResponse.SC_NOT_FOUND);
-
-            return;
+            throw new RuntimeException("empty directory");
         }
 
         try {
@@ -64,9 +61,7 @@ public class LoadTestListController implements ApiController {
             JsonUtils.writeJsonResponse(response, result, HttpServletResponse.SC_OK);
 
         } catch (IOException e) {
-            JsonUtils.writeErrorResponse(response,
-                "Failed to get load test list: " + e.getMessage(),
-                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            throw new InternalError("Failed to get load test list: " + e.getMessage());
         }
     }
 }

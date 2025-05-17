@@ -40,22 +40,17 @@ public class LoadTestExportController implements ApiController {
         String fileName = (String) requestBody.get("fileName");
 
         if (fileName == null || !fileName.matches(".*\\.(yaml|yml)$")) {
-            JsonUtils.writeErrorResponse(response, "invalid file name.",
-                HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            throw new IllegalArgumentException("invalid file name: " + fileName);
         }
 
         /**
          *  Convert the remaining elements to LoadtestParam
          */
         try {
-            requestBody.remove("fileName"); // fileName 제거 후 변환
+            requestBody.remove("fileName");
             loadTestParameter = objectMapper.convertValue(requestBody, LoadTestParameter.class);
         } catch (Exception e) {
-            JsonUtils.writeErrorResponse(response,
-                "the file content structure is not supported: " + e.getMessage(),
-                HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            throw new IllegalArgumentException("This is a structure that is not supported: " + e.getMessage());
         }
 
         Path loadTestDirectory = FileUtil.findDirectory(FileType.LOADTEST,
@@ -82,8 +77,7 @@ public class LoadTestExportController implements ApiController {
                 Map.of("status", true),
                 HttpServletResponse.SC_OK);
         } else {
-            JsonUtils.writeErrorResponse(response, "It is the form of the wrong file.",
-                HttpServletResponse.SC_BAD_REQUEST);
+            throw new IllegalArgumentException("This is the wrong file format.");
         }
     }
 }
