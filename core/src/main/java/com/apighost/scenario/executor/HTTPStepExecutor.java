@@ -183,6 +183,13 @@ public class HTTPStepExecutor implements StepExecutor {
 
     private Then matchExpected(HttpResponse<String> httpResponse,
         Map<String, Object> flatResponseBody, List<Route> routeList) {
+        if (routeList == null || routeList.isEmpty()) {
+            if (httpResponse.statusCode() >= 200 && httpResponse.statusCode() <= 299) {
+                return new Then.Builder()
+                    .build();
+            }
+            return null;
+        }
         for (Route route : routeList) {
             if (route.getExpected() == null) {
                 return route.getThen();

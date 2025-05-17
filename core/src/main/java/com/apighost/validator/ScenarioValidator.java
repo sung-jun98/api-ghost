@@ -123,8 +123,7 @@ public class ScenarioValidator {
         List<Route> routes) {
 
         if (routes == null || routes.isEmpty()) {
-            throw new IllegalArgumentException(
-                "Step '" + stepKey + "' must contain at least one route.");
+            return;
         }
 
         for (Route route : routes) {
