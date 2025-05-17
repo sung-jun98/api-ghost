@@ -23,6 +23,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
@@ -140,7 +141,7 @@ public class HTTPStepExecutor implements StepExecutor {
 
         Map<String, String> flatResponseHeader = responseHeaderParser(httpResponse.headers().map());
         Map<String, Object> flatResponseBody = null;
-        if ("application/json".equals(flatResponseHeader.get("Content-Type"))) {
+        if ("application/json".equals(flatResponseHeader.get("content-type"))) {
             flattener = new JsonFlattener(new ObjectMapper());
             flatResponseBody = flattener.flatten(httpResponse.body());
         }
@@ -183,8 +184,7 @@ public class HTTPStepExecutor implements StepExecutor {
     private Then matchExpected(HttpResponse<String> httpResponse,
         Map<String, Object> flatResponseBody, List<Route> routeList) {
         for (Route route : routeList) {
-
-            if (route.getExpected() == null || route.getExpected().getValue() == null) {
+            if (route.getExpected() == null) {
                 return route.getThen();
             }
 
@@ -202,7 +202,7 @@ public class HTTPStepExecutor implements StepExecutor {
         }
 
         String[] statusRange = expectedStatus.split("-");
-
+        // need to integer check
         try {
             if (statusRange.length == 2) {
                 if (Integer.parseInt(statusRange[0]) <= statusCode
@@ -226,9 +226,14 @@ public class HTTPStepExecutor implements StepExecutor {
 
     private boolean isMatchExpectedValue(Map<String, Object> flatResponseBody,
         Map<String, Object> expectedValue) {
-        if (flatResponseBody == null || expectedValue == null || expectedValue.isEmpty()) {
+        if (expectedValue == null || expectedValue.isEmpty()) {
             return true;
         }
+
+        if(flatResponseBody == null || flatResponseBody.isEmpty()){
+            return false;
+        }
+
         for (Map.Entry<String, Object> entry : expectedValue.entrySet()) {
             if (!flatResponseBody.containsKey(entry.getKey())) {
                 return false;
