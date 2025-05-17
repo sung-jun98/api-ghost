@@ -4,12 +4,11 @@ import com.apighost.model.scenario.WebSocketStatusCode;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.result.ResultStep;
 import com.apighost.model.scenario.step.Step;
-import com.apighost.util.ExecutionTimer;
-import com.apighost.util.TimeUtils;
+import com.apighost.util.file.ExecutionTimer;
+import com.apighost.util.file.TimeUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
@@ -36,20 +35,31 @@ public class WebSocketStepExecutor implements StepExecutor {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * Executes a WebSocket-related step using the provided {@link Step} configuration.
+     * Executes a WebSocket-related scenario step based on the given {@link Step} definition.
+     * <p>
+     * This method dispatches the WebSocket operation depending on the method type:
+     * <ul>
+     *     <li>{@code CONNECT} – Establishes a WebSocket connection</li>
+     *     <li>{@code SEND} – Sends a message to a specified topic</li>
+     *     <li>{@code SUBSCRIBE} – Subscribes to a topic</li>
+     *     <li>{@code UNSUBSCRIBE} – Cancels a subscription</li>
+     *     <li>{@code DISCONNECT} – Closes the WebSocket session</li>
+     * </ul>
+     * <p>
      *
-     * @param stepKey   the unique key of the current step
-     * @param step      the step to be executed
-     * @param store     shared memory across steps for context transfer
-     * @param timeoutMs the timeout duration in milliseconds for blocking operations
-     * @return a {@link ResultStep} containing execution results
-     * @throws IOException              if an I/O error occurs
-     * @throws InterruptedException     if the operation is interrupted
-     * @throws IllegalArgumentException if required step fields are null or invalid
+     * @param stepKey   a unique identifier for the current step
+     * @param step      the {@link Step} object that holds the WebSocket request configuration
+     * @param store     a shared key-value memory space used for variable persistence across steps
+     * @param timeoutMs maximum time allowed for blocking operations (e.g., connection or
+     *                  disconnection)
+     * @return a {@link ResultStep} representing the result and metadata of the executed step
+     * @throws IllegalArgumentException      if {@code step}, {@code stepKey}, or {@code request} is
+     *                                       null or invalid
+     * @throws UnsupportedOperationException if the WebSocket method is unknown or not supported
      */
     @Override
     public ResultStep execute(String stepKey, Step step, Map<String, Object> store, long timeoutMs)
-        throws IOException, InterruptedException {
+        throws UnsupportedOperationException {
 
         if (step == null || (stepKey == null || stepKey.isEmpty())) {
             throw new IllegalArgumentException("Step Information must not be null");
