@@ -32,6 +32,7 @@ import java.util.Map;
 public class ScenarioTestExecutor {
 
     StepExecutor httpStepExecutor = new HTTPStepExecutor();
+    StepExecutor socketStepExecutor = new WebSocketStepExecutor();
 
     /**
      * Executes the provided scenario and returns the result.
@@ -61,11 +62,11 @@ public class ScenarioTestExecutor {
 
             try {
                 resultStep = switch (currentStep.getType()) {
-                    case HTTP ->
-                        httpStepExecutor.execute(currentStepKey, currentStep, store,
-                            remainTimeoutMs);
-                    case WEBSOCKET ->
-                        throw new UnsupportedOperationException("WS not implemented yet");
+                    case HTTP -> httpStepExecutor.execute(currentStepKey, currentStep, store,
+                        remainTimeoutMs);
+
+                    case WEBSOCKET -> socketStepExecutor.execute(currentStepKey, currentStep, store,
+                        remainTimeoutMs);
                 };
             } catch (Exception e) {
                 resultStep = new ResultStep.Builder()
