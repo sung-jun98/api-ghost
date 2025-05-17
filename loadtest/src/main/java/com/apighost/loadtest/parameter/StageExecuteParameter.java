@@ -48,6 +48,7 @@ public class StageExecuteParameter {
     }
 
     public static class Builder {
+
         private List<Scenario> scenarios;
         private int startVus;
         private int targetVus;
