@@ -64,5 +64,6 @@ public class YamlLoadTestParameterReaderTest {
         assertEquals("TEST DESCRIPTION",
             parameter.getDescription());
 
+        assertTrue(parameter.getStages().size() > 0);
     }
 }
