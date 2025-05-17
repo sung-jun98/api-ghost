@@ -55,7 +55,8 @@ public class LoadTestParameterConverter {
         return new LoadTestExecuteParameter.Builder()
             .name(parameter.getName())
             .description(parameter.getDescription())
-            .loadTest(parameter.getLoadTest())
+            .thinkTimeMs(parameter.getThinkTimeMs())
+            .stages(parameter.getStages())
             .scenarios(scenarios)
             .build();
     }

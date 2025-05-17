@@ -36,19 +36,17 @@ public class YamlLoadTestParameterReaderTest {
     static String YAML_INPUT = """
         name: "TEST"
         description: "TEST DESCRIPTION"
-        loadTest:
-          timeoutMs: 300
-          thinkTimeMs: 1000
-          loadPattern:
-            - vus: 100
-              duration: 60
-            - vus: 2000
-              duration: 100
-            - vus: 500
-              duration: 50
+        thinkTimeMs: 1000
+        stage:
+          - vus: 100
+            duration: 60
+          - vus: 2000
+            duration: 100
+          - vus: 500
+            duration: 50
         scenarios:
-            - scenario1.yaml
-            - scenario2.yaml
+          - scenario1.yaml
+          - scenario2.yaml
         """;
 
     @Test
@@ -66,7 +64,6 @@ public class YamlLoadTestParameterReaderTest {
         assertEquals("TEST DESCRIPTION",
             parameter.getDescription());
 
-        /** then */
-        assertTrue(parameter.getLoadTest().getLoadPattern().size() > 0);
+        assertTrue(parameter.getStages().size() > 0);
     }
 }
