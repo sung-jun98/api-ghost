@@ -2,6 +2,7 @@ package com.apighost.cli.command;
 
 import com.apighost.cli.publisher.BufferedCliPublisher;
 import com.apighost.cli.util.ConsoleOutput;
+import com.apighost.loadtest.LoadTestOrchestrator;
 import com.apighost.loadtest.publisher.ResultPublisher;
 import com.apighost.model.loadtest.parameter.LoadTestExecuteParameter;
 import com.apighost.model.loadtest.parameter.LoadTestParameter;
@@ -90,8 +91,8 @@ public class ExecuteLoadTestCommand implements Callable<Integer> {
 
         LoadTestExecuteParameter executeParameter = converter.convert(loadTestParameter);
 
-//        LoadTestOrchestrator orchestrator = new LoadTestOrchestrator(publisher);
-//        orchestrator.start(executeParameter);
+        LoadTestOrchestrator orchestrator = new LoadTestOrchestrator(publisher);
+        orchestrator.start(executeParameter);
 
         return 0;
     }
