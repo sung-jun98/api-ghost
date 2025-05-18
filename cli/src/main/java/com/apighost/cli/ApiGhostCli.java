@@ -32,7 +32,8 @@ import picocli.CommandLine.Command;
         ViewResultCommand.class,
         ExecuteScenairoCommand.class,
         ViewLoadTestParamCommand.class,
-        DeleteLoadTestParameterCommand.class
+        DeleteLoadTestParameterCommand.class,
+        ExecuteLoadTestCommand.class
     }
 )
 public class ApiGhostCli implements Runnable {
