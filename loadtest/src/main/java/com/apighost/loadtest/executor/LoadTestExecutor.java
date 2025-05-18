@@ -55,7 +55,6 @@ public class LoadTestExecutor {
             previousVus = stage.getVus();
         }
 
-        System.out.println("loadtest End!");
         vuLifecycleManager.cancelAll();
         virtualExecutor.shutdown();
     }

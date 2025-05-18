@@ -35,7 +35,6 @@ public class LoadTestOrchestrator {
         startTime = TimeUtil.getNow();
         scheduler.start(startTime);
         loadTestExecutor.execute(parameter);
-        System.out.println("I'm end");
         String endTime = TimeUtil.getNow();
         scheduler.shutdown();
         LoadTestSnapshot snapshot = snapshotAggregator.buildSnapshot(startTime, endTime);
