@@ -1,4 +1,4 @@
-package loadtest.writer;
+package parser.loadtest.writer;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -59,7 +59,7 @@ public class YamlLoadTestParameterWriterTest {
         LoadTestParameter loadTestParameter = new Builder()
             .name("Test Name")
             .description("This is a test description")
-            .thinkTimeMs(1000)
+            .thinkTimeMs(1000L)
             .stages(Arrays.asList(stage1, stage2))
             .scenarios(
                 Arrays.asList("scenario1.yaml",

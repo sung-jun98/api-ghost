@@ -17,7 +17,7 @@ public class LoadTestParameter {
 
     private final String name;
     private final String description;
-    private final long thinkTimeMs;
+    private final Long thinkTimeMs;
     @JsonProperty("stage")
     private final List<Stage> stages;
     private final List<String> scenarios;
@@ -38,7 +38,7 @@ public class LoadTestParameter {
 
         private String name;
         private String description;
-        private long thinkTimeMs;
+        private Long thinkTimeMs;
         private List<Stage> stages;
         private List<String> scenarios;
 
@@ -52,7 +52,7 @@ public class LoadTestParameter {
             return this;
         }
 
-        public Builder thinkTimeMs(long thinkTimeMs) {
+        public Builder thinkTimeMs(Long thinkTimeMs) {
             this.thinkTimeMs = thinkTimeMs;
             return this;
         }
@@ -84,7 +84,7 @@ public class LoadTestParameter {
         return description;
     }
 
-    public long getThinkTimeMs() {
+    public Long getThinkTimeMs() {
         return thinkTimeMs;
     }
 

@@ -1,4 +1,4 @@
-package loadtest.reader;
+package parser.loadtest.reader;
 
 
 import static java.nio.file.Files.createTempFile;
