@@ -36,7 +36,7 @@ public class ResultBuffer {
      * @param scenarioResult the scenario result to add
      */
     public void add(ScenarioResult scenarioResult) {
-        if (scenarioResult != null) {
+        if (scenarioResult == null) {
             throw new IllegalStateException("ScenarioResult must not be null.");
         }
         buffer.add(scenarioResult);
