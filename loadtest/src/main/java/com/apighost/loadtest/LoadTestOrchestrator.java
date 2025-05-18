@@ -8,7 +8,7 @@ import com.apighost.loadtest.scheduler.ResultScheduler;
 import com.apighost.model.loadtest.parameter.LoadTestExecuteParameter;
 import com.apighost.model.loadtest.result.LoadTestSnapshot;
 import com.apighost.model.loadtest.result.LoadTestSummary;
-import com.apighost.util.time.TimeUtil;
+import com.apighost.util.file.TimeUtils;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LoadTestOrchestrator {
@@ -32,10 +32,10 @@ public class LoadTestOrchestrator {
     }
 
     public void start(LoadTestExecuteParameter parameter) {
-        startTime = TimeUtil.getNow();
+        startTime = TimeUtils.getNow();
         scheduler.start(startTime);
         loadTestExecutor.execute(parameter);
-        String endTime = TimeUtil.getNow();
+        String endTime = TimeUtils.getNow();
         scheduler.shutdown();
         LoadTestSnapshot snapshot = snapshotAggregator.buildSnapshot(startTime, endTime);
         publisher.complete(new LoadTestSummary.Builder()
@@ -49,7 +49,7 @@ public class LoadTestOrchestrator {
     }
 
     public void stop(LoadTestExecuteParameter parameter) {
-        String endTime = TimeUtil.getNow();
+        String endTime = TimeUtils.getNow();
         scheduler.shutdown();
         LoadTestSnapshot snapshot = snapshotAggregator.buildSnapshot(startTime, endTime);
         publisher.complete(new LoadTestSummary.Builder()
