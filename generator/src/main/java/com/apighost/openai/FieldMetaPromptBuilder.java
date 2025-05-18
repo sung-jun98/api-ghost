@@ -28,6 +28,6 @@ public class FieldMetaPromptBuilder {
      */
     public static String buildPrompt(String jsonBody)
         throws JsonProcessingException {
-        return propertyLoader.get("openai.prompt.start") + jsonBody + "\n" + propertyLoader.get("openai.prompt.end");
+        return propertyLoader.get("openai.prompt.start") + jsonBody;
     }
 }

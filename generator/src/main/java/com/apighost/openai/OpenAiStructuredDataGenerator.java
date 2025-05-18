@@ -71,7 +71,7 @@ public class OpenAiStructuredDataGenerator implements StructuredDataGenerator {
                 "messages", List.of(
                     Map.of("role", "user", "content", prompt)
                 ),
-                "temperature", 0.2
+                "temperature", 0.5
             );
             String requestBody = objectMapper.writeValueAsString(request);
 
