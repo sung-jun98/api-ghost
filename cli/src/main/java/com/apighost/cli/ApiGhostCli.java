@@ -3,6 +3,7 @@ package com.apighost.cli;
 
 import com.apighost.cli.command.DeleteLoadTestParameterCommand;
 import com.apighost.cli.command.ExecuteLoadTestCommand;
+import com.apighost.cli.command.ExecuteLoadTestCommand;
 import com.apighost.cli.command.ExecuteScenairoCommand;
 import com.apighost.cli.command.ShowGuiCommand;
 import com.apighost.cli.command.ViewLoadTestParamCommand;
@@ -33,6 +34,8 @@ import picocli.CommandLine.Command;
         ExecuteScenairoCommand.class,
         ViewLoadTestParamCommand.class,
         DeleteLoadTestParameterCommand.class
+        ViewLoadTestParamCommand.class,
+        ExecuteLoadTestCommand.class
     }
 )
 public class ApiGhostCli implements Runnable {
