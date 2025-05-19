@@ -15,6 +15,9 @@ public class AnsiEscapeUtil {
     public static final String CLEAR_LINE = CSI + "2K";
     public static final String CLEAR_SCREEN = CSI + "2J";
 
+    public static final String SAVE_CURSOR_POSITION = CSI + "s";
+    public static final String RESTORE_CURSOR_POSITION = CSI + "u";
+
     public static String setCursorPosition(int row, int column) {
         return String.format(CURSOR_POSITION, row, column);
     }

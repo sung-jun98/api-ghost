@@ -2,6 +2,7 @@ package com.apighost.cli.util.console;
 
 import com.apighost.model.loadtest.result.Endpoint;
 import com.apighost.model.loadtest.result.LoadTestSnapshot;
+import com.apighost.model.loadtest.result.LoadTestSummary;
 import com.apighost.model.loadtest.result.Result;
 import com.apighost.model.loadtest.result.metric.HttpReqDuration;
 import java.util.HashMap;
@@ -22,10 +23,13 @@ public class LoadTestReporter {
     private int timeStampLine = 2;
     private int durationLine = 3;
     private int httpReqLine = 4;
-    private int endpointStartLine = 5;
-    private int httpFailLine = 7;
-    private int progressLine = 10;
+    private int httpFailLine = 5;
+    private int vusLine = 6;
+    private int iterationsLine = 7;
+    private int httpReqsLine = 8;
+    private int endpointStartLine = 9;
     private Map<String, Integer> endpointLines = new HashMap<>();
+    private Map<Integer, String> updates;
 
     /**
      * Define a dynamicdisplaymanager that deals with strings using printwriter in the console
@@ -33,17 +37,26 @@ public class LoadTestReporter {
      */
     public LoadTestReporter() {
         this.display = new DynamicDisplayManager();
+        startTime = System.currentTimeMillis();
         initializeLayout();
     }
 
+    /**
+     * After initializing the ANSIESCAPE -related tools to show the load test results dynamically,
+     * Show and define the first basic message every 5 seconds before receiving the result of the
+     * load test.
+     */
     private void initializeLayout() {
-
+        display.initialize();
         display.println("API Ghost Under load test");
         display.println("  timestamp.....................: Initialization...");
         display.println("  duration......................: 0s");
         display.println(
-            "  http_req_duration..............: avg=0ms      min=0ms      med=0ms     max=0ms");
-        display.println("  http_req_failed................: 0.00%  ✓ 0        ✗ 0");
+            "  http_req_duration..............: avg=0ms      min=0ms      med=0ms     max=0ms    p(90)=0ms    p(95)=0ms");
+        display.println("  http_req_failed................: 0.00%  O 0        X 0");
+        display.println("  vus...........................: 0");
+        display.println("  Number of scenarios performed Now...... : 0");
+        display.println("  Number of HttpRequests Now..............: 0");
         display.println("");
 
     }
@@ -55,33 +68,99 @@ public class LoadTestReporter {
      */
     public void updateSnapshot(LoadTestSnapshot snapshot) {
         Result result = snapshot.getResult();
+        updates = new HashMap<>();
 
-        display.updateLine(timeStampLine,
+        updates.put(timeStampLine,
             "  timestamp.....................: " + snapshot.getTimeStamp());
 
         long elapsedSecs = (System.currentTimeMillis() - startTime) / 1000;
-        display.updateLine(durationLine,
+        updates.put(durationLine,
             "  duration......................: " + formatDuration(elapsedSecs));
 
         HttpReqDuration duration = result.getHttpReqDuration();
-        display.updateLine(httpReqLine, String.format(
-            "  http_req_duration..............: avg=%-8s min=%-8s med=%-8s max=%-8s",
+        updates.put(httpReqLine, String.format(
+            "  http_req_duration..............: avg=%-8s min=%-8s med=%-8s max=%-8s p(90)=%-8s p(95)=%-8s",
             formatMs(duration.getAvg()),
             formatMs(duration.getMin()),
             formatMs(duration.getMed()),
-            formatMs(duration.getMax())
+            formatMs(duration.getMax()),
+            formatMs(duration.getP90()),
+            formatMs(duration.getP95())
         ));
-
-        updateEndpointInfo(snapshot.getEndpoints());
 
         long totalRequests = result.getHttpReqs().getCount();
         long failedRequests = result.getHttpReqFailed().getFail();
         double failureRate = failedRequests * 100.0 / (totalRequests > 0 ? totalRequests : 1);
-        display.updateLine(httpFailLine, String.format(
-            "  http_req_failed................: %.2f%%  ✓ %d        ✗ %d",
-            failureRate, failedRequests, totalRequests - failedRequests
+        failureRate = Math.ceil(failureRate * 100) / 100;
+        updates.put(httpFailLine, String.format(
+            "  http_req_failed................: %.2f%%  O %d        X %d",
+            failureRate, totalRequests - failedRequests, failedRequests
         ));
 
+        updates.put(vusLine,
+            String.format("  vus...........................: %d", result.getVus()));
+
+        updates.put(iterationsLine,
+            String.format("  Number of scenarios performed Now...... : %.2f",
+                result.getIterations().getRate()));
+
+        updates.put(httpReqsLine,
+            String.format("  Number of HttpRequests Now..............: %.2f",
+                result.getHttpReqs().getRate()));
+
+        updateEndpointInfo(snapshot.getEndpoints());
+        display.updateScreen(updates);
+    }
+
+    /**
+     * A method that changes LoadTestSummary to the terminal console window at the end
+     *
+     * @param summary the final response of LoadTest
+     */
+    public void updateSummary(LoadTestSummary summary) {
+        Result result = summary.getResult();
+        updates = new HashMap<>();
+
+        updates.put(timeStampLine,
+            "  startTime ......." + summary.getStartTime() + ".......EndTime......."
+                + summary.getEndTime());
+
+        long elapsedSecs = (System.currentTimeMillis() - startTime) / 1000;
+        updates.put(durationLine,
+            "  duration......................: " + formatDuration(elapsedSecs));
+
+        HttpReqDuration duration = result.getHttpReqDuration();
+        updates.put(httpReqLine, String.format(
+            "  http_req_duration..............: avg=%-8s min=%-8s med=%-8s max=%-8s p(90)=%-8s p(95)=%-8s",
+            formatMs(duration.getAvg()),
+            formatMs(duration.getMin()),
+            formatMs(duration.getMed()),
+            formatMs(duration.getMax()),
+            formatMs(duration.getP90()),
+            formatMs(duration.getP95())
+        ));
+
+        long totalRequests = result.getHttpReqs().getCount();
+        long failedRequests = result.getHttpReqFailed().getFail();
+        double failureRate = failedRequests * 100.0 / (totalRequests > 0 ? totalRequests : 1);
+        failureRate = Math.ceil(failureRate * 100) / 100;
+        updates.put(httpFailLine, String.format(
+            "  http_req_failed................: %.2f%%  O %d        X %d",
+            failureRate, totalRequests - failedRequests, failedRequests
+        ));
+
+        updates.put(vusLine,
+            String.format("  vus...........................: %d", result.getVus()));
+
+        updates.put(iterationsLine,
+            String.format("  Total scenarios performed ............ : %d",
+                result.getIterations().getCount()));
+
+        updates.put(httpReqsLine,
+            String.format("  Total HttpRequests ..................... : %d",
+                result.getHttpReqs().getCount()));
+        updateEndpointInfo(summary.getEndpoints());
+        display.updateScreen(updates);
     }
 
     /**
@@ -98,8 +177,12 @@ public class LoadTestReporter {
 
             if (!endpointLines.containsKey(url)) {
                 endpointLines.put(url, line);
-                httpFailLine++;
-                progressLine++;
+                String initialContent = String.format(
+                    "  %s: avg=%-8s min=%-8s med=%-8s max=%-8s",
+                    String.format("%-35s", "    { endpoint:" + url + " }"),
+                    "0ms", "0ms", "0ms", "0ms"
+                );
+                display.println(initialContent);
             }
 
             line = endpointLines.get(url);
@@ -108,15 +191,16 @@ public class LoadTestReporter {
             String padding = "    { endpoint:" + url + " }";
             padding = String.format("%-35s", padding);
 
-            display.updateLine(line, String.format(
+            String content = String.format(
                 "  %s: avg=%-8s min=%-8s med=%-8s max=%-8s",
                 padding,
                 formatMs(duration.getAvg()),
                 formatMs(duration.getMin()),
                 formatMs(duration.getMed()),
                 formatMs(duration.getMax())
-            ));
+            );
 
+            updates.put(line, content);
             line++;
         }
     }

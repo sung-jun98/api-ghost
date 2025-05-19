@@ -32,6 +32,6 @@ public class BufferedCliPublisher implements ResultPublisher {
      */
     @Override
     public void complete(LoadTestSummary summary) {
-
+        reporter.updateSummary(summary);
     }
 }
