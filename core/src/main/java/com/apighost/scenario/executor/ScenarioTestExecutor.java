@@ -46,6 +46,10 @@ public class ScenarioTestExecutor {
         ScenarioValidator.validateNoRouteCycle(scenario,
             scenario.getSteps().keySet().iterator().next());
 
+        if (callback == null) {
+            callback = new ScenarioResultCallback() {};
+        }
+
         List<ResultStep> resultStepList = new ArrayList<>();
         Map<String, Object> store =
             scenario.getStore() != null ? scenario.getStore() : new HashMap<>();
