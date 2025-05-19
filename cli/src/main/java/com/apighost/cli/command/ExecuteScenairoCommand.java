@@ -12,6 +12,7 @@ import com.apighost.parser.scenario.writer.ScenarioResultWriter;
 import com.apighost.scenario.executor.ScenarioTestExecutor;
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Callable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
@@ -92,8 +93,16 @@ public class ExecuteScenairoCommand implements Callable<Integer> {
         ScenarioResultWriter scenarioResultWriter = new JsonScenarioResultWriter();
         File scenarioResultDir = FileUtil.findDirectory(FileType.RESULT);
         File scenarioResultFile = new File(scenarioResultDir,
-            FileUtil.replaceIllegalFileName(scenario.getName() + LocalDateTime.now() + ".json"));
+            FileUtil.replaceIllegalFileName(scenario.getName() + getNow() + ".json"));
         scenarioResultWriter.writeScenarioResult(scenarioResult, scenarioResultFile.getPath());
         return 0;
+    }
+
+    private String getNow() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"))
+            .replace("-", "")
+            .replace("T", "_")
+            .replace(":", "")
+            .replaceAll("\\.\\d+$", "");
     }
 }
