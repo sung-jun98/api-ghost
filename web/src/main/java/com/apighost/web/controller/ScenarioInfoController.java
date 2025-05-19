@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This controller uses a {@link ScenarioReader} implementation (in this case,
@@ -65,7 +66,10 @@ public class ScenarioInfoController implements ApiController {
 
                 if (searchedName.equals(scenarioName)) {
                     Scenario scenario = reader.readScenario(file.getAbsolutePath());
-                    JsonUtils.writeJsonResponse(response, scenario, HttpServletResponse.SC_OK);
+
+                    Map<String, Object> responseBody = Map.of("fileName", scenarioName,
+                        "file", scenario);
+                    JsonUtils.writeJsonResponse(response, responseBody, HttpServletResponse.SC_OK);
                     return;
                 }
             }
