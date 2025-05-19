@@ -31,6 +31,11 @@ public class FileUtil {
             }
         }
 
+
         return typeDir.toFile();
+    }
+
+    public static String replaceIllegalFileName(String fileName) {
+        return fileName.replaceAll("[\\\\/:*?\"<>|\\p{Cntrl}]", "");
     }
 }
