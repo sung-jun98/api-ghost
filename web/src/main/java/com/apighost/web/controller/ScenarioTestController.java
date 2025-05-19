@@ -1,5 +1,8 @@
 package com.apighost.web.controller;
 
+import com.apighost.model.scenario.ScenarioResult;
+import com.apighost.parser.scenario.writer.JsonScenarioResultWriter;
+import com.apighost.parser.scenario.writer.ScenarioResultWriter;
 import com.apighost.scenario.callback.ScenarioResultCallback;
 import com.apighost.scenario.executor.ScenarioTestExecutor;
 import com.apighost.web.util.FileType;
@@ -20,6 +23,8 @@ import com.apighost.web.sse.ScenarioTestSSECallback;
 
 import jakarta.servlet.AsyncContext;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,6 +36,7 @@ import java.util.concurrent.Executors;
  * @version BETA-0.0.1
  */
 public class ScenarioTestController implements ApiController {
+
     private static final int ASYNC_TIMEOUT_MS = 300000;
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
@@ -79,8 +85,8 @@ public class ScenarioTestController implements ApiController {
 
                 /** Refraction to be considered for other types of test files*/
                 File[] files = targetDir.listFiles((dir, name) ->
-                                                       name.toLowerCase().endsWith(".yaml") ||
-                                                           name.toLowerCase().endsWith(".yml")
+                    name.toLowerCase().endsWith(".yaml") ||
+                        name.toLowerCase().endsWith(".yml")
                 );
 
                 /** 2. Read the scenario file */
@@ -106,7 +112,16 @@ public class ScenarioTestController implements ApiController {
 
                 /** 4. Callback registration at the same time as the scenario test is executed
                  Connection End Logic is located in the onscenariocompleted of the callback function ScenariotestSecallback. */
-                executor.execute(scenario, callback);
+                ScenarioResult scenarioResult = executor.execute(scenario, callback);
+
+                ScenarioResultWriter scenarioResultWriter = new JsonScenarioResultWriter();
+                File scenarioResultDir = FileUtil.findDirectory(FileType.RESULT);
+
+                File scenarioResultFile = new File(scenarioResultDir,
+                    FileUtil.replaceIllegalFileName(
+                        scenario.getName() + getNow() + ".json"));
+                scenarioResultWriter.writeScenarioResult(scenarioResult,
+                    scenarioResultFile.getPath());
 
             } catch (Exception e) {
                 try {
@@ -133,5 +148,13 @@ public class ScenarioTestController implements ApiController {
             System.err.println("Error closing SSE connection: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private String getNow() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS"))
+            .replace("-", "")
+            .replace("T", "_")
+            .replace(":", "")
+            .replaceAll("\\.\\d+$", "");
     }
 }

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * This class is responsible for handling HTTP GET requests related to fetching scenario results.
@@ -53,16 +54,20 @@ public class ResultInfoController implements ApiController {
             File targetDir = FileUtil.findDirectory(FileType.RESULT);
 
             File[] files = targetDir.listFiles((dir, name) ->
-                                                   name.toLowerCase().endsWith(".json"));
+                name.toLowerCase().endsWith(".json"));
 
             boolean found = false;
             for (File file : files) {
                 String searchedName = file.getName();
 
                 if (searchedName.equals(testResultName)) {
+
                     ScenarioResult scenarioResult = reader.readScenarioResult(
                         file.getAbsolutePath());
-                    JsonUtils.writeJsonResponse(response, scenarioResult,
+
+                    Map<String, Object> responseBody = Map.of("fileName", testResultName,
+                        "file", scenarioResult);
+                    JsonUtils.writeJsonResponse(response, responseBody,
                         HttpServletResponse.SC_OK);
                     found = true;
                     return;
@@ -74,7 +79,8 @@ public class ResultInfoController implements ApiController {
             }
 
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to get scenario result detail: " + e.getMessage());
+            throw new IllegalStateException(
+                "Failed to get scenario result detail: " + e.getMessage());
         }
     }
 }
