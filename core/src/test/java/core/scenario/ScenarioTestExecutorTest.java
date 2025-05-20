@@ -7,7 +7,8 @@ import com.apighost.model.scenario.step.*;
 import com.apighost.model.scenario.request.*;
 import com.apighost.scenario.executor.ScenarioTestExecutor;
 import org.junit.jupiter.api.Test;
-
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -52,47 +53,58 @@ class ScenarioTestExecutorTest {
      * </p>
      */
     @Test
-    void testExecute_successScenario_returnsValidResult() {
-        Step step = new Step.Builder()
-            .type(ProtocolType.HTTP)
-            .request(new Request.Builder()
-                .method(HTTPMethod.GET)
-                .url("https://httpbin.org/status/200")
-                .build())
-            .route(List.of(new Route.Builder()
-                .expected(new Expected.Builder().status("200").build())
-                .then(new Then.Builder().step("end").build())
-                .build()))
-            .build();
+    void testExecute_successScenario_returnsValidResult() throws Exception {
+        try (MockWebServer server = new MockWebServer()) {
+            server.enqueue(new MockResponse().setResponseCode(200));
+            server.enqueue(new MockResponse().setResponseCode(200));
+            server.start();
 
-        LinkedHashMap<String, Step> steps = new LinkedHashMap<>();
-        steps.put("start", step);
-        steps.put("end", new Step.Builder().type(ProtocolType.HTTP)
-            .request(new Request.Builder()
-                .method(HTTPMethod.GET)
-                .url("https://httpbin.org/status/200")
-                .build())
-            .route(List.of(new Route.Builder()
-                .expected(new Expected.Builder().status("200").build())
-                .then(new Then.Builder().step(null).build())
-                .build()))
-            .build());
+            String baseUrl = server.url("/status/200").toString();
 
-        Scenario scenario = new Scenario.Builder()
-            .name("Simple GET Scenario")
-            .steps(steps)
-            .timeoutMs(50000L)
-            .build();
+            Step step1 = new Step.Builder()
+                .type(ProtocolType.HTTP)
+                .request(new Request.Builder()
+                    .method(HTTPMethod.GET)
+                    .url(baseUrl)
+                    .build())
+                .route(List.of(new Route.Builder()
+                    .expected(new Expected.Builder().status("200").build())
+                    .then(new Then.Builder().step("end").build())
+                    .build()))
+                .build();
 
-        ScenarioTestExecutor executor = new ScenarioTestExecutor();
+            Step step2 = new Step.Builder()
+                .type(ProtocolType.HTTP)
+                .request(new Request.Builder()
+                    .method(HTTPMethod.GET)
+                    .url(baseUrl)
+                    .build())
+                .route(List.of(new Route.Builder()
+                    .expected(new Expected.Builder().status("200").build())
+                    .then(new Then.Builder().step(null).build())
+                    .build()))
+                .build();
 
-        ScenarioResult result = executor.execute(scenario, null);
+            LinkedHashMap<String, Step> steps = new LinkedHashMap<>();
+            steps.put("start", step1);
+            steps.put("end", step2);
 
-        assertNotNull(result);
-        assertEquals(2, result.getResults().size());
-        for (ResultStep stepResult : result.getResults()) {
-            assertTrue(stepResult.getIsRequestSuccess());
+            Scenario scenario = new Scenario.Builder()
+                .name("Mock GET Scenario")
+                .steps(steps)
+                .timeoutMs(5000L)
+                .build();
+
+            ScenarioTestExecutor executor = new ScenarioTestExecutor();
+            ScenarioResult result = executor.execute(scenario, null);
+
+            assertNotNull(result);
+            assertEquals(2, result.getResults().size());
+            for (ResultStep stepResult : result.getResults()) {
+                assertTrue(stepResult.getIsRequestSuccess());
+            }
+            assertTrue(result.getIsScenarioSuccess());
         }
-        assertTrue(result.getIsScenarioSuccess());
     }
 }
+

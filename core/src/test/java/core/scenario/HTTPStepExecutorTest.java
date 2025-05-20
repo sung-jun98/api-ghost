@@ -1,16 +1,13 @@
 package core.scenario;
 
-import com.apighost.model.scenario.request.FormData;
 import com.apighost.model.scenario.request.Request;
 import com.apighost.model.scenario.step.*;
 import com.apighost.scenario.executor.HTTPStepExecutor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.io.TempDir;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,25 +36,31 @@ class HTTPStepExecutorTest {
 
     @Test
     void testExecute_simpleGetRequest_returnsSuccess() throws Exception {
-        Step step = new Step.Builder()
-            .type(ProtocolType.HTTP)
-            .request(new Request.Builder()
-                .method(HTTPMethod.GET)
-                .url("https://httpbin.org/status/200")
-                .build())
-            .route(List.of(new Route.Builder()
-                .expected(new Expected.Builder().status("200").build())
-                .then(new Then.Builder().step(null).build())
-                .build()))
-            .build();
+        try (MockWebServer server = new MockWebServer()) {
+            server.enqueue(new MockResponse().setResponseCode(200));
+            server.start();
 
-        var result = executor.execute("step1", step, Map.of(), 2000);
+            String url = server.url("/status/200").toString();
 
-        assertEquals("step1", result.getStepName());
-        assertEquals(200, result.getStatus());
-        assertTrue(result.getIsRequestSuccess());
-        assertNull(result.getNextStep());
+            Step step = new Step.Builder()
+                .type(ProtocolType.HTTP)
+                .request(new Request.Builder()
+                    .method(HTTPMethod.GET)
+                    .url(url)
+                    .build())
+                .route(List.of(new Route.Builder()
+                    .expected(new Expected.Builder().status("200").build())
+                    .then(new Then.Builder().step(null).build())
+                    .build()))
+                .build();
+
+            var result = executor.execute("step1", step, Map.of(), 2000);
+
+            assertEquals("step1", result.getStepName());
+            assertEquals(200, result.getStatus());
+            assertTrue(result.getIsRequestSuccess());
+            assertNull(result.getNextStep());
+        }
     }
-
 }
 
