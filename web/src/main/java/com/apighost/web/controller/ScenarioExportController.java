@@ -60,7 +60,7 @@ public class ScenarioExportController implements ApiController {
 
             /** 4. Store the converted YAML object inside the scenario folder */
             File scenarioDir = FileUtil.findDirectory(FileType.SCENARIO);
-            String fileName = scenario.getName();
+            String fileName = scenario.getName()+".yaml";
             String filePath = new File(scenarioDir, fileName).getAbsolutePath();
             writer.writeScenario(scenario, filePath);
 
