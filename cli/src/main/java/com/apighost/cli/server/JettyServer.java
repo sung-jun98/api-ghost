@@ -4,6 +4,8 @@ import com.apighost.cli.util.ConsoleOutput;
 import com.apighost.web.filter.CorsFilter;
 import com.apighost.web.filter.ErrorHandlingFilter;
 import com.apighost.web.servlet.ApiFrontControllerServlet;
+import com.apighost.web.servlet.RootRedirectServlet;
+import com.apighost.web.servlet.StaticResourceServlet;
 import jakarta.servlet.DispatcherType;
 import java.net.URL;
 import java.util.EnumSet;
@@ -43,27 +45,6 @@ public class JettyServer {
     public void start() throws Exception {
 
         server = new Server(port);
-        /** GUI Path */
-        WebAppContext uiContext = new WebAppContext();
-        uiContext.setContextPath("/apighost-ui");
-
-        ResourceFactory resourceFactory = ResourceFactory.of(uiContext);
-        URL resourceUrl = getClass().getClassLoader().getResource("index.html");
-
-        if (resourceUrl != null) {
-            String baseDir = resourceUrl.toURI().toString();
-            baseDir = baseDir.substring(0, baseDir.lastIndexOf("index.html"));
-
-            Resource resource = resourceFactory.newResource(baseDir);
-            uiContext.setBaseResource(resource);
-        }
-
-        if (resourceUrl == null) {
-            ConsoleOutput.printErrorBold(
-                "Resource base URL is null. report to ghost api admin ... ");
-        }
-
-        uiContext.setWelcomeFiles(new String[]{"index.html"});
 
         /** API Context Path */
         WebAppContext apiContext = new WebAppContext();
@@ -73,7 +54,7 @@ public class JettyServer {
         apiContext.setParentLoaderPriority(true);
 
         ResourceFactory apiResourceFactory = ResourceFactory.of(apiContext);
-        URL apiResourceUrl = getClass().getClassLoader().getResource("");
+        URL apiResourceUrl = getClass().getProtectionDomain().getCodeSource().getLocation();
         if (apiResourceUrl != null) {
             Resource apiResource = apiResourceFactory.newResource(apiResourceUrl.toURI());
             apiContext.setBaseResource(apiResource);
@@ -84,7 +65,6 @@ public class JettyServer {
         }
 
         /** SERVLET injection implemented in WebAppContext in Web module & Add CORS Filters */
-
         FilterHolder errorHandlingFilterHolder = new FilterHolder(new ErrorHandlingFilter());
         apiContext.addFilter(errorHandlingFilterHolder, "/apighost/*", EnumSet.of(DispatcherType.REQUEST));
 
@@ -95,10 +75,16 @@ public class JettyServer {
         frontControllerHolder.setAsyncSupported(true);
         apiContext.addServlet(frontControllerHolder, "/apighost/*");
 
+        ServletHolder staticHolder = new ServletHolder(new StaticResourceServlet());
+        staticHolder.setAsyncSupported(true);
+        apiContext.addServlet(staticHolder, "/apighost-ui/*");
+
+        ServletHolder rootHolder = new ServletHolder(new RootRedirectServlet());
+        apiContext.addServlet(rootHolder, "/");
+
         /** Register filters and servlets */
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.addHandler(apiContext);
-        contexts.addHandler(uiContext);
 
         server.setHandler(contexts);
         server.start();
