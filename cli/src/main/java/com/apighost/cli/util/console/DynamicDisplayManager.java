@@ -1,6 +1,8 @@
 package com.apighost.cli.util.console;
 
+import com.apighost.cli.util.ConsoleOutput;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
  * Definition of basic methods that will be used to dynamically output the results dynamically using
@@ -13,9 +15,11 @@ public class DynamicDisplayManager {
 
     private int totalLines = 0;
     private final PrintWriter writer;
+    private final StringBuilder buffer;
 
     public DynamicDisplayManager() {
         this.writer = new PrintWriter(System.out, true);
+        this.buffer = new StringBuilder();
     }
 
     /**
@@ -24,8 +28,11 @@ public class DynamicDisplayManager {
     public void initialize() {
         writer.print(AnsiEscapeUtil.CLEAR_SCREEN);
         writer.print(AnsiEscapeUtil.setCursorPosition(1, 1));
+
+        writer.print(AnsiEscapeUtil.SAVE_CURSOR_POSITION);
         writer.flush();
         totalLines = 0;
+        buffer.setLength(0);
     }
 
     /**
@@ -34,23 +41,36 @@ public class DynamicDisplayManager {
      * @param text
      */
     public void println(String text) {
+        buffer.append(text).append("\n");
         writer.println(text);
         writer.flush();
         totalLines++;
     }
 
     /**
-     * The method used when you want to overwrite the text on the upper part of the already written.
+     * Updates the content displayed on the screen based on the provided updates.
+     * The method restores the cursor position, iterates through the existing lines
+     * of content, replaces specified lines with new content, and clears and redraws
+     * the corresponding lines.
      *
-     * @param lineNumber
-     * @param text
+     * @param updates a map where the key represents the line number (1-based) to
+     *                update and the value represents the new content for that line.
      */
-    public void updateLine(int lineNumber, String text) {
-        writer.print(AnsiEscapeUtil.setCursorPosition(lineNumber, 1));
-        writer.print(AnsiEscapeUtil.CLEAR_LINE);
-        writer.print(text);
+    public void updateScreen(Map<Integer, String> updates) {
+        writer.print(AnsiEscapeUtil.RESTORE_CURSOR_POSITION);
+        String[] lines = buffer.toString().split("\n");
+
+        for (int i = 0; i < lines.length; i++) {
+            int lineNum = i + 1;
+            String newContent = updates.getOrDefault(lineNum, lines[i]);
+            writer.print(AnsiEscapeUtil.CLEAR_LINE);
+            writer.println(newContent);
+            lines[i] = newContent;
+        }
+
+        buffer.setLength(0);
+        buffer.append(String.join("\n", lines));
+
         writer.flush();
     }
-
-
 }
