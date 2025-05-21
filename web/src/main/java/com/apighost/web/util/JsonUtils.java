@@ -111,4 +111,16 @@ public class JsonUtils {
             return message;
         }
     }
+
+    public static void writeBooleanResponse(HttpServletResponse response, boolean value,
+        int statusCode)
+        throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(statusCode);
+
+        PrintWriter writer = response.getWriter();
+        writer.write(String.valueOf(value));
+        writer.flush();
+    }
 }
