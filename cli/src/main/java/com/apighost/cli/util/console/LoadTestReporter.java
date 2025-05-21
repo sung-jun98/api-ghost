@@ -1,5 +1,6 @@
 package com.apighost.cli.util.console;
 
+import com.apighost.cli.util.ConsoleOutput;
 import com.apighost.model.loadtest.result.Endpoint;
 import com.apighost.model.loadtest.result.LoadTestSnapshot;
 import com.apighost.model.loadtest.result.LoadTestSummary;
@@ -18,17 +19,20 @@ import java.util.Map;
  */
 public class LoadTestReporter {
 
+    private final static int LOGO_LINE = 12;
+
     private final DynamicDisplayManager display;
     private long startTime;
-    private int timeStampLine = 2;
-    private int durationLine = 3;
-    private int httpReqLine = 4;
-    private int httpFailLine = 5;
-    private int vusLine = 6;
-    private int iterationsLine = 7;
-    private int httpReqsLine = 8;
-    private int endpointStartLine = 9;
-    private Map<String, Integer> endpointLines = new HashMap<>();
+    private int timeStampLine = 2 + LOGO_LINE;
+    private int durationLine = 3 + LOGO_LINE;
+    private int progressBarLine = 4 + LOGO_LINE;
+    private int httpReqLine = 5 + LOGO_LINE;
+    private int httpFailLine = 6 + LOGO_LINE;
+    private int vusLine = 7 + LOGO_LINE;
+    private int iterationsLine = 8 + LOGO_LINE;
+    private int httpReqsLine = 9 + LOGO_LINE;
+    private int endpointStartLine = 11 + LOGO_LINE;
+    private int previousLine = endpointStartLine;
     private Map<Integer, String> updates;
 
     /**
@@ -48,17 +52,31 @@ public class LoadTestReporter {
      */
     private void initializeLayout() {
         display.initialize();
+        display.println("░░░░░░░░░░░░░░░▒▒▒▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░░░░░▒▓▒░░░░░░▒▓▒░░░░░░░░░░▒░░░░░▒▒▒▒░░░▒░░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░░░▒▓░░░░░░░░░░░░▓░░░░░░░░▓▓▓▒░░░▓░░░▓▓░▓▒░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░░▓▒░░░░░░░░░░░░░░▓░░░░░░▒▓░▒▓░░░▓░░░▓▓░▓▒░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░░▓░░░▒▓▓░░░▒▓▓░░░░▓░░░░░▓▓▒▒▓▒░░▓▒▒▒░░░▓▒░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░░▓░░░░▓▓░░░░▓▓░░░░▓░░░░▒▓░░░░▓░░▓░░░░░░▓▒░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░░▓░░░░░░░░░░░░░░░░▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░▒▓░░░░░▒▓▒▓▓░░░░░░▓░░░░░▒▓▓▓░░▒▓░░░░░░░░░░░░░░░░░░░░░░░░░░");
+        display.println("░░░░░░░▓▒░░░░░░░░░░░░░░░░▓░░░▒▓░░░░▒░▒▓░▒▒░░░░▒▒░░░░▒▓▒░▒▓▓▒░░░░░");
+        display.println("░░░░░░░▓░░░░░░░░░░░░░░░░░▓░░░▓▒░░▒▓▓▒▒▓░░▒▓░▓▒░░▒▓░▓▒░░░░▒▓░░░░░░");
+        display.println("░░░░░░▓░░░░░░░░░░░░░░░░░░▓░░░▒▓░░░░▓▒▒▓░░░▓░▓▒░░▒▓░░░▒▓▓░▒▓░░░░░░");
+        display.println("░░░░░▒▓░░▒▓▓▓▓▒░░░▓▓▓▓▒░▓▒░░░░░▓▓▓▓▒░▒▓░░░▓░░▓▓▓▓░░▓▓▓▓▒░▒▓▓░░░░░");
         display.println("API Ghost Under load test");
+
+        String bar = getProgressBar(0, 20);
         display.println("  timestamp.....................: Initialization...");
         display.println("  duration......................: 0s");
+        display.println("  progress.......................: " + bar + " 0s / 60s");
         display.println(
             "  http_req_duration..............: avg=0ms      min=0ms      med=0ms     max=0ms    p(90)=0ms    p(95)=0ms");
         display.println("  http_req_failed................: 0.00%  O 0        X 0");
         display.println("  vus...........................: 0");
         display.println("  Number of scenarios performed Now...... : 0");
         display.println("  Number of HttpRequests Now..............: 0");
-        display.println("");
-
+        display.println(" ");
     }
 
     /**
@@ -76,6 +94,11 @@ public class LoadTestReporter {
         long elapsedSecs = (System.currentTimeMillis() - startTime) / 1000;
         updates.put(durationLine,
             "  duration......................: " + formatDuration(elapsedSecs));
+
+        double progressRatio = (elapsedSecs * 1.0) / 60;
+        progressRatio = Math.min(progressRatio, 1.0);
+        updates.put(progressBarLine,
+            "  progress.......................: " + getProgressBar(progressRatio, 20));
 
         HttpReqDuration duration = result.getHttpReqDuration();
         updates.put(httpReqLine, String.format(
@@ -171,38 +194,29 @@ public class LoadTestReporter {
      */
     private void updateEndpointInfo(List<Endpoint> endpoints) {
         int line = endpointStartLine;
+        updates = updates != null ? updates : new HashMap<>();
 
         for (Endpoint endpoint : endpoints) {
-            String url = endpoint.getUrl();
-
-            if (!endpointLines.containsKey(url)) {
-                endpointLines.put(url, line);
-                String initialContent = String.format(
-                    "  %s: avg=%-8s min=%-8s med=%-8s max=%-8s",
-                    String.format("%-35s", "    { endpoint:" + url + " }"),
-                    "0ms", "0ms", "0ms", "0ms"
-                );
-                display.println(initialContent);
-            }
-
-            line = endpointLines.get(url);
             HttpReqDuration duration = endpoint.getResult().getHttpReqDuration();
-
-            String padding = "    { endpoint:" + url + " }";
-            padding = String.format("%-35s", padding);
-
             String content = String.format(
-                "  %s: avg=%-8s min=%-8s med=%-8s max=%-8s",
-                padding,
+                "  %-35s: avg=%-8s min=%-8s med=%-8s max=%-8s",
+                "{ endpoint:" + endpoint.getUrl() + " }",
                 formatMs(duration.getAvg()),
                 formatMs(duration.getMin()),
                 formatMs(duration.getMed()),
                 formatMs(duration.getMax())
             );
-
             updates.put(line, content);
             line++;
         }
+
+        for (int i = previousLine; i < line; i++) {
+            display.println(" ");
+        }
+        for (int i = line; i < previousLine; i++) {
+            updates.put(i, "");
+        }
+        previousLine = line;
     }
 
     /**
@@ -229,4 +243,13 @@ public class LoadTestReporter {
         return ms + "ms";
     }
 
+    private String getProgressBar(double ratio, int width) {
+        int completed = (int) (ratio * width);
+        int remaining = width - completed;
+
+        return "[" +
+            "█".repeat(completed) +
+            "-".repeat(remaining) +
+            "] " + (int) (ratio * 100) + "%";
+    }
 }
