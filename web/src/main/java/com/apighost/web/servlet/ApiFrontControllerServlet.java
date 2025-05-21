@@ -2,6 +2,8 @@ package com.apighost.web.servlet;
 
 import com.apighost.web.controller.ApiController;
 import com.apighost.web.controller.EndpointController;
+import com.apighost.web.controller.FileRemoveController;
+import com.apighost.web.controller.GenerateDataController;
 import com.apighost.web.controller.LoadTestExecuteController;
 import com.apighost.web.controller.LoadTestExportController;
 import com.apighost.web.controller.LoadTestInfoController;
@@ -47,6 +49,10 @@ public class ApiFrontControllerServlet extends HttpServlet {
         controllerMap.put("loadtest-export", new LoadTestExportController());
         controllerMap.put("loadtest-info", new LoadTestInfoController());
         controllerMap.put("loadtest-execute", new LoadTestExecuteController());
+
+        controllerMap.put("file-remove", new FileRemoveController());
+
+        controllerMap.put("generate-data", new GenerateDataController());
 
     }
 
